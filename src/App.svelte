@@ -1,5 +1,6 @@
 <script>
-	let name = 'world';
+import Router from 'svelte-spa-router'
+import routes from './views/routes.js'
 </script>
 
-<h1>Hello {name}!</h1>
+<Router {routes}/>
