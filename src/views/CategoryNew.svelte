@@ -10,8 +10,8 @@ function onSubmit() {
 }
 </script>
 
-<h1>New Category</h1>
+<h2>New Category</h2>
 
-<form on:submit={onSubmit}>
-  <input bind:value={name} placeholder="New category name" />
+<form on:submit={onSubmit} class="form-row">
+  <input class="form-control col-6" bind:value={name} placeholder="New category name" />
 </form>

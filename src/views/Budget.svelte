@@ -2,7 +2,7 @@
 import { categories } from '../data/categories'
 </script>
 
-<h1>Budget</h1>
+<h2>Budget</h2>
 
 <ul>
   {#each $categories as category}

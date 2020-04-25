@@ -15,7 +15,7 @@ function onSubmit() {
 }
 </script>
 
-<h1>Amount for {category.name}</h1>
+<h2>Amount for {category.name}</h2>
 
 <form on:submit={onSubmit}>
   <input type="number" step="0.01" min="0" bind:value={amount} />

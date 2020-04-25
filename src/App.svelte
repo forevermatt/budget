@@ -3,4 +3,6 @@ import Router from 'svelte-spa-router'
 import routes from './views/routes'
 </script>
 
-<Router {routes}/>
+<div class="container my-3">
+  <Router {routes}/>
+</div>
