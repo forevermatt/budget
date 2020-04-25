@@ -4,7 +4,7 @@ import { push } from 'svelte-spa-router'
 
 let name = ''
 
-function onSubmit(event) {
+function onSubmit() {
   const newCategory = create(name)
   push(`/category/${newCategory.uuid}/amount`)
 }
