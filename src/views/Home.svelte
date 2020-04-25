@@ -1,5 +1,5 @@
 <script>
-	let name = 'world';
-</script>
+import {replace} from 'svelte-spa-router'
 
-<h1>Hello {name}!</h1>
+replace('/budget')
+</script>
