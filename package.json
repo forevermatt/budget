@@ -1,11 +1,22 @@
 {
-  "name": "svelte-app",
-  "version": "1.0.0",
+  "name": "svelte-budget",
+  "version": "0.1.0",
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",
     "start": "sirv public"
   },
+  "description": "A simple way to budget your money and reconcile your statements, built using Svelte.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/forevermatt/svelte-budget.git"
+  },
+  "author": "forevermatt",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/forevermatt/svelte-budget/issues"
+  },
+  "homepage": "https://github.com/forevermatt/svelte-budget#readme",
   "devDependencies": {
     "@rollup/plugin-commonjs": "11.0.2",
     "@rollup/plugin-node-resolve": "^7.0.0",
@@ -13,9 +24,11 @@
     "rollup-plugin-livereload": "^1.0.0",
     "rollup-plugin-svelte": "^5.0.3",
     "rollup-plugin-terser": "^5.1.2",
-    "svelte": "^3.0.0"
+    "svelte": "^3.0.0",
+    "svelte-spa-router": "^2.1.0"
   },
   "dependencies": {
-    "sirv-cli": "^0.4.4"
+    "sirv-cli": "^0.4.4",
+    "uuid": "^7.0.3"
   }
 }

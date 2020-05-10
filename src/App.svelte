@@ -1,5 +1,17 @@
 <script>
-	let name = 'world';
+import ErrorMessage from './components/ErrorMessage.svelte'
+import { loadCategories } from './data/categories'
+import { onMount } from 'svelte'
+import Router from 'svelte-spa-router'
+import routes from './views/routes'
+
+onMount(async () => {
+  loadCategories()
+})
+
 </script>
 
-<h1>Hello {name}!</h1>
+<div class="container my-3">
+  <ErrorMessage />
+  <Router {routes}/>
+</div>
