@@ -6,7 +6,7 @@ import { categories } from '../data/categories'
 
 <ul>
   {#each $categories as category}
-    <li>{category.name}: ${category.amount}</li>
+    <li>{category.name}: ${category.amount / 100}</li>
   {/each}
 </ul>
 
