@@ -1,17 +1,17 @@
 <script>
-import { create } from '../data/categories'
+import { createCategory } from '../data/categories'
 import { push } from 'svelte-spa-router'
 
 let name = ''
 
 function onSubmit() {
-  const newCategory = create(name)
+  const newCategory = createCategory(name)
   push(`/category/${newCategory.uuid}/amount`)
 }
 </script>
 
 <h2>New Category</h2>
 
-<form on:submit={onSubmit} class="form-row">
-  <input class="form-control col-6" bind:value={name} placeholder="New category name" />
+<form on:submit|preventDefault={onSubmit}>
+  <input class="form-control" bind:value={name} placeholder="New category name" />
 </form>

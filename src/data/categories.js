@@ -1,37 +1,29 @@
-import { writable } from 'svelte/store'
+import { addToList, updateInList } from './helpers'
+import { getListFromStorage, saveToStorage } from './storage'
+import { get, writable } from 'svelte/store'
 import { v4 as uuidv4 } from 'uuid'
+
+const CATEGORIES = 'categories'
 
 export const categories = writable([])
 
-export const create = name => {
+export const createCategory = name => {
   const newCategory = {
     uuid: uuidv4(),
     name: name,
   }
-  addItemToStore(newCategory, categories)
+  addToList(newCategory, categories)
+  saveCategories()
   return newCategory
 }
 
-const addItemToStore = (newItem, store) => {
-  store.update(existingItems => [newItem, ...existingItems])
+export const loadCategories = () => {
+  categories.set(getListFromStorage(CATEGORIES))
 }
 
-export const update = (uuid, changes) => {
-  updateItemInStore(uuid, changes, categories)
-}
+const saveCategories = () => saveToStorage(CATEGORIES, get(categories))
 
-const updateItemInStore = (uuid, changes, store) => {
-  store.update(existingItems => {
-    const itemToUpdate = existingItems.find(item => item.uuid === uuid)
-    const updatedItem = Object.assign({}, itemToUpdate, changes)
-    
-    for (let i = 0; i < existingItems.length; i++) {
-      if (existingItems[i].uuid === uuid) {
-        existingItems[i] = updatedItem
-        break
-      }
-    }
-    
-    return existingItems
-  })
+export const updateCategory = (uuid, changes) => {
+  updateInList(uuid, changes, categories)
+  saveCategories()
 }
