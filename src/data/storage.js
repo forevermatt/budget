@@ -1,11 +1,9 @@
+const isArray = Array.isArray
+
 export const getListFromStorage = listName => {
   const stringFromStorage = localStorage.getItem(listName)
   const dataFromStorage = JSON.parse(stringFromStorage)
-  if (Array.isArray(dataFromStorage)) {
-    return dataFromStorage
-  } else {
-    return []
-  }
+  return isArray(dataFromStorage) ? dataFromStorage : []
 }
 
 export const saveToStorage = (name, data) => {
