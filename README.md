@@ -4,9 +4,7 @@ A simple way to budget your money and reconcile your statements, built using Sve
 
 ## Roadmap
 
-Enable...
-
 - [x] See list of categories with budgeted amounts
-- [x] Adding a category
-- [ ] Editing a category
+- [x] Add a category
+- [ ] Edit a category
 - [ ] ...
