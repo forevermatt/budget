@@ -10,4 +10,6 @@ import { accounts } from '../data/accounts'
   {/each}
 </ul>
 
+<p><a href="#/account/new">Add new account</a></p>
+
 <p><a href="#/budget">Budget</a></p>
