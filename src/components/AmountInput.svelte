@@ -1,4 +1,5 @@
 <script>
+import { getNumericCharFrom, isBackspace, isPrintable } from '../helpers/characters'
 import { createEventDispatcher, onMount } from 'svelte';
 
 export let amount
@@ -69,25 +70,6 @@ function onKeyDown(keyEvent) {
 
   showNumerals(numeralsEntered);
   recordAmount(Number(numeralsEntered.join('')));
-}
-
-function isPrintable(code) {
-  return (code >= 32 && code < 112) ||
-         (code >= 123 && code < 127) ||
-         (code >= 186);
-}
-
-function getNumericCharFrom(code) {
-  if (code >= 48 && code < 58) {
-    return String(code - 48);
-  } else if (code >= 96 && code < 106) {
-    return String(code - 96);
-  }
-  return '';
-}
-
-function isBackspace(code) {
-  return (code === 8);
 }
 
 function onSubmit(formEvent) {

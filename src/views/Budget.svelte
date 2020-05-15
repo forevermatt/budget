@@ -10,4 +10,6 @@ import { categories } from '../data/categories'
   {/each}
 </ul>
 
-<a href="#/category/new">Add new category</a>
+<p><a href="#/category/new">Add new category</a></p>
+
+<p><a href="#/accounts">Accounts</a></p>
