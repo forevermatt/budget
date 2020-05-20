@@ -14,4 +14,5 @@ https://forevermatt.github.io/svelte-budget/
 - [ ] Edit a category
 - [x] Add a financial account
 - [ ] Edit a financial account
+- [ ] Record an expense
 - [ ] ...
