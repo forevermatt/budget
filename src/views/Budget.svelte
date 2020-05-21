@@ -1,10 +1,10 @@
 <script>
-import Budget from '../components/Budget.svelte'
+import BudgetOverview from '../components/BudgetOverview.svelte'
 </script>
 
 <h2>Budget</h2>
 
-<Budget />
+<BudgetOverview />
 
 <p><a href="#/category/new">Add new category</a></p>
 
