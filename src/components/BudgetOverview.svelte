@@ -1,21 +1,8 @@
 <script>
 import { categories } from '../data/categories'
+import { formatAmount, formatAmountAsWholeNumber } from '../helpers/number-formats'
 
 const dangerIfNegative = remaining => isNegative(remaining) ? 'danger' : ''
-
-const formatAmount = amount => {
-  if (amount == undefined) {
-    amount = 0
-  }
-  return (Number(amount) / 100).toFixed(2)
-}
-
-const formatAmountAsWholeNumber = amount => {
-  if (amount == undefined) {
-    amount = 0
-  }
-  return (Number(amount) / 100).toFixed(0)
-}
 
 const isNegative = number => (number && (number < 0))
 
