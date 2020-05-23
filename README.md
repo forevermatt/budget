@@ -11,7 +11,7 @@ https://forevermatt.github.io/svelte-budget/
 
 - [x] See list of categories with budgeted amounts
 - [x] Add a category
-- [ ] Edit a category
+- [x] Edit a category
 - [x] Add a financial account
 - [ ] Edit a financial account
 - [ ] Record an expense
