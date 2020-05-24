@@ -1,6 +1,6 @@
 <script>
 import { categories, updateCategory } from '../data/categories'
-import { formatAmount } from '../helpers/number-formats'
+import { formatAmount } from '../helpers/numbers'
 
 export let params = {} // URL parameters provided by router
 
