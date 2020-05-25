@@ -8,13 +8,18 @@ const CATEGORIES = 'categories'
 export const categories = writable([])
 
 export const createCategory = name => {
-  const newCategory = {
-    uuid: uuidv4(),
-    name: name,
+  const existingCategory = get(categories).find(c => c.name === name)
+  if (existingCategory) {
+    return existingCategory
+  } else {
+    const newCategory = {
+      uuid: uuidv4(),
+      name: name,
+    }
+    addToList(newCategory, categories)
+    saveCategories()
+    return newCategory
   }
-  addToList(newCategory, categories)
-  saveCategories()
-  return newCategory
 }
 
 export const loadCategories = () => {
