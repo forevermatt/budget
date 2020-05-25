@@ -24,6 +24,6 @@ export const loadCategories = () => {
 const saveCategories = () => saveToStorage(CATEGORIES, get(categories))
 
 export const updateCategory = (uuid, changes) => {
-  updateInList(uuid, changes, categories)
+  updateInList('uuid', uuid, changes, categories)
   saveCategories()
 }

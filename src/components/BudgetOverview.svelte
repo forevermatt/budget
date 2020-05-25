@@ -1,7 +1,15 @@
 <script>
 import CategoryGraph from './CategoryGraph.svelte'
+import { getBudgetFor, sortPlanByCategory } from '../data/budgets'
 import { categories } from '../data/categories'
+import { getCurrentYearMonthString } from '../helpers/dates'
 import { dangerIfNegative, formatAmount, formatAmountAsWholeNumber } from '../helpers/numbers'
+
+export let params = {} // URL parameters provided by router
+
+let yearMonth = params.yearMonth || getCurrentYearMonthString()
+$: budget = getBudgetFor(yearMonth)
+$: alphabetizedPlan = sortPlanByCategory(budget.plan, $categories)
 </script>
 
 <style>
@@ -44,7 +52,7 @@ import { dangerIfNegative, formatAmount, formatAmountAsWholeNumber } from '../he
 
 <table class="category-list table table-sm">
   <tbody>
-    {#each $categories as category }
+    {#each alphabetizedPlan as {budgeted, spent, category} }
       <tr>
         <td class="category-name width-10">
           <a href="#/category/{ category.uuid }"
@@ -54,10 +62,10 @@ import { dangerIfNegative, formatAmount, formatAmountAsWholeNumber } from '../he
           <CategoryGraph {category} />
         </td>
         <td class="category-amount width-10">
-          <div class="category-available { dangerIfNegative(category.remaining) }">
-            <sup>$</sup>{ formatAmount(category.remaining) }
+          <div class="category-available { dangerIfNegative(budgeted - spent) }">
+            <sup>$</sup>{ formatAmount(budgeted - spent) }
           </div>
-          <div class="category-budgeted"><span>/ { formatAmountAsWholeNumber(category.budgetedAmount) }</span></div>
+          <div class="category-budgeted"><span>/ { formatAmountAsWholeNumber(budgeted) }</span></div>
         </td>
       </tr>
     {/each}
