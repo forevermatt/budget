@@ -1,7 +1,8 @@
 <script>
 import { dangerIfNegative } from '../helpers/numbers'
 
-export let category
+export let budgeted
+export let remaining
 
 const getStatus = (remaining, total) => {
   if (remaining == undefined) {
@@ -54,7 +55,7 @@ const calculageWidth = (remaining, total) => {
 }
 </style>
 
-<div class="category-graph { dangerIfNegative(category.remaining) }">
-  <div class="category-graph-line { getStatus(category.remaining, category.amount) }"
-       style="width: { calculageWidth(category.remaining, category.budgetedAmount) }%;"></div>
+<div class="category-graph { dangerIfNegative(remaining) }">
+  <div class="category-graph-line { getStatus(remaining, budgeted) }"
+       style="width: { calculageWidth(remaining, budgeted) }%;"></div>
 </div>

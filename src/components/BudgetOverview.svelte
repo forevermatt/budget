@@ -1,15 +1,11 @@
 <script>
 import CategoryGraph from './CategoryGraph.svelte'
-import { getBudgetFor, sortPlanByCategory } from '../data/budgets'
+import { budget, sortBudgetByCategory } from '../data/budget'
 import { categories } from '../data/categories'
 import { getCurrentYearMonthString } from '../helpers/dates'
 import { dangerIfNegative, formatAmount, formatAmountAsWholeNumber } from '../helpers/numbers'
 
-export let params = {} // URL parameters provided by router
-
-let yearMonth = params.yearMonth || getCurrentYearMonthString()
-$: budget = getBudgetFor(yearMonth)
-$: alphabetizedPlan = sortPlanByCategory(budget.plan, $categories)
+$: sortedBudget = sortBudgetByCategory($budget, $categories)
 </script>
 
 <style>
@@ -52,18 +48,18 @@ $: alphabetizedPlan = sortPlanByCategory(budget.plan, $categories)
 
 <table class="category-list table table-sm">
   <tbody>
-    {#each alphabetizedPlan as {budgeted, spent, category} }
+    {#each sortedBudget as {budgeted, remaining, name, uuid} }
       <tr>
         <td class="category-name width-10">
-          <a href="#/category/{ category.uuid }"
-             class="btn btn-outline-secondary">{ category.name }</a>
+          <a href="#/category/{ uuid }"
+             class="btn btn-outline-secondary">{ name }</a>
         </td>
         <td class="width-80">
-          <CategoryGraph {category} />
+          <CategoryGraph {budgeted} {remaining} />
         </td>
         <td class="category-amount width-10">
-          <div class="category-available { dangerIfNegative(budgeted - spent) }">
-            <sup>$</sup>{ formatAmount(budgeted - spent) }
+          <div class="category-available { dangerIfNegative(remaining) }">
+            <sup>$</sup>{ formatAmount(remaining) }
           </div>
           <div class="category-budgeted"><span>/ { formatAmountAsWholeNumber(budgeted) }</span></div>
         </td>

@@ -22,6 +22,10 @@ export const createCategory = name => {
   }
 }
 
+export const getCategoryFrom = (uuid, list) => {
+  return list.find(item => item.uuid === uuid) || {}
+}
+
 export const loadCategories = () => {
   categories.set(getListFromStorage(CATEGORIES))
 }
