@@ -17,6 +17,11 @@ const addCategoryToBudget = (categoryUuid, budgeted) => {
   })
 }
 
+export const getBudgetedFor = uuid => {
+  let budgetCategory = get(budgetStore)[uuid] || {}
+  return budgetCategory.budgeted || 0
+}
+
 const isExistingCategory = uuid => get(budgetStore).hasOwnProperty(uuid)
 
 export const loadBudget = () => {

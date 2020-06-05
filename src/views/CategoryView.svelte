@@ -1,4 +1,5 @@
 <script>
+import { getBudgetedFor } from '../data/budget'
 import { categories, updateCategory } from '../data/categories'
 import { formatAmount } from '../helpers/numbers'
 
@@ -25,7 +26,7 @@ const renameCategory = () => {
   <b class="editable" on:click={renameCategory}
      title="(Click to rename)">{ category.name }:</b>
   <a class="btn btn-default" href="#/category/{ uuid }/amount">
-    <sup>$</sup> { formatAmount(category.amount) }
+    <sup>$</sup> { formatAmount(getBudgetedFor(uuid)) }
   </a>
 </h2>
 <hr class="small" />
