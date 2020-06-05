@@ -1,6 +1,7 @@
 <script>
 import AmountInput from '../components/AmountInput.svelte'
-import { categories, updateCategory } from '../data/categories'
+import { setBudgetedForCategory } from '../data/budget'
+import { categories } from '../data/categories'
 import { push } from 'svelte-spa-router'
 
 export let params // URL parameters provider by router.
@@ -11,7 +12,7 @@ $: initialAmount = category.amount || 0
 
 function onSubmit(event) {
   let amount = event.detail
-  updateCategory(uuid, {amount})
+  setBudgetedForCategory(uuid, amount)
   push(`/budget`)
 }
 </script>

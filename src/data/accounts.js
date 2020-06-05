@@ -1,4 +1,4 @@
-import { addToList, updateInList } from './helpers'
+import { addToList, updateInList } from '../helpers/data-store-helpers'
 import { getListFromStorage, saveToStorage } from './storage'
 import { get, writable } from 'svelte/store'
 import { v4 as uuidv4 } from 'uuid'
@@ -24,6 +24,6 @@ export const loadAccounts = () => {
 const saveAccounts = () => saveToStorage(ACCOUNTS, get(accounts))
 
 export const updateAccount = (uuid, changes) => {
-  updateInList(uuid, changes, accounts)
+  updateInList('uuid', uuid, changes, accounts)
   saveAccounts()
 }
