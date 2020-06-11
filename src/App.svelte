@@ -14,7 +14,7 @@ onMount(async () => {
 })
 </script>
 
-<div class="container my-3">
+<div class="container-xl my-3">
   <ErrorMessage />
   <Router {routes}/>
 </div>
