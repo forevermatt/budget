@@ -1,5 +1,8 @@
 <script>
 import { accounts } from '../data/accounts'
+import Button from '../components/Button.svelte'
+import ButtonRow from '../components/ButtonRow.svelte'
+import { faHome } from '@fortawesome/free-solid-svg-icons'
 </script>
 
 <h2>Accounts</h2>
@@ -12,4 +15,6 @@ import { accounts } from '../data/accounts'
 
 <p><a href="#/account/new">Add new account</a></p>
 
-<p><a href="#/budget">Budget</a></p>
+<ButtonRow>
+  <Button icon={faHome} name="budget" url="#/budget" left />
+</ButtonRow>
