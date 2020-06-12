@@ -1,5 +1,8 @@
 <script>
 import BudgetOverview from '../components/BudgetOverview.svelte'
+import Button from '../components/Button.svelte'
+import ButtonRow from '../components/ButtonRow.svelte'
+import { faListUl } from '@fortawesome/free-solid-svg-icons'
 </script>
 
 <h2>Budget</h2>
@@ -8,4 +11,6 @@ import BudgetOverview from '../components/BudgetOverview.svelte'
 
 <p><a href="#/category/new">Add new category</a></p>
 
-<p><a href="#/accounts">Accounts</a></p>
+<ButtonRow>
+  <Button icon={faListUl} name="accounts" url="#/accounts" left />
+</ButtonRow>
