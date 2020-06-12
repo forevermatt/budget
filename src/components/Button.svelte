@@ -33,7 +33,7 @@ a:hover .button-circle {
   line-height: 1rem;
   padding: 1rem;
   overflow: hidden;
-	text-align: center;
+  text-align: center;
   width: 4rem;
 }
 </style>
