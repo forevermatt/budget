@@ -18,3 +18,10 @@ https://forevermatt.github.io/svelte-budget/
 - [ ] Record an expense
 - [ ] Create separate repo to document data structure versions
 - [ ] ...
+
+## Development
+
+### Icons
+
+The list of icons available in the library I'm using can be found here:
+https://fontawesome.com/icons?d=gallery
