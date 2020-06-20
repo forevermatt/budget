@@ -4,6 +4,7 @@ import Budget from './Budget.svelte'
 import CategoryAmount from './CategoryAmount.svelte'
 import CategoryNew from './CategoryNew.svelte'
 import CategoryView from './CategoryView.svelte'
+import ExpenseWho from './ExpenseWho.svelte'
 import Home from './Home.svelte'
 
 // Router docs at https://github.com/ItalyPaleAle/svelte-spa-router
@@ -15,6 +16,7 @@ const routes = {
   '/category/new': CategoryNew,
   '/category/:uuid': CategoryView,
   '/category/:uuid/amount': CategoryAmount,
+  '/expense/who': ExpenseWho,
 }
 
 export default routes
