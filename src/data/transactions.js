@@ -7,6 +7,14 @@ const TRANSACTIONS = 'transactions'
 
 export const transactions = writable([])
 
+export const createTransaction = transactionData => {
+  const uuid = uuidv4()
+  const transaction = Object.assign({}, transactionData, {uuid})
+  addToList(transaction, transactions)
+  saveTransactions()
+  return transaction
+}
+
 export const loadTransactions = () => {
   transactions.set(getListFromStorage(TRANSACTIONS))
 }
