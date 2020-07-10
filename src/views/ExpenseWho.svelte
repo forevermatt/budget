@@ -11,8 +11,7 @@ let who = ''
 const onSelect = event => {
   const name = event.detail
   const transaction = createTransaction({who: name})
-  push('/budget') // TEMP
-  // EVENTUALLY: push(`/expense/amount/${transaction.uuid}`)
+  push(`/expense/amount/${transaction.uuid}`)
 }
 </script>
 
