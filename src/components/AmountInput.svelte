@@ -2,7 +2,7 @@
 import { getNumericCharFrom, isBackspace, isPrintable } from '../helpers/characters'
 import { createEventDispatcher, onMount } from 'svelte';
 
-export let amount
+export let amount = 0
 
 const dispatch = createEventDispatcher();
 
