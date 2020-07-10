@@ -15,6 +15,10 @@ export const createTransaction = transactionData => {
   return transaction
 }
 
+export const getTransactionFrom = (uuid, list) => {
+  return list.find(item => item.uuid === uuid) || {}
+}
+
 export const loadTransactions = () => {
   transactions.set(getListFromStorage(TRANSACTIONS))
 }
