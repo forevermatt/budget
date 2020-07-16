@@ -8,6 +8,7 @@ import ExpenseAmount from './ExpenseAmount.svelte'
 import ExpenseCategory from './ExpenseCategory.svelte'
 import ExpenseWho from './ExpenseWho.svelte'
 import Home from './Home.svelte'
+import NotFound from './NotFound.svelte'
 
 // Router docs at https://github.com/ItalyPaleAle/svelte-spa-router
 const routes = {
@@ -21,6 +22,7 @@ const routes = {
   '/expense/amount/:uuid': ExpenseAmount,
   '/expense/category/:uuid': ExpenseCategory,
   '/expense/who': ExpenseWho,
+  '*': NotFound,
 }
 
 export default routes
