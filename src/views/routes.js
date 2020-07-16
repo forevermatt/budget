@@ -5,6 +5,7 @@ import CategoryAmount from './CategoryAmount.svelte'
 import CategoryNew from './CategoryNew.svelte'
 import CategoryView from './CategoryView.svelte'
 import ExpenseAmount from './ExpenseAmount.svelte'
+import ExpenseCategory from './ExpenseCategory.svelte'
 import ExpenseWho from './ExpenseWho.svelte'
 import Home from './Home.svelte'
 
@@ -18,6 +19,7 @@ const routes = {
   '/category/:uuid': CategoryView,
   '/category/:uuid/amount': CategoryAmount,
   '/expense/amount/:uuid': ExpenseAmount,
+  '/expense/category/:uuid': ExpenseCategory,
   '/expense/who': ExpenseWho,
 }
 
