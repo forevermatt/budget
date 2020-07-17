@@ -2,18 +2,18 @@
 import WhoSelector from '../components/WhoSelector.svelte'
 import Button from '../components/Button.svelte'
 import ButtonRow from '../components/ButtonRow.svelte'
-import { createTransaction } from '../data/transactions'
+import { getTransactionFrom, transactions, updateTransaction } from '../data/transactions'
 import { faHome } from '@fortawesome/free-solid-svg-icons'
 import { push } from 'svelte-spa-router'
 
-let who = ''
+export let params // URL parameters provider by router.
+
+$: uuid = params.uuid
+$: transaction = getTransactionFrom(uuid, $transactions)
 
 const onSelect = event => {
-  const name = event.detail
-  const transaction = createTransaction({
-    timestamp: Date.now(),
-    who: name,
-  })
+  const who = event.detail
+  updateTransaction(uuid, { who })
   push(`/expense/account/${transaction.uuid}`)
 }
 </script>

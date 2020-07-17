@@ -13,5 +13,5 @@ import { faListUl, faMinus } from '@fortawesome/free-solid-svg-icons'
 
 <ButtonRow>
   <Button icon={faListUl} name="accounts" url="#/accounts" left />
-  <Button icon={faMinus} name="expense" url="#/expense/who" />
+  <Button icon={faMinus} name="expense" url="#/expense/new" />
 </ButtonRow>
