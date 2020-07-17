@@ -14,7 +14,7 @@ const onSelect = event => {
     timestamp: Date.now(),
     who: name,
   })
-  push(`/expense/amount/${transaction.uuid}`)
+  push(`/expense/account/${transaction.uuid}`)
 }
 </script>
 
