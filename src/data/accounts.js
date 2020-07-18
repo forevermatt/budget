@@ -17,6 +17,10 @@ export const createAccount = name => {
   return newAccount
 }
 
+export const getAccountFrom = (uuid, list) => {
+  return list.find(item => item.uuid === uuid) || {}
+}
+
 export const loadAccounts = () => {
   accounts.set(getListFromStorage(ACCOUNTS))
 }
