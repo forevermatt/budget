@@ -1,4 +1,6 @@
 
+export const formatDate = timestamp => (new Date(timestamp)).toLocaleDateString()
+
 export const getCurrentYearMonthString = () => {
   return getYearMonthStringForMonthsBefore(0, new Date())
 }
