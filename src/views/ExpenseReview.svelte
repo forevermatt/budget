@@ -1,0 +1,58 @@
+<script>
+import Button from '../components/Button.svelte'
+import ButtonRow from '../components/ButtonRow.svelte'
+import CategoryTags from '../components/CategoryTags.svelte'
+import { accounts, getAccountFrom } from '../data/accounts'
+import { categories, getCategoryFrom } from '../data/categories'
+import { getTransactionFrom, transactions, updateTransaction } from '../data/transactions'
+import { faHome } from '@fortawesome/free-solid-svg-icons'
+import { formatDate } from "../helpers/dates";
+import { formatAmount } from "../helpers/numbers";
+import { push } from 'svelte-spa-router'
+
+export let params // URL parameters provider by router.
+
+$: uuid = params.uuid
+$: transaction = getTransactionFrom(uuid, $transactions)
+$: account = getAccountFrom(transaction.accountUuid, $accounts)
+$: accountName = account.name || ''
+$: amountTotal = transaction.amountTotal || 0
+
+function setComment(event) {
+  let comment = event.detail
+  updateTransaction(uuid, { comment })
+  push(`/budget`)
+}
+</script>
+
+<div class="row">
+  <div class="col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3">
+    <h2>Review Expense</h2>
+    <p>
+      <a class="btn btn-outline-secondary" href="#/expense/who/{uuid}">{transaction.who}</a>
+      <a class="btn btn-outline-secondary float-right" href="#/expense/amount/{uuid}">
+        ${formatAmount(amountTotal)}
+      </a>
+    </p>
+    <p>
+      <CategoryTags {transaction} />
+    </p>
+    <p>
+      <b>Account:</b>
+      <a class="btn btn-outline-secondary float-right" href="#/expense/account/{uuid}">
+        {accountName}
+      </a>
+    </p>
+    <p>
+      <b>Date:</b>
+      <a class="btn btn-outline-secondary float-right" href="#/expense/when/{uuid}">
+        {transaction.timestamp && formatDate(transaction.timestamp)}
+      </a>
+    </p>
+    <!-- TODO: Add "Comment" field. -->
+  </div>
+</div>
+
+<ButtonRow>
+  <Button icon={faHome} name="budget" url="#/budget" left />
+</ButtonRow>

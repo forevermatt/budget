@@ -8,6 +8,7 @@ import ExpenseAccount from './ExpenseAccount.svelte'
 import ExpenseAmount from './ExpenseAmount.svelte'
 import ExpenseCategory from './ExpenseCategory.svelte'
 import ExpenseNew from './ExpenseNew.svelte'
+import ExpenseReview from './ExpenseReview.svelte'
 import ExpenseWho from './ExpenseWho.svelte'
 import Home from './Home.svelte'
 import NotFound from './NotFound.svelte'
@@ -25,6 +26,7 @@ const routes = {
   '/expense/amount/:uuid': ExpenseAmount,
   '/expense/category/:uuid': ExpenseCategory,
   '/expense/new': ExpenseNew,
+  '/expense/review/:uuid': ExpenseReview,
   '/expense/who/:uuid': ExpenseWho,
   '*': NotFound,
 }
