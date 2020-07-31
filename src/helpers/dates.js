@@ -1,6 +1,17 @@
 
 export const formatDate = timestamp => (new Date(timestamp)).toLocaleDateString()
 
+export const formatDateISO8601 = timestamp => {
+  let date = new Date(timestamp)
+  const year = date.getFullYear()
+  const month = date.getMonth() + 1
+  const day = date.getDate()
+
+  const monthString = String(month).padStart(2, '0')
+  const dayString = String(day).padStart(2, '0')
+  return `${year}-${monthString}-${dayString}`
+}
+
 export const getCurrentYearMonthString = () => {
   return getYearMonthStringForMonthsBefore(0, new Date())
 }

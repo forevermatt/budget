@@ -6,7 +6,7 @@ import { accounts, getAccountFrom } from '../data/accounts'
 import { categories, getCategoryFrom } from '../data/categories'
 import { getTransactionFrom, transactions, updateTransaction } from '../data/transactions'
 import { faHome } from '@fortawesome/free-solid-svg-icons'
-import { formatDate } from "../helpers/dates";
+import { formatDateISO8601 } from "../helpers/dates";
 import { formatAmount } from "../helpers/numbers";
 import { push } from 'svelte-spa-router'
 
@@ -22,6 +22,12 @@ function setComment(event) {
   let comment = event.detail
   updateTransaction(uuid, { comment })
   push(`/budget`)
+}
+
+const setTimestamp = event => {
+  let dateString = event.target.value
+  let when = new Date(`${dateString} 12:00:00`)
+  updateTransaction(uuid, { timestamp: when.getTime() })
 }
 </script>
 
@@ -45,14 +51,12 @@ function setComment(event) {
     </p>
     <p>
       <b>Date:</b>
-      <a class="btn btn-outline-secondary float-right" href="#/expense/when/{uuid}">
-        {transaction.timestamp && formatDate(transaction.timestamp)}
-      </a>
+      <input type="date" class="float-right" on:change={setTimestamp} value={formatDateISO8601(transaction.timestamp)} />
     </p>
     <!-- TODO: Add "Comment" field. -->
   </div>
 </div>
 
 <ButtonRow>
-  <Button icon={faHome} name="budget" url="#/budget" left />
+  <Button icon={faHome} name="done" url="#/budget" />
 </ButtonRow>
