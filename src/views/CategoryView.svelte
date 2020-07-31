@@ -2,6 +2,9 @@
 import { getBudgetedFor } from '../data/budget'
 import { categories, updateCategory } from '../data/categories'
 import { formatAmount } from '../helpers/numbers'
+import Button from '../components/Button.svelte'
+import ButtonRow from '../components/ButtonRow.svelte'
+import { faHome } from '@fortawesome/free-solid-svg-icons'
 
 export let params = {} // URL parameters provided by router
 
@@ -30,3 +33,7 @@ const renameCategory = () => {
   </a>
 </h2>
 <hr class="small" />
+
+<ButtonRow>
+  <Button icon={faHome} name="budget" url="#/budget" left />
+</ButtonRow>
