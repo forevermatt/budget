@@ -16,8 +16,13 @@ https://forevermatt.github.io/svelte-budget/
 - [x] Add nicer buttons (with icons)
 - [ ] Edit a financial account
 - [x] Record an expense
-- [ ] Create separate repo to document data structure versions
+- [x] Create separate repo to document data structure versions
 - [ ] ...
+
+## Data Structure
+
+This application currently adheres to version 1.0.0 of the
+https://github.com/forevermatt/budget-data specification.
 
 ## Development
 
