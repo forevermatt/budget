@@ -1,8 +1,14 @@
 <script>
 import { createCategory } from '../data/categories'
+import { onMount } from 'svelte'
 import { push } from 'svelte-spa-router'
 
 let name = ''
+let element = {}
+
+onMount(() => {
+  element.focus()
+})
 
 function onSubmit() {
   const newCategory = createCategory(name)
@@ -13,5 +19,6 @@ function onSubmit() {
 <h2>New Category</h2>
 
 <form on:submit|preventDefault={onSubmit}>
-  <input class="form-control" bind:value={name} placeholder="New category name" />
+  <input class="form-control" bind:value={name} placeholder="New category name"
+         bind:this={element} />
 </form>
