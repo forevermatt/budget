@@ -16,9 +16,9 @@ function onSubmit() {
 }
 </script>
 
-<h2>New Category</h2>
-
 <form on:submit|preventDefault={onSubmit}>
+  <h2><label for="new-category-name">New Category</label></h2>
+
   <input class="form-control" bind:value={name} placeholder="New category name"
-         bind:this={element} />
+         bind:this={element} id="new-category-name" />
 </form>

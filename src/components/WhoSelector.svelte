@@ -20,7 +20,7 @@ const recordWho = () => {
 }
 </script>
 
-<form class="pad-vertical text-center" on:submit|preventDefault={recordWho}>
-  <label for="who"><b>{ title }</b></label>
-  <input type="text" id="who" bind:value={who} bind:this={element}>
+<form on:submit|preventDefault={recordWho}>
+  <h2><label for="who">{ title }</label></h2>
+  <input type="text" class="form-control" id="who" bind:value={who} bind:this={element}>
 </form>
