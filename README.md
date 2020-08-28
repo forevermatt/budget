@@ -17,6 +17,8 @@ https://forevermatt.github.io/svelte-budget/
 - [ ] Edit a financial account
 - [x] Record an expense
 - [x] Create separate repo to document data structure versions
+- [x] Autofocus the appropriate input (where applicable) on arrival at each
+      page
 - [ ] ...
 
 ## Data Structure

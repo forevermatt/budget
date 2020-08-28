@@ -1,17 +1,20 @@
 <script>
-import { createEventDispatcher } from 'svelte';
+import Form from './Form.svelte'
+import { createEventDispatcher } from 'svelte'
 
 export let title
 export let who = ''
 
 const dispatch = createEventDispatcher();
 
+let inputElement = {}
+
 const recordWho = () => {
   dispatch('select', who)
 }
 </script>
 
-<form class="pad-vertical text-center" on:submit|preventDefault={recordWho}>
-  <label for="who"><b>{ title }</b></label>
-  <input type="text" id="who" bind:value={who}>
-</form>
+<Form on:submit={recordWho} autofocusElement={inputElement}>
+  <h2><label for="who">{ title }</label></h2>
+  <input type="text" class="form-control" id="who" bind:value={who} bind:this={inputElement}>
+</Form>
