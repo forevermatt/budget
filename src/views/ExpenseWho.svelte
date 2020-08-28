@@ -18,7 +18,7 @@ const onSelect = event => {
 }
 </script>
 
-<WhoSelector on:select={onSelect} title="Paid to:" autofocus />
+<WhoSelector on:select={onSelect} title="Paid to:" />
 
 <ButtonRow>
   <Button icon={faHome} name="budget" url="#/budget" left />

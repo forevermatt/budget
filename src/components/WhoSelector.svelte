@@ -1,26 +1,20 @@
 <script>
-import { createEventDispatcher, onMount } from 'svelte';
+import Form from './Form.svelte'
+import { createEventDispatcher } from 'svelte'
 
 export let title
-export let autofocus = false
 export let who = ''
 
 const dispatch = createEventDispatcher();
 
-let element = {}
-
-onMount(() => {
-  if (autofocus) {
-    element.focus()
-  }
-})
+let inputElement = {}
 
 const recordWho = () => {
   dispatch('select', who)
 }
 </script>
 
-<form on:submit|preventDefault={recordWho}>
+<Form on:submit={recordWho} autofocusElement={inputElement}>
   <h2><label for="who">{ title }</label></h2>
-  <input type="text" class="form-control" id="who" bind:value={who} bind:this={element}>
-</form>
+  <input type="text" class="form-control" id="who" bind:value={who} bind:this={inputElement}>
+</Form>
