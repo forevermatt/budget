@@ -17,8 +17,12 @@ const addCategoryToBudget = (categoryUuid, budgeted) => {
   })
 }
 
-export const getBudgetedFor = uuid => {
-  let budgetCategory = get(budgetStore)[uuid] || {}
+export const getBudgetDataFor = categoryUuid => {
+  return get(budgetStore)[categoryUuid] || {}
+}
+
+export const getBudgetedFor = categoryUuid => {
+  let budgetCategory = getBudgetDataFor(categoryUuid)
   return budgetCategory.budgeted || 0
 }
 
@@ -53,6 +57,13 @@ export const sortBudgetByCategory = (budget, categories) => {
     }
   }
   return list.sort((a, b) => (a.name || '').localeCompare(b.name || ''));
+}
+
+export const subtractAmountFromBudgetCategory = (categoryUuid, amountToSubtract) => {
+  const budgetCategory = getBudgetDataFor(categoryUuid)
+  const oldRemaining = budgetCategory.remaining || 0
+  const newRemaining = oldRemaining - amountToSubtract
+  updateBudget(categoryUuid, { remaining: newRemaining })
 }
 
 export const updateBudget = (categoryUuid, changes) => {
