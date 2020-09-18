@@ -4,7 +4,7 @@ import ButtonRow from '../components/ButtonRow.svelte'
 import CategoryTags from '../components/CategoryTags.svelte'
 import { accounts, getAccountFrom } from '../data/accounts'
 import { categories, getCategoryFrom } from '../data/categories'
-import { getTransactionFrom, transactions, updateTransaction } from '../data/transactions'
+import { applyTransaction, getTransactionFrom, transactions, updateTransaction } from '../data/transactions'
 import { faHome } from '@fortawesome/free-solid-svg-icons'
 import { formatDateISO8601 } from "../helpers/dates";
 import { formatAmount } from "../helpers/numbers";
@@ -17,6 +17,11 @@ $: transaction = getTransactionFrom(uuid, $transactions)
 $: account = getAccountFrom(transaction.accountUuid, $accounts)
 $: accountName = account.name || ''
 $: amountTotal = transaction.amountTotal || 0
+
+function onDone() {
+  applyTransaction(uuid)
+  push(`/budget`)
+}
 
 function setComment(event) {
   let comment = event.detail
@@ -58,5 +63,5 @@ const setTimestamp = event => {
 </div>
 
 <ButtonRow>
-  <Button icon={faHome} name="done" url="#/budget" />
+  <Button icon={faHome} name="done" on:click={onDone} />
 </ButtonRow>
