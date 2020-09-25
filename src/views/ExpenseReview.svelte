@@ -4,35 +4,31 @@ import ButtonRow from '../components/ButtonRow.svelte'
 import CategoryTags from '../components/CategoryTags.svelte'
 import { accounts, getAccountFrom } from '../data/accounts'
 import { categories, getCategoryFrom } from '../data/categories'
-import { applyTransaction, getTransactionFrom, transactions, updateTransaction } from '../data/transactions'
+import { savePendingTransaction, transactionInProgress, updatePendingTransaction } from '../data/transactions'
 import { faHome } from '@fortawesome/free-solid-svg-icons'
 import { formatDateISO8601 } from "../helpers/dates";
 import { formatAmount } from "../helpers/numbers";
 import { push } from 'svelte-spa-router'
 
-export let params // URL parameters provider by router.
-
-$: uuid = params.uuid
-$: transaction = getTransactionFrom(uuid, $transactions)
+$: transaction = $transactionInProgress
 $: account = getAccountFrom(transaction.accountUuid, $accounts)
 $: accountName = account.name || ''
 $: amountTotal = transaction.amountTotal || 0
 
 function onDone() {
-  applyTransaction(uuid)
+  savePendingTransaction()
   push(`/budget`)
 }
 
 function setComment(event) {
   let comment = event.detail
-  updateTransaction(uuid, { comment })
-  push(`/budget`)
+  updatePendingTransaction({ comment })
 }
 
 const setTimestamp = event => {
   let dateString = event.target.value
   let when = new Date(`${dateString} 12:00:00`)
-  updateTransaction(uuid, { timestamp: when.getTime() })
+  updatePendingTransaction({ timestamp: when.getTime() })
 }
 </script>
 
@@ -40,8 +36,8 @@ const setTimestamp = event => {
   <div class="col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3">
     <h2>Review Expense</h2>
     <p>
-      <a class="btn btn-outline-secondary" href="#/expense/who/{uuid}">{transaction.who}</a>
-      <a class="btn btn-outline-secondary float-right" href="#/expense/amount/{uuid}">
+      <a class="btn btn-outline-secondary" href="#/expense/who/">{transaction.who}</a>
+      <a class="btn btn-outline-secondary float-right" href="#/expense/amount/">
         ${formatAmount(amountTotal)}
       </a>
     </p>
@@ -50,7 +46,7 @@ const setTimestamp = event => {
     </p>
     <p>
       <b>Account:</b>
-      <a class="btn btn-outline-secondary float-right" href="#/expense/account/{uuid}">
+      <a class="btn btn-outline-secondary float-right" href="#/expense/account/">
         {accountName}
       </a>
     </p>

@@ -19,10 +19,10 @@ https://forevermatt.github.io/svelte-budget/
 - [x] Create separate repo to document data structure versions
 - [x] Subtract the transaction amount from a category's budget upon completion
       of recording an expense
-- [ ] Move assembly of new transaction to separate local variable (to simplify
+- [x] Move assembly of new transaction to separate local variable (to simplify
       process of updating remaining amounts for budget categories, both for
       when creating a new transaction and when editing an existing transaction)
-- [ ] Enable seeing a category's transactions
+- [x] Enable seeing a category's transactions
 - [ ] Update Category view to show both budgeted and remaining amounts
 - [ ] Add "next" buttons to allow progressing through record-an-expense using
       a mouse

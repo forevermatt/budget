@@ -2,19 +2,16 @@
 import AmountInput from '../components/AmountInput.svelte'
 import Button from '../components/Button.svelte'
 import ButtonRow from '../components/ButtonRow.svelte'
-import { getTransactionFrom, transactions, updateTransaction } from '../data/transactions'
+import { transactionInProgress, updatePendingTransaction } from '../data/transactions'
 import { faHome } from '@fortawesome/free-solid-svg-icons'
 import { push } from 'svelte-spa-router'
 
-export let params // URL parameters provider by router.
-
-$: uuid = params.uuid
-$: transaction = getTransactionFrom(uuid, $transactions)
+$: transaction = $transactionInProgress
 
 function onSubmit(event) {
   let amount = event.detail
-  updateTransaction(uuid, { amountTotal: amount })
-  push(`/expense/category/${transaction.uuid}`)
+  updatePendingTransaction({ amountTotal: amount })
+  push(`/expense/category/`)
 }
 </script>
 

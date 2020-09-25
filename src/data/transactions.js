@@ -7,13 +7,18 @@ import { subtractAmountFromBudgetCategory } from './budget'
 const TRANSACTIONS = 'transactions'
 
 export const transactions = writable([])
+export const transactionInProgress = writable({})
 
-export const createTransaction = transactionData => {
-  const uuid = uuidv4()
-  const transaction = Object.assign({}, transactionData, {uuid})
-  addToList(transaction, transactions)
-  saveTransactions()
-  return transaction
+export const startNewPendingTransaction = transactionData => {
+  const transaction = Object.assign({}, transactionData)
+  transactionInProgress.set(transaction)
+}
+
+export const getTransactionsForCategory = categoryUuid => {
+  return get(transactions).filter(transaction => {
+    const categoryAmounts = transaction.categoryAmounts || {}
+    return categoryAmounts.hasOwnProperty(categoryUuid)
+  })
 }
 
 export const getTransactionFrom = (uuid, list) => {
@@ -24,22 +29,31 @@ export const loadTransactions = () => {
   transactions.set(getListFromStorage(TRANSACTIONS))
 }
 
-const saveTransactions = () => saveToStorage(TRANSACTIONS, get(transactions))
+export const savePendingTransaction = () => {
+  const transaction = get(transactionInProgress)
+  transaction.uuid = uuidv4()
 
-export const updateTransaction = (uuid, changes) => {
-  updateInList('uuid', uuid, changes, transactions)
+  addToList(transaction, transactions)
   saveTransactions()
-}
 
-export const applyTransaction = (uuid) => {
-  const transaction = getTransactionFrom(uuid, get(transactions))
-  if (transaction.applied) {
-    throw new Error('Already applied this one!') // TEMP
-  }
   const categoryAmounts = transaction.categoryAmounts || {}
   for (const categoryUuid in categoryAmounts) {
     const categoryAmount = categoryAmounts[categoryUuid] || 0
     subtractAmountFromBudgetCategory(categoryUuid, categoryAmount)
   }
-  updateTransaction(uuid, { applied: true })
+
+  startNewPendingTransaction({})
+}
+
+const saveTransactions = () => saveToStorage(TRANSACTIONS, get(transactions))
+
+export const updateCompletedTransaction = (uuid, changes) => {
+  updateInList('uuid', uuid, changes, transactions)
+  saveTransactions()
+}
+
+export const updatePendingTransaction = (changes) => {
+  const pendingTransaction = get(transactionInProgress)
+  const updatedPendingTransaction = Object.assign({}, pendingTransaction, changes)
+  transactionInProgress.set(updatedPendingTransaction)
 }
