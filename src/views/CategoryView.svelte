@@ -1,18 +1,21 @@
 <script>
 import { getBudgetedFor } from '../data/budget'
 import { categories, updateCategory } from '../data/categories'
+import { getTransactionsForCategory } from '../data/transactions'
 import { formatAmount } from '../helpers/numbers'
 import Button from '../components/Button.svelte'
 import ButtonRow from '../components/ButtonRow.svelte'
+import TransactionList from '../components/TransactionList.svelte'
 import { faHome } from '@fortawesome/free-solid-svg-icons'
 
 export let params = {} // URL parameters provided by router
 
 $: uuid = params.uuid || ''
 $: category = $categories.find(category => category.uuid === uuid) || {}
+$: transactions = getTransactionsForCategory(uuid)
 
 const renameCategory = () => {
-  var name = prompt('Edit category name:', category.name)
+  let name = prompt('Edit category name:', category.name)
   if (name != null) {
     updateCategory(uuid, {name})
   }
@@ -33,6 +36,7 @@ const renameCategory = () => {
   </a>
 </h2>
 <hr class="small" />
+<TransactionList {transactions} />
 
 <ButtonRow>
   <Button icon={faHome} name="budget" url="#/budget" left />

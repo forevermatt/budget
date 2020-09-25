@@ -14,6 +14,13 @@ export const startNewPendingTransaction = transactionData => {
   transactionInProgress.set(transaction)
 }
 
+export const getTransactionsForCategory = categoryUuid => {
+  return get(transactions).filter(transaction => {
+    const categoryAmounts = transaction.categoryAmounts || {}
+    return categoryAmounts.hasOwnProperty(categoryUuid)
+  })
+}
+
 export const getTransactionFrom = (uuid, list) => {
   return list.find(item => item.uuid === uuid) || {}
 }
