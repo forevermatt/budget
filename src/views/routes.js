@@ -22,12 +22,12 @@ const routes = {
   '/category/new': CategoryNew,
   '/category/:uuid': CategoryView,
   '/category/:uuid/amount': CategoryAmount,
-  '/expense/account/:uuid': ExpenseAccount,
-  '/expense/amount/:uuid': ExpenseAmount,
-  '/expense/category/:uuid': ExpenseCategory,
+  '/expense/account/': ExpenseAccount,
+  '/expense/amount/': ExpenseAmount,
+  '/expense/category/': ExpenseCategory,
   '/expense/new': ExpenseNew,
-  '/expense/review/:uuid': ExpenseReview,
-  '/expense/who/:uuid': ExpenseWho,
+  '/expense/review/': ExpenseReview,
+  '/expense/who/': ExpenseWho,
   '*': NotFound,
 }
 
