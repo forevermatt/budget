@@ -53,7 +53,9 @@ function showNumerals(numerals) {
     text = '0' + text;
   }
 
-  inputField.value = text;
+  if (inputField) {
+    inputField.value = text;
+  }
 }
 
 function recordAmount(amount) {
