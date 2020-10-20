@@ -1,7 +1,7 @@
 <script>
 import Icon from 'fa-svelte'
 
-export let icon
+export let icon // See README for URL to gallery of available icons.
 export let name
 export let left = false
 export let url = ''

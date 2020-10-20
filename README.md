@@ -44,4 +44,4 @@ https://github.com/forevermatt/budget-data specification.
 ### Icons
 
 The list of icons available in the library I'm using can be found here:
-https://fontawesome.com/icons?d=gallery
+https://fontawesome.com/icons?d=gallery&s=solid&m=free
