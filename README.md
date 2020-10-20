@@ -24,7 +24,7 @@ https://forevermatt.github.io/svelte-budget/
       when creating a new transaction and when editing an existing transaction)
 - [x] Enable seeing a category's transactions
 - [ ] Update Category view to show both budgeted and remaining amounts
-- [ ] Add "next" buttons to allow progressing through record-an-expense using
+- [x] Add "next" buttons to allow progressing through record-an-expense using
       a mouse
 - [x] Autofocus the appropriate input (where applicable) on arrival at each
       page
