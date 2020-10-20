@@ -10,6 +10,8 @@ const dispatch = createEventDispatcher();
 let inputField
 let numeralsEntered = []
 
+$: recordAndShowAmount(amount)
+
 onMount(() => {
   recordAndShowAmount(amount)
   inputField.focus();

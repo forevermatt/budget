@@ -8,7 +8,7 @@ export let params // URL parameters provider by router.
 
 $: uuid = params.uuid
 $: category = $categories.find(category => category.uuid === uuid) || {}
-$: initialAmount = getBudgetedFor(uuid) || 0
+$: initialAmount = category && getBudgetedFor(uuid) || 0
 
 function onSubmit(event) {
   let amount = event.detail
