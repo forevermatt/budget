@@ -3,12 +3,12 @@ import { getNumericCharFrom, isBackspace, isPrintable } from '../helpers/charact
 import { createEventDispatcher, onMount } from 'svelte';
 
 export let amount = 0
+export let resultingAmount = 0
 
 const dispatch = createEventDispatcher();
 
 let inputField
 let numeralsEntered = []
-let resultingAmount = null
 
 onMount(() => {
   numeralsEntered = getNumeralsFromAmount(amount)
