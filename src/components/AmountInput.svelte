@@ -3,19 +3,25 @@ import { getNumericCharFrom, isBackspace, isPrintable } from '../helpers/charact
 import { createEventDispatcher, onMount } from 'svelte';
 
 export let amount = 0
+export let resultingAmount = 0
 
 const dispatch = createEventDispatcher();
 
 let inputField
 let numeralsEntered = []
-let resultingAmount = null
+
+$: recordAndShowAmount(amount)
 
 onMount(() => {
+  recordAndShowAmount(amount)
+  inputField.focus();
+})
+
+const recordAndShowAmount = amount => {
   numeralsEntered = getNumeralsFromAmount(amount)
   showNumerals(numeralsEntered)
   recordAmount(Number(numeralsEntered.join('')))
-  inputField.focus();
-})
+}
 
 function getNumeralsFromAmount(value) {
   if ( ! value) {
@@ -47,7 +53,9 @@ function showNumerals(numerals) {
     text = '0' + text;
   }
 
-  inputField.value = text;
+  if (inputField) {
+    inputField.value = text;
+  }
 }
 
 function recordAmount(amount) {

@@ -24,11 +24,14 @@ https://forevermatt.github.io/svelte-budget/
       when creating a new transaction and when editing an existing transaction)
 - [x] Enable seeing a category's transactions
 - [ ] Update Category view to show both budgeted and remaining amounts
-- [ ] Add "next" buttons to allow progressing through record-an-expense using
+- [x] Add "next" buttons to allow progressing through record-an-expense using
       a mouse
 - [x] Autofocus the appropriate input (where applicable) on arrival at each
       page
 - [ ] Allow adding a comment/note on each transaction
+- [ ] Handle page reloads in the middle of the add-expense process (which
+      loses the timestamp, for example)
+- [ ] Add a data-breadcrumb trail as they enter data for a new transaction
 - [ ] ...
 
 ## Data Structure
@@ -41,4 +44,4 @@ https://github.com/forevermatt/budget-data specification.
 ### Icons
 
 The list of icons available in the library I'm using can be found here:
-https://fontawesome.com/icons?d=gallery
+https://fontawesome.com/icons?d=gallery&s=solid&m=free
