@@ -11,11 +11,15 @@ let inputField
 let numeralsEntered = []
 
 onMount(() => {
+  recordAndShowAmount(amount)
+  inputField.focus();
+})
+
+const recordAndShowAmount = amount => {
   numeralsEntered = getNumeralsFromAmount(amount)
   showNumerals(numeralsEntered)
   recordAmount(Number(numeralsEntered.join('')))
-  inputField.focus();
-})
+}
 
 function getNumeralsFromAmount(value) {
   if ( ! value) {
