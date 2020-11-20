@@ -14,7 +14,7 @@ https://forevermatt.github.io/svelte-budget/
 - [x] Edit a category
 - [x] Add a financial account
 - [x] Add nicer buttons (with icons)
-- [ ] Edit a financial account
+- [x] Edit a financial account
 - [x] Record an expense
 - [x] Create separate repo to document data structure versions
 - [x] Subtract the transaction amount from a category's budget upon completion
