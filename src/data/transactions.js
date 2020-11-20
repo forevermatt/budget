@@ -14,6 +14,12 @@ export const startNewPendingTransaction = transactionData => {
   transactionInProgress.set(transaction)
 }
 
+export const getTransactionsForAccount = accountUuid => {
+  return get(transactions).filter(transaction => {
+    return transaction.accountUuid === accountUuid
+  })
+}
+
 export const getTransactionsForCategory = categoryUuid => {
   return get(transactions).filter(transaction => {
     const categoryAmounts = transaction.categoryAmounts || {}
