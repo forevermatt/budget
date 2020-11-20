@@ -4,7 +4,8 @@ import { getTransactionsForAccount } from '../data/transactions'
 import Button from '../components/Button.svelte'
 import ButtonRow from '../components/ButtonRow.svelte'
 import TransactionList from '../components/TransactionList.svelte'
-import { faListUl } from '@fortawesome/free-solid-svg-icons'
+import Icon from 'fa-svelte'
+import { faEdit, faListUl } from '@fortawesome/free-solid-svg-icons'
 
 export let params = {} // URL parameters provided by router
 
@@ -21,14 +22,27 @@ const renameAccount = () => {
 </script>
 
 <style>
+a {
+  color: #337ab7;
+  font-weight: bold;
+}
+
+a:focus,
+a:hover {
+  color: #111;
+}
+
 .editable {
   cursor: pointer;
 }
 </style>
 
 <h2>
-  <b class="editable" on:click={renameAccount}
-     title="(Click to rename)">{ account.name }:</b>
+  <span class="editable">{ account.name }</span>
+  <a class="float-right" tabindex="0"
+     href="javascript:void(0)" on:click={renameAccount}>
+    <Icon icon={faEdit} />
+  </a>
 </h2>
 <hr class="small" />
 <TransactionList {transactions} />
