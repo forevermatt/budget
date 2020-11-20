@@ -1,5 +1,6 @@
 import AccountNew from './AccountNew.svelte'
 import Accounts from './Accounts.svelte'
+import AccountView from './AccountView.svelte'
 import Budget from './Budget.svelte'
 import CategoryAmount from './CategoryAmount.svelte'
 import CategoryNew from './CategoryNew.svelte'
@@ -18,6 +19,7 @@ const routes = {
   '/': Home,
   '/account/new': AccountNew,
   '/accounts': Accounts,
+  '/account/:uuid': AccountView,
   '/budget': Budget,
   '/category/new': CategoryNew,
   '/category/:uuid': CategoryView,

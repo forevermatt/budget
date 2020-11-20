@@ -7,11 +7,11 @@ import { faHome } from '@fortawesome/free-solid-svg-icons'
 
 <h2>Accounts</h2>
 
-<ul>
-  {#each $accounts as account}
-    <li>{account.name}</li>
-  {/each}
-</ul>
+{#each $accounts as { name, uuid }}
+  <p>
+    <a href="#/account/{ uuid }" class="btn btn-outline-secondary">{ name }</a>
+  </p>
+{/each}
 
 <p><a href="#/account/new">Add new account</a></p>
 

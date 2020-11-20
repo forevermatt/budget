@@ -14,7 +14,7 @@ https://forevermatt.github.io/svelte-budget/
 - [x] Edit a category
 - [x] Add a financial account
 - [x] Add nicer buttons (with icons)
-- [ ] Edit a financial account
+- [x] Edit a financial account
 - [x] Record an expense
 - [x] Create separate repo to document data structure versions
 - [x] Subtract the transaction amount from a category's budget upon completion
@@ -32,6 +32,7 @@ https://forevermatt.github.io/svelte-budget/
 - [ ] Handle page reloads in the middle of the add-expense process (which
       loses the timestamp, for example)
 - [ ] Add a data-breadcrumb trail as they enter data for a new transaction
+- [x] Setup collaborator
 - [ ] ...
 
 ## Data Structure
