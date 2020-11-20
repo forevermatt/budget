@@ -31,14 +31,10 @@ a:focus,
 a:hover {
   color: #111;
 }
-
-.editable {
-  cursor: pointer;
-}
 </style>
 
 <h2>
-  <span class="editable">{ account.name }</span>
+  <span>{ account.name }</span>
   <a class="float-right" tabindex="0"
      href="javascript:void(0)" on:click={renameAccount}>
     <Icon icon={faEdit} />
