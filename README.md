@@ -35,6 +35,8 @@ https://forevermatt.github.io/svelte-budget/
 - [x] Setup collaborator
 - [ ] Synchronize data between devices/browsers
 - [ ] Auto-refill categories each month
+- [ ] Enable adding category during new-transaction workflow
+- [ ] Enable adding account during new-transaction workflow
 - [ ] ...
 
 ## Data Structure
