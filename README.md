@@ -34,6 +34,7 @@ https://forevermatt.github.io/svelte-budget/
 - [ ] Add a data-breadcrumb trail as they enter data for a new transaction
 - [x] Setup collaborator
 - [ ] Synchronize data between devices/browsers
+- [ ] Auto-refill categories each month
 - [ ] ...
 
 ## Data Structure
