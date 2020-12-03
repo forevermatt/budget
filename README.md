@@ -33,6 +33,7 @@ https://forevermatt.github.io/svelte-budget/
       loses the timestamp, for example)
 - [ ] Add a data-breadcrumb trail as they enter data for a new transaction
 - [x] Setup collaborator
+- [ ] Synchronize data between devices/browsers
 - [ ] ...
 
 ## Data Structure
