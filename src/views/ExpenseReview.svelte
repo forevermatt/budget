@@ -11,6 +11,7 @@ import { formatAmount } from "../helpers/numbers";
 import { push } from 'svelte-spa-router'
 
 $: transaction = $transactionInProgress
+$: transactionNote = transaction.note || ''
 $: account = getAccountFrom(transaction.accountUuid, $accounts)
 $: accountName = account.name || ''
 $: amountTotal = transaction.amountTotal || 0
@@ -23,6 +24,11 @@ function onDone() {
 function setComment(event) {
   let comment = event.detail
   updatePendingTransaction({ comment })
+}
+
+const setNote = event => {
+  let note = event.target.value
+  updatePendingTransaction({ note })
 }
 
 const setTimestamp = event => {
@@ -54,7 +60,10 @@ const setTimestamp = event => {
       <b>Date:</b>
       <input type="date" class="float-right" on:change={setTimestamp} value={formatDateISO8601(transaction.timestamp)} />
     </p>
-    <!-- TODO: Add "Comment" field. -->
+    <p>
+      <b>Note:</b>
+      <input class="float-right" on:change={setNote} value={transactionNote} />
+    </p>
   </div>
 </div>
 
