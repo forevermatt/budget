@@ -28,7 +28,7 @@ https://forevermatt.github.io/svelte-budget/
       a mouse
 - [x] Autofocus the appropriate input (where applicable) on arrival at each
       page
-- [ ] Allow adding a comment/note on each transaction
+- [x] Allow adding a comment/note on each transaction
 - [ ] Handle page reloads in the middle of the add-expense process (which
       loses the timestamp, for example)
 - [ ] Add a data-breadcrumb trail as they enter data for a new transaction
