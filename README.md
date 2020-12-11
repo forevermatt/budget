@@ -37,6 +37,7 @@ https://forevermatt.github.io/svelte-budget/
 - [ ] Auto-refill categories each month
 - [ ] Enable adding category during new-transaction workflow
 - [ ] Enable adding account during new-transaction workflow
+- [x] Add done and cancel buttons when adding an account
 - [ ] ...
 
 ## Data Structure
