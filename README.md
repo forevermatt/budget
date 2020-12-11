@@ -38,6 +38,7 @@ https://forevermatt.github.io/svelte-budget/
 - [ ] Enable adding category during new-transaction workflow
 - [ ] Enable adding account during new-transaction workflow
 - [x] Add done and cancel buttons when adding an account
+- [ ] Add next and cancel buttons when adding a category
 - [ ] ...
 
 ## Data Structure
