@@ -1,7 +1,7 @@
 <script>
 import ErrorMessage from './components/ErrorMessage.svelte'
 import { loadAccounts } from './data/accounts'
-import { loadBudget } from './data/budget'
+import { loadBudget, refillBudgetCategories } from './data/budget'
 import { loadCategories } from './data/categories'
 import { loadTransactions } from './data/transactions'
 import { onMount } from 'svelte'
@@ -13,6 +13,7 @@ onMount(async () => {
   loadCategories()
   loadBudget()
   loadTransactions()
+  refillBudgetCategories()
 })
 </script>
 

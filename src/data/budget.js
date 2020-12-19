@@ -1,6 +1,6 @@
 import { getCategoryFrom } from './categories'
 import { addToList, updateInObject } from '../helpers/data-store-helpers'
-import { getCurrentYearMonthString } from '../helpers/dates'
+import { getCurrentYearMonthString, getMonthAfter, isInPast } from '../helpers/dates'
 import { getObjectFromStorage, saveToStorage } from './storage'
 import { get, writable } from 'svelte/store'
 
@@ -30,6 +30,21 @@ const isExistingCategory = uuid => get(budgetStore).hasOwnProperty(uuid)
 
 export const loadBudget = () => {
   budgetStore.set(getObjectFromStorage(BUDGET))
+}
+
+export const refillBudgetCategories = () => {
+  const budget = get(budgetStore)
+  const budgetCategoryUuids = Object.keys(budget)
+  budgetCategoryUuids.forEach(refillBudgetCategory)
+}
+
+const refillBudgetCategory = categoryUuid => {
+  let {budgeted, remaining, refilled} = getBudgetDataFor(categoryUuid)
+  for (let i = 0; isInPast(refilled) && (i < 100); i++) {
+    remaining += budgeted
+    refilled = getMonthAfter(refilled)
+  }
+  updateBudget(categoryUuid, { remaining, refilled })
 }
 
 const saveBudget = () => saveToStorage(BUDGET, get(budgetStore))
