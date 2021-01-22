@@ -40,7 +40,13 @@ https://forevermatt.github.io/svelte-budget/
       loses the timestamp, for example)
 - [ ] Add a data-breadcrumb trail as they enter data for a new transaction
 - [x] Setup collaborator
-- [ ] Synchronize data between devices/browsers
+- [ ] Synchronize data between devices/browsers. Options:
+  * [ ] Custom server-side API
+    - PHP
+    - NodeJS
+  * [ ] AWS Amplify
+  * [ ] Dropbox API
+  * [ ] Simple JSON import/export
 - [x] Auto-refill categories each month
 - [ ] Enable adding category during new-transaction workflow
 - [ ] Enable adding account during new-transaction workflow
