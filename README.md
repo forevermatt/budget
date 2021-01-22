@@ -46,6 +46,7 @@ https://forevermatt.github.io/svelte-budget/
 - [ ] Enable adding account during new-transaction workflow
 - [x] Add done and cancel buttons when adding an account
 - [x] Add next and cancel buttons when adding a category
+- [ ] Add a good overall visual design to the app
 - [ ] ...
 
 ## Data Structure
