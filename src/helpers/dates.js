@@ -27,6 +27,21 @@ export const getCurrentYearMonthString = () => {
   return getYearMonthStringForMonthsBefore(0, new Date())
 }
 
+export const getMonthAfter = yearMonthString => {
+  const [givenYear, givenMonth] = yearMonthString.split('-')
+  let desiredMonth = Number(givenMonth) + 1
+  let desiredYear = Number(givenYear)
+  if (desiredMonth > 12) {
+    desiredYear++
+    desiredMonth = 1
+  }
+  let desiredMonthString = String(desiredMonth)
+  if (desiredMonthString.length < 2) {
+    desiredMonthString = '0' + desiredMonthString
+  }
+  return `${desiredYear}-${desiredMonthString}`
+}
+
 const getYearMonthStringForMonthsBefore = (numMonthsAgo, when) => {
   var currentYear = when.getFullYear()
   var currentMonth = when.getMonth() // 0 to 11
@@ -35,3 +50,5 @@ const getYearMonthStringForMonthsBefore = (numMonthsAgo, when) => {
   var desiredMonth = (desiredDate.getMonth() + 1) // 1 to 12
   return fullYear + '-' + String('0' + desiredMonth).slice(-2)
 }
+
+export const isInPast = yearMonthString => yearMonthString < getCurrentYearMonthString()
