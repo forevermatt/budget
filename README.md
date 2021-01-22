@@ -7,6 +7,13 @@ A simple way to budget your money and reconcile your statements, built using Sve
 You can try it out (not yet alpha) here:
 https://forevermatt.github.io/svelte-budget/
 
+## Goals
+
+- A budget app that can truly be productively used for free
+- An affordable way for people to use features that inherently incur a cost
+- A simple enough way to provide those cost-features that the income is worth
+  the time/effort it takes to do so
+
 ## Roadmap
 
 - [x] See list of categories with budgeted amounts
