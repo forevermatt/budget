@@ -57,7 +57,7 @@ https://forevermatt.github.io/svelte-budget/
 
 ## Data Structure
 
-This application currently adheres to version 1.0.0 of the
+This application currently complies with version 1.1.0 of the
 https://github.com/forevermatt/budget-data specification.
 
 ## Development
