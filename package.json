@@ -1,5 +1,5 @@
 {
-  "name": "svelte-budget",
+  "name": "budget",
   "version": "0.1.0",
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack",
@@ -8,14 +8,14 @@
   "description": "A simple way to budget your money and reconcile your statements, built using Svelte.",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/forevermatt/svelte-budget.git"
+    "url": "git+https://github.com/forevermatt/budget.git"
   },
   "author": "forevermatt",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/forevermatt/svelte-budget/issues"
+    "url": "https://github.com/forevermatt/budget/issues"
   },
-  "homepage": "https://github.com/forevermatt/svelte-budget#readme",
+  "homepage": "https://github.com/forevermatt/budget#readme",
   "devDependencies": {
     "@fortawesome/free-solid-svg-icons": "^5.15.4",
     "cross-env": "^5.2.0",
