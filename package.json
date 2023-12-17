@@ -1,6 +1,5 @@
 {
   "name": "budget",
-  "version": "0.1.0",
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack",
     "dev": "webpack-dev-server --content-base ."
