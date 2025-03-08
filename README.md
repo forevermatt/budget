@@ -5,7 +5,14 @@ A simple way to budget your money and reconcile your statements, built using Sve
 ## Try it out
 
 You can try it out (not yet alpha) here:
-https://forevermatt.github.io/svelte-budget/
+https://forevermatt.github.io/budget/
+
+## Goals
+
+- A budget app that can truly be productively used for free
+- An affordable way for people to use features that inherently incur a cost
+- A simple enough way to provide those cost-features that the income is worth
+  the time/effort it takes to do so
 
 ## Roadmap
 
@@ -33,17 +40,24 @@ https://forevermatt.github.io/svelte-budget/
       loses the timestamp, for example)
 - [ ] Add a data-breadcrumb trail as they enter data for a new transaction
 - [x] Setup collaborator
-- [ ] Synchronize data between devices/browsers
+- [ ] Synchronize data between devices/browsers. Options:
+  * [ ] Custom server-side API
+    - PHP
+    - NodeJS
+  * [ ] AWS Amplify
+  * [ ] Dropbox API
+  * [ ] Simple JSON import/export
 - [x] Auto-refill categories each month
 - [ ] Enable adding category during new-transaction workflow
 - [ ] Enable adding account during new-transaction workflow
 - [x] Add done and cancel buttons when adding an account
 - [x] Add next and cancel buttons when adding a category
+- [ ] Add a good overall visual design to the app
 - [ ] ...
 
 ## Data Structure
 
-This application currently adheres to version 1.0.0 of the
+This application currently complies with version 1.1.0 of the
 https://github.com/forevermatt/budget-data specification.
 
 ## Development
