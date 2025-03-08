@@ -8,9 +8,9 @@
   "style-loader": "0.23.1",
   "svelte-loader": "2.13.3",
   "svelte-spa-router": "2.2.0",
-  "svelte": "3.48.0",
+  "svelte": "3.59.2",
   "uuid": "7.0.3",
   "webpack-cli": "3.3.12",
   "webpack-dev-server": "3.11.3",
-  "webpack": "4.46.0"
+  "webpack": "4.47.0"
 }
