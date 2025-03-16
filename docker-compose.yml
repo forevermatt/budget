@@ -1,6 +1,6 @@
 services:
-    app:
-        image: node:18
-        volumes:
-          - ./:/app/
-        working_dir: /app/
+  app:
+    image: node:18
+    volumes:
+      - ./:/app/
+    working_dir: /app/
