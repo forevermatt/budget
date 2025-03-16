@@ -4,3 +4,11 @@ services:
     volumes:
       - ./:/app/
     working_dir: /app/
+
+  db:
+    image: couchdb:3
+    environment:
+      COUCHDB_PASSWORD: 'password'
+      COUCHDB_USER: 'admin'
+    ports:
+      - "5984:5984"
