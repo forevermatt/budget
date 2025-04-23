@@ -17,6 +17,11 @@ export const createAccount = name => {
   return newAccount
 }
 
+export const getAccount = (uuid) => {
+  const accounts = listAccounts()
+  return getAccountFrom(uuid, accounts)
+}
+
 export const getAccountFrom = (uuid, list) => {
   return list.find(item => item.uuid === uuid) || {}
 }
