@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid'
 
 const ACCOUNTS = 'accounts'
 
-export const accounts = writable([])
+const accounts = writable([])
 
 export const createAccount = name => {
   const newAccount = {
@@ -17,8 +17,17 @@ export const createAccount = name => {
   return newAccount
 }
 
-export const getAccountFrom = (uuid, list) => {
+export const getAccount = (uuid) => {
+  const accounts = listAccounts()
+  return getAccountFrom(uuid, accounts)
+}
+
+const getAccountFrom = (uuid, list) => {
   return list.find(item => item.uuid === uuid) || {}
+}
+
+export const listAccounts = () => {
+  return getListFromStorage(ACCOUNTS)
 }
 
 export const loadAccounts = () => {
