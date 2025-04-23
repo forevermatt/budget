@@ -2,7 +2,7 @@
 import Button from '../components/Button.svelte'
 import ButtonRow from '../components/ButtonRow.svelte'
 import CategoryTags from '../components/CategoryTags.svelte'
-import { accounts, getAccountFrom } from '../data/accounts'
+import { getAccount } from '../data/accounts'
 import { categories, getCategoryFrom } from '../data/categories'
 import { savePendingTransaction, transactionInProgress, updatePendingTransaction } from '../data/transactions'
 import { faHome } from '@fortawesome/free-solid-svg-icons'
@@ -12,7 +12,7 @@ import { push } from 'svelte-spa-router'
 
 $: transaction = $transactionInProgress
 $: transactionNote = transaction.note || ''
-$: account = getAccountFrom(transaction.accountUuid, $accounts)
+$: account = getAccount(transaction.accountUuid)
 $: accountName = account.name || ''
 $: amountTotal = transaction.amountTotal || 0
 
