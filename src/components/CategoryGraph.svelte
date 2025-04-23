@@ -20,6 +20,8 @@ const calculageWidth = (remaining, total) => {
     return 0;
   } else if (total === 0) {
     return (remaining > 0) ? 100 : 0;
+  } else if (remaining > total) {
+    return 100;
   }
   return (remaining / total) * 100;
 }
