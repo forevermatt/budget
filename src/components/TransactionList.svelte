@@ -5,14 +5,18 @@ import { formatAmount } from '../helpers/numbers'
 export let transactions = []
 </script>
 
+<table class="table table-borderless table-sm">
 {#each transactions as { amountTotal, timestamp, who }}
-  <div class="row">
-    <div class="col-2 text-center">{ formatDate(timestamp) }</div>
-    <div class="col-7">{ who }</div>
-    <div class="col-3 text-right">
+  <tr>
+    <td class="text-center">{ formatDate(timestamp) }</td>
+    <td>{ who }</td>
+    <td class="text-right">
       <sup>$</sup>{ formatAmount(amountTotal) }
-    </div>
-  </div>
+    </td>
+  </tr>
 {:else}
-  <i>No matching transactions found.</i>
+  <tr>
+    <td><i>No matching transactions found.</i></td>
+  </tr>
 {/each}
+</table>
