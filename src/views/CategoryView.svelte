@@ -1,6 +1,6 @@
 <script>
 import { getBudgetedFor } from '../data/budget'
-import { categories, updateCategory } from '../data/categories'
+import { getCategory, updateCategory } from '../data/categories'
 import { getTransactionsForCategory } from '../data/transactions'
 import { formatAmount } from '../helpers/numbers'
 import Button from '../components/Button.svelte'
@@ -11,7 +11,7 @@ import { faHome } from '@fortawesome/free-solid-svg-icons'
 export let params = {} // URL parameters provided by router
 
 $: uuid = params.uuid || ''
-$: category = $categories.find(category => category.uuid === uuid) || {}
+$: category = getCategory(uuid)
 $: transactions = getTransactionsForCategory(uuid)
 
 const renameCategory = () => {

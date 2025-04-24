@@ -1,4 +1,4 @@
-import { getCategoryFrom } from './categories'
+import { getCategory } from './categories'
 import { addToList, updateInObject } from '../helpers/data-store-helpers'
 import { getCurrentYearMonthString, getMonthAfter, isInPast } from '../helpers/dates'
 import { getObjectFromStorage, saveToStorage } from './storage'
@@ -58,11 +58,11 @@ export const setBudgetedForCategory = (uuid, budgeted) => {
   }
 }
 
-export const sortBudgetByCategory = (budget, categories) => {
+export const sortBudgetByCategory = (budget) => {
   let list = []
   for (var uuid in budget) {
     if (budget.hasOwnProperty(uuid)) {
-      let category = getCategoryFrom(uuid, categories)
+      let category = getCategory(uuid)
       list.push({
         budgeted: budget[uuid].budgeted,
         remaining: budget[uuid].remaining,

@@ -1,11 +1,10 @@
 <script>
 import CategoryGraph from './CategoryGraph.svelte'
 import { budget, sortBudgetByCategory } from '../data/budget'
-import { categories } from '../data/categories'
 import { getCurrentYearMonthString } from '../helpers/dates'
 import { dangerIfNegative, formatAmount, formatAmountAsWholeNumber } from '../helpers/numbers'
 
-$: sortedBudget = sortBudgetByCategory($budget, $categories)
+$: sortedBudget = sortBudgetByCategory($budget)
 </script>
 
 <style>
