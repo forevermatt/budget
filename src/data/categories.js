@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid'
 
 const CATEGORIES = 'categories'
 
-export const categories = writable([])
+const categories = writable([])
 
 export const createCategory = name => {
   const existingCategory = get(categories).find(c => c.name === name)
@@ -22,8 +22,17 @@ export const createCategory = name => {
   }
 }
 
-export const getCategoryFrom = (uuid, list) => {
+export const getCategory = (uuid) => {
+  const categories = listCategories()
+  return getCategoryFrom(uuid, categories)
+}
+
+const getCategoryFrom = (uuid, list) => {
   return list.find(item => item.uuid === uuid) || {}
+}
+
+export const listCategories = () => {
+  return getListFromStorage(CATEGORIES)
 }
 
 export const loadCategories = () => {

@@ -3,7 +3,6 @@ import Button from '../components/Button.svelte'
 import ButtonRow from '../components/ButtonRow.svelte'
 import CategoryTags from '../components/CategoryTags.svelte'
 import { getAccount } from '../data/accounts'
-import { categories, getCategoryFrom } from '../data/categories'
 import { savePendingTransaction, transactionInProgress, updatePendingTransaction } from '../data/transactions'
 import { faHome } from '@fortawesome/free-solid-svg-icons'
 import { formatDateISO8601 } from "../helpers/dates";
