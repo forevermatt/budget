@@ -6,7 +6,7 @@ import { subtractAmountFromBudgetCategory } from './budget'
 
 const TRANSACTIONS = 'transactions'
 
-export const transactions = writable([])
+const transactions = writable([])
 export const transactionInProgress = writable({})
 
 export const startNewPendingTransaction = transactionData => {
