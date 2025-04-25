@@ -1,5 +1,5 @@
 <script>
-import { accounts, updateAccount } from '../data/accounts'
+import { getAccount, updateAccount } from '../data/accounts'
 import { getTransactionsForAccount } from '../data/transactions'
 import Button from '../components/Button.svelte'
 import ButtonRow from '../components/ButtonRow.svelte'
@@ -10,7 +10,7 @@ import { faEdit, faListUl } from '@fortawesome/free-solid-svg-icons'
 export let params = {} // URL parameters provided by router
 
 $: uuid = params.uuid || ''
-$: account = $accounts.find(account => account.uuid === uuid) || {}
+$: account = getAccount(uuid)
 $: transactions = getTransactionsForAccount(uuid)
 
 const renameAccount = () => {
