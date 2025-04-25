@@ -1,9 +1,12 @@
 services:
   app:
     image: node:18
+    ports:
+      - "8080:8080"
     volumes:
       - ./:/app/
     working_dir: /app/
+    command: "npm run dev"
 
   db:
     image: couchdb:3
