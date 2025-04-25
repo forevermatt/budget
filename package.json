@@ -2,7 +2,7 @@
   "name": "budget",
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack",
-    "dev": "webpack-dev-server --content-base ."
+    "dev": "webpack-dev-server --host 0.0.0.0 --content-base ."
   },
   "description": "A simple way to budget your money and reconcile your statements, built using Svelte.",
   "repository": {
