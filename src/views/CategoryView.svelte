@@ -19,6 +19,7 @@ const renameCategory = () => {
   let name = prompt('Edit category name:', category.name)
   if (name != null) {
     updateCategory(uuid, {name})
+    category = getCategory(uuid)
   }
 }
 </script>
