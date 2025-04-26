@@ -6,7 +6,8 @@ import { formatAmount } from '../helpers/numbers'
 import Button from '../components/Button.svelte'
 import ButtonRow from '../components/ButtonRow.svelte'
 import TransactionList from '../components/TransactionList.svelte'
-import { faHome } from '@fortawesome/free-solid-svg-icons'
+import { faEdit, faHome } from '@fortawesome/free-solid-svg-icons'
+import Icon from 'fa-svelte'
 
 export let params = {} // URL parameters provided by router
 
@@ -22,16 +23,12 @@ const renameCategory = () => {
 }
 </script>
 
-<style>
-.editable {
-  cursor: pointer;
-}
-</style>
-
 <h2>
-  <b class="editable" on:click={renameCategory}
-     title="(Click to rename)">{ category.name }:</b>
-  <a class="btn btn-default" href="#/category/{ uuid }/amount">
+  <span> { category.name }</span>
+  <button class="btn btn-link btn-lg" tabindex="0" on:click={renameCategory}>
+    <Icon icon={faEdit} />
+  </button>
+  <a class="btn btn-default float-right" href="#/category/{ uuid }/amount">
     <sup>$</sup> { formatAmount(getBudgetedFor(uuid)) }
   </a>
 </h2>
