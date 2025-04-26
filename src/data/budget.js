@@ -28,6 +28,8 @@ export const getBudgetedFor = categoryUuid => {
 
 const isExistingCategory = uuid => get(budgetStore).hasOwnProperty(uuid)
 
+const isNotDeleted = category => !category.deleted
+
 export const loadBudget = () => {
   budgetStore.set(getObjectFromStorage(BUDGET))
 }
@@ -35,7 +37,7 @@ export const loadBudget = () => {
 export const refillBudgetCategories = () => {
   const budget = get(budgetStore)
   const budgetCategoryUuids = Object.keys(budget)
-  budgetCategoryUuids.forEach(refillBudgetCategory)
+  budgetCategoryUuids.filter(isNotDeleted).forEach(refillBudgetCategory)
 }
 
 const refillBudgetCategory = categoryUuid => {
