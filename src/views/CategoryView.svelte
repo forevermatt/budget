@@ -1,6 +1,6 @@
 <script>
 import { getBudgetedFor } from '../data/budget'
-import { getCategory, updateCategory } from '../data/categories'
+import { deleteCategory, getCategory, updateCategory } from '../data/categories'
 import { getTransactionsForCategory } from '../data/transactions'
 import { formatAmount } from '../helpers/numbers'
 import Button from '../components/Button.svelte'
@@ -8,6 +8,7 @@ import ButtonRow from '../components/ButtonRow.svelte'
 import TransactionList from '../components/TransactionList.svelte'
 import { faEdit, faHome } from '@fortawesome/free-solid-svg-icons'
 import Icon from 'fa-svelte'
+import { push } from 'svelte-spa-router'
 
 export let params = {} // URL parameters provided by router
 
@@ -20,6 +21,14 @@ const renameCategory = () => {
   if (name != null) {
     updateCategory(uuid, {name})
     category = getCategory(uuid)
+  }
+}
+
+const onDeleteCategory = () => {
+  let confirmed = confirm('Are you sure you want to delete ' + category.name + '?')
+  if (confirmed) {
+    deleteCategory(uuid, {name})
+    push(`/budget/`)
   }
 }
 </script>
@@ -35,6 +44,10 @@ const renameCategory = () => {
 </h2>
 <hr class="small" />
 <TransactionList {transactions} />
+
+<div class="text-center">
+  <button class="btn btn-outline-danger" on:click={onDeleteCategory}>Delete category</button>
+</div>
 
 <ButtonRow>
   <Button icon={faHome} name="budget" url="#/budget" left />
