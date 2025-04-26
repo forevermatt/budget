@@ -68,6 +68,7 @@ export const sortBudgetByCategory = (budget) => {
         remaining: budget[uuid].remaining,
         name: category.name,
         uuid: category.uuid,
+        deleted: category.deleted,
       });
     }
   }
