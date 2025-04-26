@@ -15,7 +15,7 @@ export const startNewPendingTransaction = transactionData => {
 }
 
 export const getTransactionsForAccount = accountUuid => {
-  return get(transactions).filter(transaction => {
+  return listTransactions().filter(transaction => {
     return transaction.accountUuid === accountUuid
   })
 }
