@@ -47,22 +47,24 @@ $: sortedBudget = sortBudgetByCategory($budget)
 
 <table class="category-list table table-sm">
   <tbody>
-    {#each sortedBudget as {budgeted, remaining, name, uuid} }
-      <tr>
-        <td class="category-name width-10">
-          <a href="#/category/{ uuid }"
-             class="btn btn-outline-secondary">{ name }</a>
-        </td>
-        <td class="width-80">
-          <CategoryGraph {budgeted} {remaining} />
-        </td>
-        <td class="category-amount width-10">
-          <div class="category-available { dangerIfNegative(remaining) }">
-            <sup>$</sup>{ formatAmount(remaining) }
-          </div>
-          <div class="category-budgeted"><span>/ { formatAmountAsWholeNumber(budgeted) }</span></div>
-        </td>
-      </tr>
+    {#each sortedBudget as {budgeted, remaining, name, uuid, deleted} }
+      {#if !deleted}
+        <tr>
+          <td class="category-name width-10">
+            <a href="#/category/{ uuid }"
+               class="btn btn-outline-secondary">{ name }</a>
+          </td>
+          <td class="width-80">
+            <CategoryGraph {budgeted} {remaining} />
+          </td>
+          <td class="category-amount width-10">
+            <div class="category-available { dangerIfNegative(remaining) }">
+              <sup>$</sup>{ formatAmount(remaining) }
+            </div>
+            <div class="category-budgeted"><span>/ { formatAmountAsWholeNumber(budgeted) }</span></div>
+          </td>
+        </tr>
+      {/if}
     {/each}
   </tbody>
 </table>
