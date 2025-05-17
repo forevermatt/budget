@@ -15,13 +15,13 @@ export const startNewPendingTransaction = transactionData => {
 }
 
 export const getTransactionsForAccount = accountUuid => {
-  return get(transactions).filter(transaction => {
+  return listTransactions().filter(transaction => {
     return transaction.accountUuid === accountUuid
   })
 }
 
 export const getTransactionsForCategory = categoryUuid => {
-  return get(transactions).filter(transaction => {
+  return listTransactions().filter(transaction => {
     const categoryAmounts = transaction.categoryAmounts || {}
     return categoryAmounts.hasOwnProperty(categoryUuid)
   })
@@ -29,6 +29,10 @@ export const getTransactionsForCategory = categoryUuid => {
 
 export const getTransactionFrom = (uuid, list) => {
   return list.find(item => item.uuid === uuid) || {}
+}
+
+export const listTransactions = () => {
+  return getListFromStorage(TRANSACTIONS)
 }
 
 export const loadTransactions = () => {
