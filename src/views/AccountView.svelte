@@ -22,23 +22,22 @@ const renameAccount = () => {
 </script>
 
 <style>
-a {
+button {
   color: #337ab7;
   font-weight: bold;
 }
 
-a:focus,
-a:hover {
+button:focus,
+button:hover {
   color: #111;
 }
 </style>
 
 <h2>
   <span>{ account.name }</span>
-  <a class="float-right" tabindex="0"
-     href="javascript:void(0)" on:click={renameAccount}>
+  <button class="btn btn-link btn-lg float-right" tabindex="0" on:click={renameAccount}>
     <Icon icon={faEdit} />
-  </a>
+  </button>
 </h2>
 <hr class="small" />
 <TransactionList {transactions} />

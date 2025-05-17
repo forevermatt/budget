@@ -22,6 +22,12 @@ export const createCategory = name => {
   }
 }
 
+export const deleteCategory = (uuid) => {
+  const changes = { deleted: true }
+  updateInList('uuid', uuid, changes, categories)
+  saveCategories()
+}
+
 export const getCategory = (uuid) => {
   const categories = listCategories()
   return getCategoryFrom(uuid, categories)
