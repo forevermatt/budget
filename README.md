@@ -57,7 +57,7 @@ https://forevermatt.github.io/budget/
 
 ## Data Structure
 
-This application currently complies with version 1.1.0 of the
+This application currently complies with version x.y.z of the
 https://github.com/forevermatt/budget-data specification.
 
 ## Development
