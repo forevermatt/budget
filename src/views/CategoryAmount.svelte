@@ -9,14 +9,14 @@ import { push } from 'svelte-spa-router'
 
 export let params // URL parameters provider by router.
 
-$: uuid = params.uuid
-$: category = getCategory(uuid)
-$: initialAmount = category && getBudgetedFor(uuid) || 0
+$: id = params.id
+$: category = getCategory(id)
+$: initialAmount = category && getBudgetedFor(id) || 0
 
 let resultingAmount = 0
 
 const onAmount = () => {
-  setBudgetedForCategory(uuid, resultingAmount)
+  setBudgetedForCategory(id, resultingAmount)
   push(`/budget`)
 }
 </script>

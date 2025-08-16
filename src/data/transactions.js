@@ -14,21 +14,21 @@ export const startNewPendingTransaction = transactionData => {
   transactionInProgress.set(transaction)
 }
 
-export const getTransactionsForAccount = accountUuid => {
+export const getTransactionsForAccount = accountId => {
   return listTransactions().filter(transaction => {
-    return transaction.accountUuid === accountUuid
+    return transaction.accountId === accountId
   })
 }
 
-export const getTransactionsForCategory = categoryUuid => {
+export const getTransactionsForCategory = categoryId => {
   return listTransactions().filter(transaction => {
     const categoryAmounts = transaction.categoryAmounts || {}
-    return categoryAmounts.hasOwnProperty(categoryUuid)
+    return categoryAmounts.hasOwnProperty(categoryId)
   })
 }
 
-export const getTransactionFrom = (uuid, list) => {
-  return list.find(item => item.uuid === uuid) || {}
+export const getTransactionFrom = (id, list) => {
+  return list.find(item => item.id === id) || {}
 }
 
 export const listTransactions = () => {
@@ -41,15 +41,15 @@ export const loadTransactions = () => {
 
 export const savePendingTransaction = () => {
   const transaction = get(transactionInProgress)
-  transaction.uuid = uuidv4()
+  transaction.id = uuidv4()
 
   addToList(transaction, transactions)
   saveTransactions()
 
   const categoryAmounts = transaction.categoryAmounts || {}
-  for (const categoryUuid in categoryAmounts) {
-    const categoryAmount = categoryAmounts[categoryUuid] || 0
-    subtractAmountFromBudgetCategory(categoryUuid, categoryAmount)
+  for (const categoryId in categoryAmounts) {
+    const categoryAmount = categoryAmounts[categoryId] || 0
+    subtractAmountFromBudgetCategory(categoryId, categoryAmount)
   }
 
   startNewPendingTransaction({})
@@ -57,8 +57,8 @@ export const savePendingTransaction = () => {
 
 const saveTransactions = () => saveToStorage(TRANSACTIONS, get(transactions))
 
-export const updateCompletedTransaction = (uuid, changes) => {
-  updateInList('uuid', uuid, changes, transactions)
+export const updateCompletedTransaction = (id, changes) => {
+  updateInList('id', id, changes, transactions)
   saveTransactions()
 }
 

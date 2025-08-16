@@ -6,9 +6,9 @@ export let accounts = []
 const dispatch = createEventDispatcher();
 </script>
 
-{#each accounts as account (account.uuid)}
+{#each accounts as account (account.id)}
   <p>
-    <button class="btn btn-outline-secondary" on:click={() => dispatch('select', account.uuid)}>
+    <button class="btn btn-outline-secondary" on:click={() => dispatch('select', account.id)}>
       {account.name}
     </button>
   </p>

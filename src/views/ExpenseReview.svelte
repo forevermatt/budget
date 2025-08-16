@@ -11,7 +11,7 @@ import { push } from 'svelte-spa-router'
 
 $: transaction = $transactionInProgress
 $: transactionNote = transaction.note || ''
-$: account = getAccount(transaction.accountUuid)
+$: account = getAccount(transaction.accountId)
 $: accountName = account.name || ''
 $: amountTotal = transaction.amountTotal || 0
 

@@ -47,11 +47,11 @@ $: sortedBudget = sortBudgetByCategory($budget)
 
 <table class="category-list table table-sm">
   <tbody>
-    {#each sortedBudget as {budgeted, remaining, name, uuid, deleted} }
+    {#each sortedBudget as {budgeted, remaining, name, id, deleted} }
       {#if !deleted}
         <tr>
           <td class="category-name width-10">
-            <a href="#/category/{ uuid }"
+            <a href="#/category/{ id }"
                class="btn btn-outline-secondary">{ name }</a>
           </td>
           <td class="width-80">

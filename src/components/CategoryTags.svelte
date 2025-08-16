@@ -5,10 +5,10 @@ import { getCategory } from '../data/categories'
 export let transaction = {}
 
 $: categoryAmounts = transaction.categoryAmounts || {}
-$: categoryUuids = Object.keys(categoryAmounts)
+$: categoryIds = Object.keys(categoryAmounts)
 </script>
 
-{#each categoryUuids as categoryUuid}
-  <CategoryTag name={getCategory(categoryUuid).name}
-               amount={categoryAmounts[categoryUuid]} />
+{#each categoryIds as categoryId}
+  <CategoryTag name={getCategory(categoryId).name}
+               amount={categoryAmounts[categoryId]} />
 {/each}
