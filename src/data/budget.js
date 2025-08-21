@@ -26,7 +26,7 @@ export const getBudgetedFor = categoryUuid => {
   return budgetCategory.budgeted || 0
 }
 
-const isExistingCategory = uuid => get(budgetStore).hasOwnProperty(uuid)
+const isExistingCategory = id => get(budgetStore).hasOwnProperty(id)
 
 const isNotDeleted = category => !category.deleted
 
@@ -51,25 +51,25 @@ const refillBudgetCategory = categoryUuid => {
 
 const saveBudget = () => saveToStorage(BUDGET, get(budgetStore))
 
-export const setBudgetedForCategory = (uuid, budgeted) => {
+export const setBudgetedForCategory = (id, budgeted) => {
   const budget = get(budgetStore)
-  if (isExistingCategory(uuid)) {
-    updateBudgetedForExistingCategory(uuid, budgeted)
+  if (isExistingCategory(id)) {
+    updateBudgetedForExistingCategory(id, budgeted)
   } else {
-    addCategoryToBudget(uuid, budgeted)
+    addCategoryToBudget(id, budgeted)
   }
 }
 
 export const sortBudgetByCategory = (budget) => {
   let list = []
-  for (var uuid in budget) {
-    if (budget.hasOwnProperty(uuid)) {
-      let category = getCategory(uuid)
+  for (var id in budget) {
+    if (budget.hasOwnProperty(id)) {
+      let category = getCategory(id)
       list.push({
-        budgeted: budget[uuid].budgeted,
-        remaining: budget[uuid].remaining,
+        budgeted: budget[id].budgeted,
+        remaining: budget[id].remaining,
         name: category.name,
-        uuid: category.uuid,
+        id: category.id,
         deleted: category.deleted,
       });
     }

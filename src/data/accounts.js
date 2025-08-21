@@ -9,7 +9,7 @@ const accounts = writable([])
 
 export const createAccount = name => {
   const newAccount = {
-    uuid: uuidv4(),
+    id: uuidv4(),
     name: name,
   }
   addToList(newAccount, accounts)
@@ -17,13 +17,13 @@ export const createAccount = name => {
   return newAccount
 }
 
-export const getAccount = (uuid) => {
+export const getAccount = (id) => {
   const accounts = listAccounts()
-  return getAccountFrom(uuid, accounts)
+  return getAccountFrom(id, accounts)
 }
 
-const getAccountFrom = (uuid, list) => {
-  return list.find(item => item.uuid === uuid) || {}
+const getAccountFrom = (id, list) => {
+  return list.find(item => item.id === id) || {}
 }
 
 export const listAccounts = () => {
@@ -36,7 +36,7 @@ export const loadAccounts = () => {
 
 const saveAccounts = () => saveToStorage(ACCOUNTS, get(accounts))
 
-export const updateAccount = (uuid, changes) => {
-  updateInList('uuid', uuid, changes, accounts)
+export const updateAccount = (id, changes) => {
+  updateInList('id', id, changes, accounts)
   saveAccounts()
 }

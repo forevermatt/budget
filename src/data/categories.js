@@ -13,7 +13,7 @@ export const createCategory = name => {
     return existingCategory
   } else {
     const newCategory = {
-      uuid: uuidv4(),
+      id: uuidv4(),
       name: name,
     }
     addToList(newCategory, categories)
@@ -22,19 +22,19 @@ export const createCategory = name => {
   }
 }
 
-export const deleteCategory = (uuid) => {
+export const deleteCategory = (id) => {
   const changes = { deleted: true }
-  updateInList('uuid', uuid, changes, categories)
+  updateInList('id', id, changes, categories)
   saveCategories()
 }
 
-export const getCategory = (uuid) => {
+export const getCategory = (id) => {
   const categories = listCategories()
-  return getCategoryFrom(uuid, categories)
+  return getCategoryFrom(id, categories)
 }
 
-const getCategoryFrom = (uuid, list) => {
-  return list.find(item => item.uuid === uuid) || {}
+const getCategoryFrom = (id, list) => {
+  return list.find(item => item.id === id) || {}
 }
 
 export const listCategories = () => {
@@ -47,7 +47,7 @@ export const loadCategories = () => {
 
 const saveCategories = () => saveToStorage(CATEGORIES, get(categories))
 
-export const updateCategory = (uuid, changes) => {
-  updateInList('uuid', uuid, changes, categories)
+export const updateCategory = (id, changes) => {
+  updateInList('id', id, changes, categories)
   saveCategories()
 }

@@ -15,7 +15,7 @@ onMount(() => {
 
 function onSubmit() {
   const newCategory = createCategory(name)
-  push(`/category/${newCategory.uuid}/amount`)
+  push(`/category/${newCategory.id}/amount`)
 }
 </script>
 

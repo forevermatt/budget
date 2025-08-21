@@ -27,8 +27,8 @@ export const getTransactionsForCategory = categoryUuid => {
   })
 }
 
-export const getTransactionFrom = (uuid, list) => {
-  return list.find(item => item.uuid === uuid) || {}
+export const getTransactionFrom = (id, list) => {
+  return list.find(item => item.id === id) || {}
 }
 
 export const listTransactions = () => {
@@ -41,7 +41,7 @@ export const loadTransactions = () => {
 
 export const savePendingTransaction = () => {
   const transaction = get(transactionInProgress)
-  transaction.uuid = uuidv4()
+  transaction.id = uuidv4()
 
   addToList(transaction, transactions)
   saveTransactions()
@@ -57,8 +57,8 @@ export const savePendingTransaction = () => {
 
 const saveTransactions = () => saveToStorage(TRANSACTIONS, get(transactions))
 
-export const updateCompletedTransaction = (uuid, changes) => {
-  updateInList('uuid', uuid, changes, transactions)
+export const updateCompletedTransaction = (id, changes) => {
+  updateInList('id', id, changes, transactions)
   saveTransactions()
 }
 
