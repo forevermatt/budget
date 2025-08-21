@@ -9,20 +9,7 @@ const ITEM_TYPE_PREFIX = 'c'
 
 const categories = writable([])
 
-export const createCategory = name => {
-  const existingCategory = get(categories).find(c => c.name === name)
-  if (existingCategory) {
-    return existingCategory
-  } else {
-    const newCategory = {
-      id: uuidv4(),
-      name: name,
-    }
-    addToList(newCategory, categories)
-    saveCategories()
-    return newCategory
-  }
-}
+export const addCategory = async name => database.insert(ITEM_TYPE_PREFIX, { name })
 
 export const deleteCategory = (id) => {
   const changes = { deleted: true }

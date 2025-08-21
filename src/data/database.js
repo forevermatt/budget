@@ -1,4 +1,5 @@
 import PouchDB from 'pouchdb-browser'
+import { v4 as uuidv4 } from 'uuid'
 
 const pouchDb = new PouchDB('budget')
 
@@ -6,14 +7,18 @@ const getItemsFromResponse = (response) => {
   return response.rows.map(row => row.doc);
 }
 
-export const insertCategory = async (values) => {
-  try {
-    const response = await pouchDb.post(values);
-    console.log(response)
-  } catch (error) {
-    console.error(error)
+const insert = async (itemTypePrefix, values) => {
+  const response = await pouchDb.put({
+    _id: itemTypePrefix + '-' + uuidv4(),
+    ...values,
+  });
+  
+  if (response.ok) {
+    return response.id
   }
-  return {}
+  
+  console.error(response)
+  return null
 }
 
 const list = async (itemTypePrefix) => {
@@ -25,4 +30,7 @@ const list = async (itemTypePrefix) => {
   return getItemsFromResponse(response)
 }
 
-export default { insertCategory, list }
+export default {
+  insert,
+  list,
+}
