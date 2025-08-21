@@ -3,6 +3,8 @@ import { v4 as uuidv4 } from 'uuid'
 
 const pouchDb = new PouchDB('budget')
 
+const get = async (id) => pouchDb.get(id)
+
 const getItemsFromResponse = (response) => {
   return response.rows.map(row => row.doc);
 }
@@ -31,6 +33,7 @@ const list = async (itemTypePrefix) => {
 }
 
 export default {
+  get,
   insert,
   list,
 }

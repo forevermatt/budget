@@ -17,10 +17,7 @@ export const deleteCategory = (id) => {
   saveCategories()
 }
 
-export const getCategory = (id) => {
-  const categories = listCategories()
-  return getCategoryFrom(id, categories)
-}
+export const getCategory = async id => database.get(id)
 
 const getCategoryFrom = (id, list) => {
   return list.find(item => item.id === id) || {}
