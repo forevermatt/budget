@@ -1,9 +1,11 @@
+import database from './database'
 import { addToList, updateInList } from '../helpers/data-store-helpers'
 import { getListFromStorage, saveToStorage } from './storage'
 import { get, writable } from 'svelte/store'
 import { v4 as uuidv4 } from 'uuid'
 
 const CATEGORIES = 'categories'
+const ITEM_TYPE_PREFIX = 'c'
 
 const categories = writable([])
 
@@ -37,9 +39,7 @@ const getCategoryFrom = (id, list) => {
   return list.find(item => item.id === id) || {}
 }
 
-export const listCategories = () => {
-  return getListFromStorage(CATEGORIES)
-}
+export const listCategories = async () => database.list(ITEM_TYPE_PREFIX)
 
 export const loadCategories = () => {
   categories.set(getListFromStorage(CATEGORIES))
