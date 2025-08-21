@@ -26,7 +26,7 @@ onMount(async () => {
 })
 </script>
 
-<h2>Monthly amount for {category.name}</h2>
+<h2>Monthly amount for {category.name || '...'}</h2>
 
 <AmountInput amount={initialAmount} on:next={onAmount} bind:resultingAmount={resultingAmount} />
 
