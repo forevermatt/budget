@@ -14,16 +14,16 @@ export const startNewPendingTransaction = transactionData => {
   transactionInProgress.set(transaction)
 }
 
-export const getTransactionsForAccount = accountUuid => {
+export const getTransactionsForAccount = accountId => {
   return listTransactions().filter(transaction => {
-    return transaction.accountUuid === accountUuid
+    return transaction.accountId === accountId
   })
 }
 
-export const getTransactionsForCategory = categoryUuid => {
+export const getTransactionsForCategory = categoryId => {
   return listTransactions().filter(transaction => {
     const categoryAmounts = transaction.categoryAmounts || {}
-    return categoryAmounts.hasOwnProperty(categoryUuid)
+    return categoryAmounts.hasOwnProperty(categoryId)
   })
 }
 
@@ -47,9 +47,9 @@ export const savePendingTransaction = () => {
   saveTransactions()
 
   const categoryAmounts = transaction.categoryAmounts || {}
-  for (const categoryUuid in categoryAmounts) {
-    const categoryAmount = categoryAmounts[categoryUuid] || 0
-    subtractAmountFromBudgetCategory(categoryUuid, categoryAmount)
+  for (const categoryId in categoryAmounts) {
+    const categoryAmount = categoryAmounts[categoryId] || 0
+    subtractAmountFromBudgetCategory(categoryId, categoryAmount)
   }
 
   startNewPendingTransaction({})

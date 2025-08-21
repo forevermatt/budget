@@ -9,20 +9,20 @@ const BUDGET = 'budget'
 const budgetStore = writable({})
 export {budgetStore as budget}
 
-const addCategoryToBudget = (categoryUuid, budgeted) => {
-  updateBudget(categoryUuid, {
+const addCategoryToBudget = (categoryId, budgeted) => {
+  updateBudget(categoryId, {
     budgeted: budgeted,
     remaining: budgeted,
     refilled: getCurrentYearMonthString()
   })
 }
 
-export const getBudgetDataFor = categoryUuid => {
-  return get(budgetStore)[categoryUuid] || {}
+export const getBudgetDataFor = categoryId => {
+  return get(budgetStore)[categoryId] || {}
 }
 
-export const getBudgetedFor = categoryUuid => {
-  let budgetCategory = getBudgetDataFor(categoryUuid)
+export const getBudgetedFor = categoryId => {
+  let budgetCategory = getBudgetDataFor(categoryId)
   return budgetCategory.budgeted || 0
 }
 
@@ -36,17 +36,17 @@ export const loadBudget = () => {
 
 export const refillBudgetCategories = () => {
   const budget = get(budgetStore)
-  const budgetCategoryUuids = Object.keys(budget)
-  budgetCategoryUuids.filter(isNotDeleted).forEach(refillBudgetCategory)
+  const budgetCategoryIds = Object.keys(budget)
+  budgetCategoryIds.filter(isNotDeleted).forEach(refillBudgetCategory)
 }
 
-const refillBudgetCategory = categoryUuid => {
-  let {budgeted, remaining, refilled} = getBudgetDataFor(categoryUuid)
+const refillBudgetCategory = categoryId => {
+  let {budgeted, remaining, refilled} = getBudgetDataFor(categoryId)
   for (let i = 0; isInPast(refilled) && (i < 100); i++) {
     remaining += budgeted
     refilled = getMonthAfter(refilled)
   }
-  updateBudget(categoryUuid, { remaining, refilled })
+  updateBudget(categoryId, { remaining, refilled })
 }
 
 const saveBudget = () => saveToStorage(BUDGET, get(budgetStore))
@@ -77,23 +77,23 @@ export const sortBudgetByCategory = (budget) => {
   return list.sort((a, b) => (a.name || '').localeCompare(b.name || ''));
 }
 
-export const subtractAmountFromBudgetCategory = (categoryUuid, amountToSubtract) => {
-  const budgetCategory = getBudgetDataFor(categoryUuid)
+export const subtractAmountFromBudgetCategory = (categoryId, amountToSubtract) => {
+  const budgetCategory = getBudgetDataFor(categoryId)
   const oldRemaining = budgetCategory.remaining || 0
   const newRemaining = oldRemaining - amountToSubtract
-  updateBudget(categoryUuid, { remaining: newRemaining })
+  updateBudget(categoryId, { remaining: newRemaining })
 }
 
-export const updateBudget = (categoryUuid, changes) => {
-  updateInObject(categoryUuid, changes, budgetStore)
+export const updateBudget = (categoryId, changes) => {
+  updateInObject(categoryId, changes, budgetStore)
   saveBudget()
 }
 
-const updateBudgetedForExistingCategory = (categoryUuid, budgeted) => {
+const updateBudgetedForExistingCategory = (categoryId, budgeted) => {
   const budget = get(budgetStore)
-  let categoryAmounts = budget[categoryUuid]
+  let categoryAmounts = budget[categoryId]
   let previousBudgeted = categoryAmounts.budgeted
   let previousRemaining = categoryAmounts.remaining
   let remaining = previousRemaining + (budgeted - previousBudgeted)
-  updateBudget(categoryUuid, {budgeted, remaining})
+  updateBudget(categoryId, {budgeted, remaining})
 }
