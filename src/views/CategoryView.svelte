@@ -18,8 +18,6 @@ $: id = params.id || ''
 $: loadCategory(id)
 $: transactions = getTransactionsForCategory(id)
 
-$: console.log(category) // TEMP
-
 const loadCategory = async (categoryId) => {
   if (categoryId) {
     category = await getCategory(categoryId) || {}
