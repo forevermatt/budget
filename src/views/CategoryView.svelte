@@ -12,9 +12,19 @@ import { push } from 'svelte-spa-router'
 
 export let params = {} // URL parameters provided by router
 
+let category = {}
+
 $: id = params.id || ''
-$: category = getCategory(id)
+$: loadCategory(id)
 $: transactions = getTransactionsForCategory(id)
+
+$: console.log(category) // TEMP
+
+const loadCategory = async (categoryId) => {
+  if (categoryId) {
+    category = await getCategory(categoryId) || {}
+  }
+}
 
 const renameCategory = () => {
   let name = prompt('Edit category name:', category.name)
