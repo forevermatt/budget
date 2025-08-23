@@ -23,11 +23,12 @@ const loadCategory = async (categoryId) => {
   }
 }
 
-const renameCategory = () => {
+const renameCategory = async () => {
   let name = prompt('Edit category name:', category.name)
   if (name != null) {
-    updateCategory(id, {name})
-    category = getCategory(id)
+    category.name = name
+    await updateCategory(category)
+    category = await getCategory(id)
   }
 }
 
