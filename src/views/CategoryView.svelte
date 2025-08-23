@@ -32,10 +32,10 @@ const renameCategory = async () => {
   }
 }
 
-const onDeleteCategory = () => {
+const onDeleteCategory = async () => {
   let confirmed = confirm('Are you sure you want to delete ' + category.name + '?')
   if (confirmed) {
-    deleteCategory(id, {name})
+    await deleteCategory(id)
     push(`/budget/`)
   }
 }

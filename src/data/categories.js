@@ -11,11 +11,7 @@ const categories = writable([])
 
 export const addCategory = async name => database.insert(ITEM_TYPE_PREFIX, { name })
 
-export const deleteCategory = (id) => {
-  const changes = { deleted: true }
-  updateInList('id', id, changes, categories)
-  saveCategories()
-}
+export const deleteCategory = (id) => database.deleteItem(id)
 
 export const getCategory = async id => database.get(id)
 
