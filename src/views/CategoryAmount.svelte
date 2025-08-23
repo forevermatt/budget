@@ -5,26 +5,28 @@ import ButtonRow from '../components/ButtonRow.svelte'
 import { setBudgetedForCategory } from '../data/budget'
 import { getCategory, updateCategory } from '../data/categories'
 import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons'
-import { onMount } from 'svelte'
 import { push } from 'svelte-spa-router'
 
-export let params // URL parameters provider by router.
+export let params = {} // URL parameters provided by router
 
 let category = {}
 let resultingAmount = 0
 
+$: id = params.id || ''
+$: loadCategory(id)
 $: initialAmount = category.budgeted || 0
+
+const loadCategory = async (categoryId) => {
+  if (categoryId) {
+    category = await getCategory(categoryId) || {}
+  }
+}
 
 const onAmount = async () => {
   category.budgeted = resultingAmount
   await updateCategory(category)
   push(`/budget`)
 }
-
-onMount(async () => {
-  category = await getCategory(params.id)
-  console.log(category) // TEMP
-})
 </script>
 
 <h2>Monthly amount for {category.name || '...'}</h2>
