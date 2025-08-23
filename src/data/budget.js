@@ -21,11 +21,6 @@ export const getBudgetDataFor = categoryId => {
   return get(budgetStore)[categoryId] || {}
 }
 
-export const getBudgetedFor = categoryId => {
-  let budgetCategory = getBudgetDataFor(categoryId)
-  return budgetCategory.budgeted || 0
-}
-
 const isExistingCategory = id => get(budgetStore).hasOwnProperty(id)
 
 const isNotDeleted = category => !category.deleted

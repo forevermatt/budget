@@ -1,5 +1,4 @@
 <script>
-import { getBudgetedFor } from '../data/budget'
 import { deleteCategory, getCategory, updateCategory } from '../data/categories'
 import { getTransactionsForCategory } from '../data/transactions'
 import { formatAmount } from '../helpers/numbers'
@@ -47,7 +46,7 @@ const onDeleteCategory = () => {
     <Icon icon={faEdit} />
   </button>
   <a class="btn btn-default float-right" href="#/category/{ id }/amount">
-    <sup>$</sup> { formatAmount(getBudgetedFor(id)) }
+    <sup>$</sup> { formatAmount(category.budgeted) }
   </a>
 </h2>
 <hr class="small" />
