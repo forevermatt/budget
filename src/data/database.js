@@ -32,8 +32,16 @@ const list = async (itemTypePrefix) => {
   return getItemsFromResponse(response)
 }
 
+const update = async (revisedItem) => {
+  const response = await pouchDb.put(revisedItem)
+  if (!response.ok) {
+    console.error(response)
+  }
+}
+
 export default {
   get,
   insert,
   list,
+  update,
 }

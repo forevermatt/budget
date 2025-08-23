@@ -3,7 +3,7 @@ import AmountInput from '../components/AmountInput.svelte'
 import Button from '../components/Button.svelte'
 import ButtonRow from '../components/ButtonRow.svelte'
 import { setBudgetedForCategory } from '../data/budget'
-import { getCategory } from '../data/categories'
+import { getCategory, updateCategory } from '../data/categories'
 import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons'
 import { onMount } from 'svelte'
 import { push } from 'svelte-spa-router'
@@ -15,8 +15,9 @@ let resultingAmount = 0
 
 $: initialAmount = category.budgeted || 0
 
-const onAmount = () => {
-  setBudgetedForCategory(params.id, resultingAmount)
+const onAmount = async () => {
+  category.budgeted = resultingAmount
+  await updateCategory(category)
   push(`/budget`)
 }
 
