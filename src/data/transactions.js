@@ -71,7 +71,6 @@ export const updatePendingTransaction = (changes) => {
   transactionInProgress.set(updatedPendingTransaction)
 }
 
-// Database-backed CRUDL operations (like data/categories.js)
 export const addTransaction = async (values) => database.insert(ITEM_TYPE_PREFIX, values)
 
 export const deleteTransaction = async (id) => database.deleteItem(id)
