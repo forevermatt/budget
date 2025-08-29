@@ -17,16 +17,8 @@ export const listAccounts = async () => database.list(ITEM_TYPE_PREFIX)
 // No-op loader kept for compatibility with existing code that calls loadAccounts() on mount
 export const loadAccounts = () => {}
 
-// Update an account. Supports both:
-//  - updateAccount(revisedAccount)
-//  - updateAccount(id, changes)
-export const updateAccount = async (idOrRevised, maybeChanges) => {
-  if (maybeChanges === undefined) {
-    // Assume a full revised document was provided
-    return database.update(idOrRevised)
-  }
-  // Legacy signature: fetch existing doc, merge changes, and update
-  const existing = await database.get(idOrRevised)
-  const revised = { ...existing, ...maybeChanges }
+export const updateAccount = async (id, changes) => {
+  const existing = await getAccount(id)
+  const revised = { ...existing, ...changes }
   return database.update(revised)
 }
