@@ -15,6 +15,9 @@ install:
 list-deps:
 	docker compose run --rm app bash -c "npm ls --package-lock-only --json | jq \".dependencies | map_values(.version)\" > installed-versions.json"
 
+test:
+	docker compose run --rm app bash -c "npm run test:ui"
+
 update:
 	docker compose run --rm app bash -c "npm update"
 	make list-deps
