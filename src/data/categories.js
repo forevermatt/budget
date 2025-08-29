@@ -27,4 +27,8 @@ export const loadCategories = () => {
 
 const saveCategories = () => saveToStorage(CATEGORIES, get(categories))
 
-export const updateCategory = async revisedCategory => database.update(revisedCategory)
+export const updateCategory = async (id, changes) => {
+  const existing = await getCategory(id)
+  const revised = { ...existing, ...changes }
+  return database.update(revised)
+}

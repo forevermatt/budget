@@ -23,8 +23,9 @@ const loadCategory = async (categoryId) => {
 }
 
 const onAmount = async () => {
-  category.budgeted = resultingAmount
-  await updateCategory(category)
+  await updateCategory(id, {
+    budgeted: resultingAmount,
+  })
   push(`/budget`)
 }
 </script>
