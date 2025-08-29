@@ -1,42 +1,32 @@
-import { addToList, updateInList } from '../helpers/data-store-helpers'
-import { getListFromStorage, saveToStorage } from './storage'
-import { get, writable } from 'svelte/store'
-import { v4 as uuidv4 } from 'uuid'
+import database from './database'
 
-const ACCOUNTS = 'accounts'
+const ITEM_TYPE_PREFIX = 'a'
 
-const accounts = writable([])
+// Create a new account; returns the new document id (string) or null
+export const createAccount = async (name) => database.insert(ITEM_TYPE_PREFIX, { name })
 
-export const createAccount = name => {
-  const newAccount = {
-    id: uuidv4(),
-    name: name,
+// Delete an account by id
+export const deleteAccount = async (id) => database.deleteItem(id)
+
+// Get a single account document by id
+export const getAccount = async (id) => database.get(id)
+
+// List all accounts
+export const listAccounts = async () => database.list(ITEM_TYPE_PREFIX)
+
+// No-op loader kept for compatibility with existing code that calls loadAccounts() on mount
+export const loadAccounts = () => {}
+
+// Update an account. Supports both:
+//  - updateAccount(revisedAccount)
+//  - updateAccount(id, changes)
+export const updateAccount = async (idOrRevised, maybeChanges) => {
+  if (maybeChanges === undefined) {
+    // Assume a full revised document was provided
+    return database.update(idOrRevised)
   }
-  addToList(newAccount, accounts)
-  saveAccounts()
-  return newAccount
-}
-
-export const getAccount = (id) => {
-  const accounts = listAccounts()
-  return getAccountFrom(id, accounts)
-}
-
-const getAccountFrom = (id, list) => {
-  return list.find(item => item.id === id) || {}
-}
-
-export const listAccounts = () => {
-  return getListFromStorage(ACCOUNTS)
-}
-
-export const loadAccounts = () => {
-  accounts.set(getListFromStorage(ACCOUNTS))
-}
-
-const saveAccounts = () => saveToStorage(ACCOUNTS, get(accounts))
-
-export const updateAccount = (id, changes) => {
-  updateInList('id', id, changes, accounts)
-  saveAccounts()
+  // Legacy signature: fetch existing doc, merge changes, and update
+  const existing = await database.get(idOrRevised)
+  const revised = { ...existing, ...maybeChanges }
+  return database.update(revised)
 }
