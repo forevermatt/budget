@@ -9,9 +9,17 @@ import { faEdit, faListUl } from '@fortawesome/free-solid-svg-icons'
 
 export let params = {} // URL parameters provided by router
 
+let account = {}
+
 $: id = params.id || ''
-$: account = getAccount(id)
+$: loadAccount(id)
 $: transactions = getTransactionsForAccount(id)
+
+const loadAccount = async (accountId) => {
+  if (accountId) {
+    account = await getAccount(accountId) || {}
+  }
+}
 
 const renameAccount = () => {
   let name = prompt('Edit account name:', account.name)
