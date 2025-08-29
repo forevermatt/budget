@@ -7,8 +7,8 @@ import { onMount } from 'svelte'
 
 let accounts = []
 
-onMount(() => {
-  accounts = listAccounts()
+onMount(async () => {
+  accounts = await listAccounts()
 })
 </script>
 
