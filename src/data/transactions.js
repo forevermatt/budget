@@ -3,8 +3,10 @@ import { getListFromStorage, saveToStorage } from './storage'
 import { get, writable } from 'svelte/store'
 import { v4 as uuidv4 } from 'uuid'
 import { subtractAmountFromBudgetCategory } from './budget'
+import database from './database'
 
 const TRANSACTIONS = 'transactions'
+const ITEM_TYPE_PREFIX = 't'
 
 const transactions = writable([])
 export const transactionInProgress = writable({})
@@ -15,13 +17,13 @@ export const startNewPendingTransaction = transactionData => {
 }
 
 export const getTransactionsForAccount = accountId => {
-  return listTransactions().filter(transaction => {
+  return listTransactionsFromStorage().filter(transaction => {
     return transaction.accountId === accountId
   })
 }
 
 export const getTransactionsForCategory = categoryId => {
-  return listTransactions().filter(transaction => {
+  return listTransactionsFromStorage().filter(transaction => {
     const categoryAmounts = transaction.categoryAmounts || {}
     return categoryAmounts.hasOwnProperty(categoryId)
   })
@@ -31,7 +33,8 @@ export const getTransactionFrom = (id, list) => {
   return list.find(item => item.id === id) || {}
 }
 
-export const listTransactions = () => {
+// Legacy/localStorage-backed list kept for existing code paths
+export const listTransactionsFromStorage = () => {
   return getListFromStorage(TRANSACTIONS)
 }
 
@@ -66,4 +69,19 @@ export const updatePendingTransaction = (changes) => {
   const pendingTransaction = get(transactionInProgress)
   const updatedPendingTransaction = Object.assign({}, pendingTransaction, changes)
   transactionInProgress.set(updatedPendingTransaction)
+}
+
+// Database-backed CRUDL operations (like data/categories.js)
+export const addTransaction = async (values) => database.insert(ITEM_TYPE_PREFIX, values)
+
+export const deleteTransaction = async (id) => database.deleteItem(id)
+
+export const getTransaction = async (id) => database.get(id)
+
+export const listTransactions = async () => database.list(ITEM_TYPE_PREFIX)
+
+export const updateTransaction = async (id, changes) => {
+  const existing = await getTransaction(id)
+  const revised = { ...existing, ...changes }
+  return database.update(revised)
 }
