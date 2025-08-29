@@ -17,7 +17,7 @@ export const startNewPendingTransaction = transactionData => {
 }
 
 export const getTransactionsForAccount = accountId => {
-  return listTransactionsFromStorage().filter(transaction => {
+  return listTransactions().filter(transaction => {
     return transaction.accountId === accountId
   })
 }
