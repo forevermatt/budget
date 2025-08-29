@@ -3,7 +3,7 @@ import database from './database'
 const ITEM_TYPE_PREFIX = 'a'
 
 // Create a new account; returns the new document id (string) or null
-export const createAccount = async (name) => database.insert(ITEM_TYPE_PREFIX, { name })
+export const addAccount = async (name) => database.insert(ITEM_TYPE_PREFIX, { name })
 
 // Delete an account by id
 export const deleteAccount = async (id) => database.deleteItem(id)

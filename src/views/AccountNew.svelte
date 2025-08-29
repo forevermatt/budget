@@ -2,7 +2,7 @@
 import Button from '../components/Button.svelte'
 import ButtonRow from '../components/ButtonRow.svelte'
 import Form from '../components/Form.svelte'
-import { createAccount } from '../data/accounts'
+import { addAccount } from '../data/accounts'
 import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons'
 import { push } from 'svelte-spa-router'
 
@@ -10,7 +10,7 @@ let name = ''
 let inputElement = {}
 
 function onSubmit() {
-  createAccount(name)
+  addAccount(name)
   push(`/accounts`)
 }
 </script>
