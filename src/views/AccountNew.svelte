@@ -9,8 +9,8 @@ import { push } from 'svelte-spa-router'
 let name = ''
 let inputElement = {}
 
-function onSubmit() {
-  addAccount(name)
+const onSubmit = async () => {
+  await addAccount(name)
   push(`/accounts`)
 }
 </script>
