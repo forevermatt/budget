@@ -18,8 +18,8 @@ function setCategory(event) {
   push(`/expense/review/`)
 }
 
-onMount(() => {
-  categories = listCategories()
+onMount(async () => {
+  categories = await listCategories()
 })
 </script>
 
