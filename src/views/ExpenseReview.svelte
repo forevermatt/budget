@@ -23,8 +23,8 @@ const loadAccount = async (accountId) => {
   }
 }
 
-function onDone() {
-  savePendingTransaction()
+const onDone = async () => {
+  await savePendingTransaction()
   push(`/budget`)
 }
 
