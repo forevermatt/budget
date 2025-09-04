@@ -16,8 +16,8 @@ function setAccount(event) {
   push(`/expense/amount/`)
 }
 
-onMount(() => {
-  accounts = listAccounts()
+onMount(async () => {
+  accounts = await listAccounts()
 })
 </script>
 
