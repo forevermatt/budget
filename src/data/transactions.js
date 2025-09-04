@@ -42,12 +42,9 @@ export const loadTransactions = () => {
   transactions.set(getListFromStorage(TRANSACTIONS))
 }
 
-export const savePendingTransaction = () => {
+export const savePendingTransaction = async () => {
   const transaction = get(transactionInProgress)
-  transaction.id = uuidv4()
-
-  addToList(transaction, transactions)
-  saveTransactions()
+  await addTransaction(transaction)
 
   const categoryAmounts = transaction.categoryAmounts || {}
   for (const categoryId in categoryAmounts) {
