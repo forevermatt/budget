@@ -9,11 +9,19 @@ import { formatDateISO8601 } from "../helpers/dates";
 import { formatAmount } from "../helpers/numbers";
 import { push } from 'svelte-spa-router'
 
+let account = {}
+
 $: transaction = $transactionInProgress
 $: transactionNote = transaction.note || ''
-$: account = getAccount(transaction.accountId)
+$: loadAccount(transaction.accountId)
 $: accountName = account.name || ''
 $: amountTotal = transaction.amountTotal || 0
+
+const loadAccount = async (accountId) => {
+  if (accountId) {
+    account = await getAccount(accountId)
+  }
+}
 
 function onDone() {
   savePendingTransaction()
