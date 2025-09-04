@@ -14,9 +14,9 @@ onMount(async () => {
 
 <h2>Accounts</h2>
 
-{#each accounts as { name, id }}
+{#each accounts as { name, _id }}
   <p>
-    <a href="#/account/{ id }" class="btn btn-outline-secondary">{ name }</a>
+    <a href="#/account/{ _id }" class="btn btn-outline-secondary">{ name }</a>
   </p>
 {/each}
 

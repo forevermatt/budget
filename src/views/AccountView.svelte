@@ -10,14 +10,21 @@ import { faEdit, faListUl } from '@fortawesome/free-solid-svg-icons'
 export let params = {} // URL parameters provided by router
 
 let account = {}
+let transactions = []
 
 $: id = params.id || ''
 $: loadAccount(id)
-$: transactions = getTransactionsForAccount(id)
+$: loadTransactions(id)
 
 const loadAccount = async (accountId) => {
   if (accountId) {
     account = await getAccount(accountId) || {}
+  }
+}
+
+const loadTransactions = async (accountId) => {
+  if (accountId) {
+    transactions = await getTransactionsForAccount(accountId)
   }
 }
 

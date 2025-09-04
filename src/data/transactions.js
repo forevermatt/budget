@@ -16,8 +16,9 @@ export const startNewPendingTransaction = transactionData => {
   transactionInProgress.set(transaction)
 }
 
-export const getTransactionsForAccount = accountId => {
-  return listTransactions().filter(transaction => {
+export const getTransactionsForAccount = async (accountId) => {
+  const transactions = await listTransactions()
+  return transactions.filter(transaction => {
     return transaction.accountId === accountId
   })
 }
