@@ -32,6 +32,7 @@ const renameAccount = async () => {
   let name = prompt('Edit account name:', account.name)
   if (name != null) {
     await updateAccount(id, {name})
+    await loadAccount(id)
   }
 }
 </script>
