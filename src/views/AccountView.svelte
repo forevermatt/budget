@@ -28,10 +28,10 @@ const loadTransactions = async (accountId) => {
   }
 }
 
-const renameAccount = () => {
+const renameAccount = async () => {
   let name = prompt('Edit account name:', account.name)
   if (name != null) {
-    updateAccount(id, {name})
+    await updateAccount(id, {name})
   }
 }
 </script>
