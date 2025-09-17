@@ -10,9 +10,9 @@ const recordWho = () => {
 }
 </script>
 
-{#each categories as category (category.uuid)}
+{#each categories as category (category._id)}
   <p>
-    <button class="btn btn-outline-secondary" on:click={() => dispatch('select', category.uuid)}>
+    <button class="btn btn-outline-secondary" on:click={() => dispatch('select', category._id)}>
       {category.name}
     </button>
   </p>

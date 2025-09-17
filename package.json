@@ -2,7 +2,8 @@
   "name": "budget",
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack",
-    "dev": "webpack-dev-server --host 0.0.0.0 --content-base ."
+    "dev": "webpack-dev-server --host 0.0.0.0 --content-base .",
+    "test:ui": "cucumber-js --require features/steps --require features/support"
   },
   "description": "A simple way to budget your money and reconcile your statements, built using Svelte.",
   "repository": {
@@ -16,12 +17,14 @@
   },
   "homepage": "https://github.com/forevermatt/budget#readme",
   "devDependencies": {
+    "@cucumber/cucumber": "^9.0.0",
     "@fortawesome/free-solid-svg-icons": "^5.15.4",
     "cross-env": "^5.2.0",
     "css-loader": "^2.1.1",
     "fa-svelte": "^3.1.0",
     "mini-css-extract-plugin": "^0.6.0",
     "pouchdb-browser": "^9.0.0",
+    "puppeteer": "^22.10.0",
     "serve": "^11.0.0",
     "style-loader": "^0.23.1",
     "svelte": "^3.48.0",

@@ -1,10 +1,14 @@
 <script>
 import CategoryGraph from './CategoryGraph.svelte'
-import { budget, sortBudgetByCategory } from '../data/budget'
-import { getCurrentYearMonthString } from '../helpers/dates'
+import { listCategories } from '../data/categories'
 import { dangerIfNegative, formatAmount, formatAmountAsWholeNumber } from '../helpers/numbers'
+import { onMount } from 'svelte'
 
-$: sortedBudget = sortBudgetByCategory($budget)
+let categories = []
+
+onMount(async () => {
+  categories = await listCategories()
+})
 </script>
 
 <style>
@@ -47,24 +51,22 @@ $: sortedBudget = sortBudgetByCategory($budget)
 
 <table class="category-list table table-sm">
   <tbody>
-    {#each sortedBudget as {budgeted, remaining, name, uuid, deleted} }
-      {#if !deleted}
-        <tr>
-          <td class="category-name width-10">
-            <a href="#/category/{ uuid }"
-               class="btn btn-outline-secondary">{ name }</a>
-          </td>
-          <td class="width-80">
-            <CategoryGraph {budgeted} {remaining} />
-          </td>
-          <td class="category-amount width-10">
-            <div class="category-available { dangerIfNegative(remaining) }">
-              <sup>$</sup>{ formatAmount(remaining) }
-            </div>
-            <div class="category-budgeted"><span>/ { formatAmountAsWholeNumber(budgeted) }</span></div>
-          </td>
-        </tr>
-      {/if}
+    {#each categories as {budgeted, remaining, name, _id} }
+      <tr>
+        <td class="category-name width-10">
+          <a href="#/category/{ _id }"
+             class="btn btn-outline-secondary">{ name }</a>
+        </td>
+        <td class="width-80">
+          <CategoryGraph {budgeted} {remaining} />
+        </td>
+        <td class="category-amount width-10">
+          <div class="category-available { dangerIfNegative(remaining) }">
+            <sup>$</sup>{ formatAmount(remaining) }
+          </div>
+          <div class="category-budgeted"><span>/ { formatAmountAsWholeNumber(budgeted) }</span></div>
+        </td>
+      </tr>
     {/each}
   </tbody>
 </table>

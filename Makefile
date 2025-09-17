@@ -22,6 +22,10 @@ list-deps:
 logs:
 	docker compose logs -f
 
+test:
+	#docker compose run --rm app bash -c "npm run test:ui"
+	npm run test:ui
+
 update:
 	docker compose run --rm app bash -c "npm update"
 	make list-deps
