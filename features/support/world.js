@@ -6,7 +6,8 @@ class CustomWorld {
     if (!this.browser) {
       this.browser = await puppeteer.launch({
         headless: 'new',
-        args: ['--no-sandbox', '--disable-setuid-sandbox'],
+        executablePath: '/usr/bin/chromium-browser',
+        args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage'],
       });
       this.page = await this.browser.newPage();
     }
