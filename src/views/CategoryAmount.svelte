@@ -2,7 +2,6 @@
 import AmountInput from '../components/AmountInput.svelte'
 import Button from '../components/Button.svelte'
 import ButtonRow from '../components/ButtonRow.svelte'
-import { setBudgetedForCategory } from '../data/budget'
 import { getCategory, updateCategory } from '../data/categories'
 import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons'
 import { push } from 'svelte-spa-router'
