@@ -33,7 +33,7 @@ export const savePendingTransaction = async () => {
   const categoryAmounts = transaction.categoryAmounts || {}
   for (const categoryId in categoryAmounts) {
     const categoryAmount = categoryAmounts[categoryId] || 0
-    subtractAmountFromBudgetCategory(categoryId, categoryAmount)
+    await subtractAmountFromBudgetCategory(categoryId, categoryAmount)
   }
 
   startNewPendingTransaction({})

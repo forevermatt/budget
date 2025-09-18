@@ -1,3 +1,4 @@
+import { getCategory, updateCategory } from './categories'
 import { updateInObject } from '../helpers/data-store-helpers'
 import { getMonthAfter, isInPast } from '../helpers/dates'
 import { getObjectFromStorage, saveToStorage } from './storage'
@@ -35,11 +36,11 @@ const refillBudgetCategory = categoryId => {
 
 const saveBudget = () => saveToStorage(BUDGET, get(budgetStore))
 
-export const subtractAmountFromBudgetCategory = (categoryId, amountToSubtract) => {
-  const budgetCategory = getBudgetDataFor(categoryId)
-  const oldRemaining = budgetCategory.remaining || 0
+export const subtractAmountFromBudgetCategory = async (categoryId, amountToSubtract) => {
+  const category = await getCategory(categoryId)
+  const oldRemaining = category.remaining || 0
   const newRemaining = oldRemaining - amountToSubtract
-  updateBudget(categoryId, { remaining: newRemaining })
+  await updateCategory(categoryId, { remaining: newRemaining })
 }
 
 export const updateBudget = (categoryId, changes) => {
