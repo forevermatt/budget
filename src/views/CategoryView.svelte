@@ -33,9 +33,8 @@ const loadTransactions = async (categoryId) => {
 const renameCategory = async () => {
   let name = prompt('Edit category name:', category.name)
   if (name != null) {
-    category.name = name
-    await updateCategory(category)
-    category = await getCategory(id)
+    await updateCategory(id, {name})
+    await loadCategory(id)
   }
 }
 
