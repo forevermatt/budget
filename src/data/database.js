@@ -20,6 +20,10 @@ const deleteItem = async (id) => {
 
 const get = async (id) => pouchDb.get(id)
 
+/**
+ * @param response
+ * @returns Array
+ */
 const getItemsFromResponse = (response) => {
   return response.rows.map(row => row.doc);
 }

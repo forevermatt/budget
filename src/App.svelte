@@ -10,7 +10,7 @@ onMount(async () => {
   // loadCategories()
   // loadBudget()
   // loadTransactions()
-  refillBudgetCategories()
+  await refillBudgetCategories()
 })
 </script>
 
