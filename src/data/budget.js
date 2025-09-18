@@ -1,7 +1,7 @@
 import { getCategory, updateCategory } from './categories'
 import { updateInObject } from '../helpers/data-store-helpers'
 import { getMonthAfter, isInPast } from '../helpers/dates'
-import { getObjectFromStorage, saveToStorage } from './storage'
+import { saveToStorage } from './storage'
 import { get, writable } from 'svelte/store'
 
 const BUDGET = 'budget'
@@ -14,10 +14,6 @@ export const getBudgetDataFor = categoryId => {
 }
 
 const isNotDeleted = category => !category.deleted
-
-export const loadBudget = () => {
-  budgetStore.set(getObjectFromStorage(BUDGET))
-}
 
 export const refillBudgetCategories = () => {
   const budget = get(budgetStore)
