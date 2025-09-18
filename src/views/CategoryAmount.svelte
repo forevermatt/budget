@@ -2,6 +2,7 @@
 import AmountInput from '../components/AmountInput.svelte'
 import Button from '../components/Button.svelte'
 import ButtonRow from '../components/ButtonRow.svelte'
+import { refillBudgetCategories } from '../data/budget'
 import { getCategory, updateCategory } from '../data/categories'
 import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons'
 import { push } from 'svelte-spa-router'
@@ -25,6 +26,10 @@ const onAmount = async () => {
   await updateCategory(id, {
     budgeted: resultingAmount,
   })
+  
+  // In case this is a new category, ensure it has been filled.
+  await refillBudgetCategories()
+
   push(`/budget`)
 }
 </script>
