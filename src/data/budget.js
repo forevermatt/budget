@@ -1,9 +1,5 @@
 import { getCategory, listCategories, updateCategory } from './categories'
 import { getCurrentYearMonthString, getMonthAfter, isInPast } from '../helpers/dates'
-import { writable } from 'svelte/store'
-
-const budgetStore = writable({})
-export {budgetStore as budget}
 
 const fillBudgetCategory = async (category) => {
   console.debug('Fill', category) // TEMP
