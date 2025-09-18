@@ -23,8 +23,9 @@ export const getTransactionsForAccount = async (accountId) => {
   })
 }
 
-export const getTransactionsForCategory = categoryId => {
-  return listTransactionsFromStorage().filter(transaction => {
+export const getTransactionsForCategory = async (categoryId) => {
+  const transactions = await listTransactions()
+  return transactions.filter(transaction => {
     const categoryAmounts = transaction.categoryAmounts || {}
     return categoryAmounts.hasOwnProperty(categoryId)
   })

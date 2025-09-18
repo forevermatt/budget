@@ -12,14 +12,21 @@ import { push } from 'svelte-spa-router'
 export let params = {} // URL parameters provided by router
 
 let category = {}
+let transactions = []
 
 $: id = params.id || ''
 $: loadCategory(id)
-$: transactions = getTransactionsForCategory(id)
+$: loadTransactions(id)
 
 const loadCategory = async (categoryId) => {
   if (categoryId) {
     category = await getCategory(categoryId) || {}
+  }
+}
+
+const loadTransactions = async (categoryId) => {
+  if (categoryId) {
+    transactions = await getTransactionsForCategory(categoryId)
   }
 }
 
