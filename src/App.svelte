@@ -1,7 +1,6 @@
 <script>
 import ErrorMessage from './components/ErrorMessage.svelte'
-import { loadBudget, refillBudgetCategories } from './data/budget'
-import { loadTransactions } from './data/transactions'
+import { refillBudgetCategories } from './data/budget'
 import { onMount } from 'svelte'
 import Router from 'svelte-spa-router'
 import routes from './views/routes'
@@ -9,8 +8,8 @@ import routes from './views/routes'
 onMount(async () => {
   // loadAccounts()
   // loadCategories()
-  loadBudget()
-  loadTransactions()
+  // loadBudget()
+  // loadTransactions()
   refillBudgetCategories()
 })
 </script>
