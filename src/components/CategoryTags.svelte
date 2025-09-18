@@ -1,6 +1,5 @@
 <script>
 import CategoryTag from '../components/CategoryTag.svelte'
-import { getCategory } from '../data/categories'
 
 export let transaction = {}
 
@@ -9,6 +8,6 @@ $: categoryIds = Object.keys(categoryAmounts)
 </script>
 
 {#each categoryIds as categoryId}
-  <CategoryTag name={getCategory(categoryId).name}
+  <CategoryTag {categoryId}
                amount={categoryAmounts[categoryId]} />
 {/each}
