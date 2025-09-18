@@ -2,7 +2,6 @@ import { getCategory, listCategories, updateCategory } from './categories'
 import { getCurrentYearMonthString, getMonthAfter, isInPast } from '../helpers/dates'
 
 const fillBudgetCategory = async (category) => {
-  console.debug('Fill', category) // TEMP
   let budgeted = category.budgeted || 0
   let remaining = category.remaining || 0
   remaining += budgeted
@@ -24,7 +23,6 @@ export const refillBudgetCategories = async () => {
 const refillBudgetCategory = async (category) => {
   let {budgeted, remaining, refilled} = category
   for (let i = 0; isInPast(refilled) && (i < 100); i++) {
-    console.debug('Refill', category) // TEMP
     remaining += budgeted
     refilled = getMonthAfter(refilled)
   }

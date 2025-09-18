@@ -6,10 +6,6 @@ import Router from 'svelte-spa-router'
 import routes from './views/routes'
 
 onMount(async () => {
-  // loadAccounts()
-  // loadCategories()
-  // loadBudget()
-  // loadTransactions()
   await refillBudgetCategories()
 })
 </script>
