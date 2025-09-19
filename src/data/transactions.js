@@ -1,12 +1,9 @@
-import { addToList, updateInList } from '../helpers/data-store-helpers'
-import { getListFromStorage, saveToStorage } from './storage'
 import { get, writable } from 'svelte/store'
-import { v4 as uuidv4 } from 'uuid'
 import { subtractAmountFromBudgetCategory } from './budget'
+import database from './database'
 
-const TRANSACTIONS = 'transactions'
+const ITEM_TYPE_PREFIX = 't'
 
-const transactions = writable([])
 export const transactionInProgress = writable({})
 
 export const startNewPendingTransaction = transactionData => {
@@ -14,56 +11,50 @@ export const startNewPendingTransaction = transactionData => {
   transactionInProgress.set(transaction)
 }
 
-export const getTransactionsForAccount = accountUuid => {
-  return listTransactions().filter(transaction => {
-    return transaction.accountUuid === accountUuid
+export const getTransactionsForAccount = async (accountId) => {
+  const transactions = await listTransactions()
+  return transactions.filter(transaction => {
+    return transaction.accountId === accountId
   })
 }
 
-export const getTransactionsForCategory = categoryUuid => {
-  return listTransactions().filter(transaction => {
+export const getTransactionsForCategory = async (categoryId) => {
+  const transactions = await listTransactions()
+  return transactions.filter(transaction => {
     const categoryAmounts = transaction.categoryAmounts || {}
-    return categoryAmounts.hasOwnProperty(categoryUuid)
+    return categoryAmounts.hasOwnProperty(categoryId)
   })
 }
 
-export const getTransactionFrom = (uuid, list) => {
-  return list.find(item => item.uuid === uuid) || {}
-}
-
-export const listTransactions = () => {
-  return getListFromStorage(TRANSACTIONS)
-}
-
-export const loadTransactions = () => {
-  transactions.set(getListFromStorage(TRANSACTIONS))
-}
-
-export const savePendingTransaction = () => {
+export const savePendingTransaction = async () => {
   const transaction = get(transactionInProgress)
-  transaction.uuid = uuidv4()
-
-  addToList(transaction, transactions)
-  saveTransactions()
+  await addTransaction(transaction)
 
   const categoryAmounts = transaction.categoryAmounts || {}
-  for (const categoryUuid in categoryAmounts) {
-    const categoryAmount = categoryAmounts[categoryUuid] || 0
-    subtractAmountFromBudgetCategory(categoryUuid, categoryAmount)
+  for (const categoryId in categoryAmounts) {
+    const categoryAmount = categoryAmounts[categoryId] || 0
+    await subtractAmountFromBudgetCategory(categoryId, categoryAmount)
   }
 
   startNewPendingTransaction({})
-}
-
-const saveTransactions = () => saveToStorage(TRANSACTIONS, get(transactions))
-
-export const updateCompletedTransaction = (uuid, changes) => {
-  updateInList('uuid', uuid, changes, transactions)
-  saveTransactions()
 }
 
 export const updatePendingTransaction = (changes) => {
   const pendingTransaction = get(transactionInProgress)
   const updatedPendingTransaction = Object.assign({}, pendingTransaction, changes)
   transactionInProgress.set(updatedPendingTransaction)
+}
+
+export const addTransaction = async (values) => database.insert(ITEM_TYPE_PREFIX, values)
+
+export const deleteTransaction = async (id) => database.deleteItem(id)
+
+export const getTransaction = async (id) => database.get(id)
+
+export const listTransactions = async () => database.list(ITEM_TYPE_PREFIX)
+
+export const updateTransaction = async (id, changes) => {
+  const existing = await getTransaction(id)
+  const revised = { ...existing, ...changes }
+  return database.update(revised)
 }

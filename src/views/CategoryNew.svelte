@@ -1,7 +1,7 @@
 <script>
 import Button from '../components/Button.svelte'
 import ButtonRow from '../components/ButtonRow.svelte'
-import { createCategory } from '../data/categories'
+import { addCategory } from '../data/categories'
 import { faTimes, faArrowRight } from '@fortawesome/free-solid-svg-icons'
 import { onMount } from 'svelte'
 import { push } from 'svelte-spa-router'
@@ -13,9 +13,9 @@ onMount(() => {
   element.focus()
 })
 
-function onSubmit() {
-  const newCategory = createCategory(name)
-  push(`/category/${newCategory.uuid}/amount`)
+const onSubmit = async () => {
+  const newCategoryId = await addCategory(name)
+  push(`/category/${newCategoryId}/amount`)
 }
 </script>
 

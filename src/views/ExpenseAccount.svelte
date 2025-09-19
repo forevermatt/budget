@@ -11,13 +11,13 @@ import { push } from 'svelte-spa-router'
 let accounts = []
 
 function setAccount(event) {
-  let accountUuid = event.detail
-  updatePendingTransaction({ accountUuid })
+  let accountId = event.detail
+  updatePendingTransaction({ accountId })
   push(`/expense/amount/`)
 }
 
-onMount(() => {
-  accounts = listAccounts()
+onMount(async () => {
+  accounts = await listAccounts()
 })
 </script>
 

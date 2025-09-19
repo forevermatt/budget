@@ -7,3 +7,11 @@ services:
       - ./:/app/
     working_dir: /app/
     command: "npm run dev"
+
+  db:
+    image: couchdb:3
+    environment:
+      COUCHDB_PASSWORD: 'password'
+      COUCHDB_USER: 'admin'
+    ports:
+      - "5984:5984"

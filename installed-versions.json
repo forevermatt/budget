@@ -1,9 +1,12 @@
 {
+  "@cucumber/cucumber": "9.6.0",
   "@fortawesome/free-solid-svg-icons": "5.15.4",
   "cross-env": "5.2.1",
   "css-loader": "2.1.1",
   "fa-svelte": "3.1.0",
   "mini-css-extract-plugin": "0.6.0",
+  "pouchdb-browser": "9.0.0",
+  "puppeteer": "22.15.0",
   "serve": "11.3.2",
   "style-loader": "0.23.1",
   "svelte-loader": "2.13.3",

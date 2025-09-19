@@ -1,99 +1,37 @@
-import { getCategory } from './categories'
-import { addToList, updateInObject } from '../helpers/data-store-helpers'
+import { getCategory, listCategories, updateCategory } from './categories'
 import { getCurrentYearMonthString, getMonthAfter, isInPast } from '../helpers/dates'
-import { getObjectFromStorage, saveToStorage } from './storage'
-import { get, writable } from 'svelte/store'
 
-const BUDGET = 'budget'
-
-const budgetStore = writable({})
-export {budgetStore as budget}
-
-const addCategoryToBudget = (categoryUuid, budgeted) => {
-  updateBudget(categoryUuid, {
-    budgeted: budgeted,
-    remaining: budgeted,
-    refilled: getCurrentYearMonthString()
-  })
+const fillBudgetCategory = async (category) => {
+  let budgeted = category.budgeted || 0
+  let remaining = category.remaining || 0
+  remaining += budgeted
+  let refilled = getCurrentYearMonthString()
+  await updateCategory(category._id, { remaining, refilled })
 }
 
-export const getBudgetDataFor = categoryUuid => {
-  return get(budgetStore)[categoryUuid] || {}
+export const refillBudgetCategories = async () => {
+  const categories = await listCategories()
+  await Promise.allSettled(categories.map(async (category) => {
+    if (category.refilled) {
+      await refillBudgetCategory(category)
+    } else {
+      await fillBudgetCategory(category)
+    }
+  }))
 }
 
-export const getBudgetedFor = categoryUuid => {
-  let budgetCategory = getBudgetDataFor(categoryUuid)
-  return budgetCategory.budgeted || 0
-}
-
-const isExistingCategory = uuid => get(budgetStore).hasOwnProperty(uuid)
-
-const isNotDeleted = category => !category.deleted
-
-export const loadBudget = () => {
-  budgetStore.set(getObjectFromStorage(BUDGET))
-}
-
-export const refillBudgetCategories = () => {
-  const budget = get(budgetStore)
-  const budgetCategoryUuids = Object.keys(budget)
-  budgetCategoryUuids.filter(isNotDeleted).forEach(refillBudgetCategory)
-}
-
-const refillBudgetCategory = categoryUuid => {
-  let {budgeted, remaining, refilled} = getBudgetDataFor(categoryUuid)
+const refillBudgetCategory = async (category) => {
+  let {budgeted, remaining, refilled} = category
   for (let i = 0; isInPast(refilled) && (i < 100); i++) {
     remaining += budgeted
     refilled = getMonthAfter(refilled)
   }
-  updateBudget(categoryUuid, { remaining, refilled })
+  await updateCategory(category._id, { remaining, refilled })
 }
 
-const saveBudget = () => saveToStorage(BUDGET, get(budgetStore))
-
-export const setBudgetedForCategory = (uuid, budgeted) => {
-  const budget = get(budgetStore)
-  if (isExistingCategory(uuid)) {
-    updateBudgetedForExistingCategory(uuid, budgeted)
-  } else {
-    addCategoryToBudget(uuid, budgeted)
-  }
-}
-
-export const sortBudgetByCategory = (budget) => {
-  let list = []
-  for (var uuid in budget) {
-    if (budget.hasOwnProperty(uuid)) {
-      let category = getCategory(uuid)
-      list.push({
-        budgeted: budget[uuid].budgeted,
-        remaining: budget[uuid].remaining,
-        name: category.name,
-        uuid: category.uuid,
-        deleted: category.deleted,
-      });
-    }
-  }
-  return list.sort((a, b) => (a.name || '').localeCompare(b.name || ''));
-}
-
-export const subtractAmountFromBudgetCategory = (categoryUuid, amountToSubtract) => {
-  const budgetCategory = getBudgetDataFor(categoryUuid)
-  const oldRemaining = budgetCategory.remaining || 0
+export const subtractAmountFromBudgetCategory = async (categoryId, amountToSubtract) => {
+  const category = await getCategory(categoryId)
+  const oldRemaining = category.remaining || 0
   const newRemaining = oldRemaining - amountToSubtract
-  updateBudget(categoryUuid, { remaining: newRemaining })
-}
-
-export const updateBudget = (categoryUuid, changes) => {
-  updateInObject(categoryUuid, changes, budgetStore)
-  saveBudget()
-}
-
-const updateBudgetedForExistingCategory = (categoryUuid, budgeted) => {
-  const budget = get(budgetStore)
-  let categoryAmounts = budget[categoryUuid]
-  let previousBudgeted = categoryAmounts.budgeted
-  let previousRemaining = categoryAmounts.remaining
-  let remaining = previousRemaining + (budgeted - previousBudgeted)
-  updateBudget(categoryUuid, {budgeted, remaining})
+  await updateCategory(categoryId, { remaining: newRemaining })
 }

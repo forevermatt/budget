@@ -1,5 +1,4 @@
 <script>
-import { getBudgetedFor } from '../data/budget'
 import { deleteCategory, getCategory, updateCategory } from '../data/categories'
 import { getTransactionsForCategory } from '../data/transactions'
 import { formatAmount } from '../helpers/numbers'
@@ -12,22 +11,37 @@ import { push } from 'svelte-spa-router'
 
 export let params = {} // URL parameters provided by router
 
-$: uuid = params.uuid || ''
-$: category = getCategory(uuid)
-$: transactions = getTransactionsForCategory(uuid)
+let category = {}
+let transactions = []
 
-const renameCategory = () => {
-  let name = prompt('Edit category name:', category.name)
-  if (name != null) {
-    updateCategory(uuid, {name})
-    category = getCategory(uuid)
+$: id = params.id || ''
+$: loadCategory(id)
+$: loadTransactions(id)
+
+const loadCategory = async (categoryId) => {
+  if (categoryId) {
+    category = await getCategory(categoryId) || {}
   }
 }
 
-const onDeleteCategory = () => {
+const loadTransactions = async (categoryId) => {
+  if (categoryId) {
+    transactions = await getTransactionsForCategory(categoryId)
+  }
+}
+
+const renameCategory = async () => {
+  let name = prompt('Edit category name:', category.name)
+  if (name != null) {
+    await updateCategory(id, {name})
+    await loadCategory(id)
+  }
+}
+
+const onDeleteCategory = async () => {
   let confirmed = confirm('Are you sure you want to delete ' + category.name + '?')
   if (confirmed) {
-    deleteCategory(uuid, {name})
+    await deleteCategory(id)
     push(`/budget/`)
   }
 }
@@ -38,8 +52,8 @@ const onDeleteCategory = () => {
   <button class="btn btn-link btn-lg" tabindex="0" on:click={renameCategory}>
     <Icon icon={faEdit} />
   </button>
-  <a class="btn btn-default float-right" href="#/category/{ uuid }/amount">
-    <sup>$</sup> { formatAmount(getBudgetedFor(uuid)) }
+  <a class="btn btn-default float-right" href="#/category/{ id }/amount">
+    <sup>$</sup> { formatAmount(category.budgeted) }
   </a>
 </h2>
 <hr class="small" />

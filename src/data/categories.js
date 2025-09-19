@@ -1,53 +1,17 @@
-import { addToList, updateInList } from '../helpers/data-store-helpers'
-import { getListFromStorage, saveToStorage } from './storage'
-import { get, writable } from 'svelte/store'
-import { v4 as uuidv4 } from 'uuid'
+import database from './database'
 
-const CATEGORIES = 'categories'
+const ITEM_TYPE_PREFIX = 'c'
 
-const categories = writable([])
+export const addCategory = async name => database.insert(ITEM_TYPE_PREFIX, { name })
 
-export const createCategory = name => {
-  const existingCategory = get(categories).find(c => c.name === name)
-  if (existingCategory) {
-    return existingCategory
-  } else {
-    const newCategory = {
-      uuid: uuidv4(),
-      name: name,
-    }
-    addToList(newCategory, categories)
-    saveCategories()
-    return newCategory
-  }
-}
+export const deleteCategory = (id) => database.deleteItem(id)
 
-export const deleteCategory = (uuid) => {
-  const changes = { deleted: true }
-  updateInList('uuid', uuid, changes, categories)
-  saveCategories()
-}
+export const getCategory = async id => database.get(id)
 
-export const getCategory = (uuid) => {
-  const categories = listCategories()
-  return getCategoryFrom(uuid, categories)
-}
+export const listCategories = async () => database.list(ITEM_TYPE_PREFIX)
 
-const getCategoryFrom = (uuid, list) => {
-  return list.find(item => item.uuid === uuid) || {}
-}
-
-export const listCategories = () => {
-  return getListFromStorage(CATEGORIES)
-}
-
-export const loadCategories = () => {
-  categories.set(getListFromStorage(CATEGORIES))
-}
-
-const saveCategories = () => saveToStorage(CATEGORIES, get(categories))
-
-export const updateCategory = (uuid, changes) => {
-  updateInList('uuid', uuid, changes, categories)
-  saveCategories()
+export const updateCategory = async (id, changes) => {
+  const existing = await getCategory(id)
+  const revised = { ...existing, ...changes }
+  return database.update(revised)
 }

@@ -11,15 +11,15 @@ import { push } from 'svelte-spa-router'
 let categories = []
 
 function setCategory(event) {
-  let categoryUuid = event.detail
+  let categoryId = event.detail
   let categoryAmounts = {}
-  categoryAmounts[categoryUuid] = $transactionInProgress.amountTotal
+  categoryAmounts[categoryId] = $transactionInProgress.amountTotal
   updatePendingTransaction({ categoryAmounts })
   push(`/expense/review/`)
 }
 
-onMount(() => {
-  categories = listCategories()
+onMount(async () => {
+  categories = await listCategories()
 })
 </script>
 
