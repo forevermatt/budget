@@ -5,15 +5,6 @@ const pouchDb = new PouchDB('budget')
 
 const deleteItem = async (id) => {
   const doc = await pouchDb.get(id);
-  if (doc.error && doc.status === 404) {
-    return
-  }
-  
-  if (doc.error) {
-    console.error(doc)
-    return
-  }
-  
   doc._deleted = true;
   await pouchDb.put(doc);
 }
