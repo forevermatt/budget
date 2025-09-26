@@ -1,5 +1,5 @@
 <script>
-import { errorMessage, clear } from '../data/errors'
+import { errorMessage, clearError } from '../data/errors'
 </script>
 
 <style>
@@ -10,7 +10,7 @@ import { errorMessage, clear } from '../data/errors'
 
 {#if $errorMessage}
   <div class="alert alert-danger keep-line-breaks" role="alert">
-    <button type="button" class="close" on:click={clear} aria-label="Close">
+    <button type="button" class="close" on:click={clearError} aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>
     {$errorMessage}

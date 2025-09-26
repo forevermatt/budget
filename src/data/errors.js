@@ -2,7 +2,7 @@ import { writable } from 'svelte/store'
 
 export const errorMessage = writable('')
 
-export const clear = () => errorMessage.set('')
+export const clearError = () => errorMessage.set('')
 
 window.onunhandledrejection = rejection => {
   let error = rejection.reason
