@@ -2,8 +2,9 @@
 import Icon from 'fa-svelte'
 
 export let icon // See README for URL to gallery of available icons.
-export let name
+export let name = ''
 export let left = false
+export let small = false
 export let url = ''
 </script>
 
@@ -36,9 +37,18 @@ a:hover .button-circle {
   text-align: center;
   width: 4rem;
 }
+
+.small .button-circle {
+  border-radius: 1.25rem;
+  font-size: 1rem;
+  height: 2rem;
+  line-height: 0.5rem;
+  padding: 0.5rem;
+  width: 2rem;
+}
 </style>
 
-<a id="button-{ name }" class="btn" class:float-left={left}
+<a id="button-{ name }" class="btn" class:float-left={left} class:small={small}
    href="{ url || 'javascript:void(0)' }" role="button" on:click>
   <span class="button-circle">
     {#if icon }
