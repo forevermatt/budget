@@ -1,7 +1,46 @@
 import PouchDB from 'pouchdb-browser'
 import { v4 as uuidv4 } from 'uuid'
 
-const pouchDb = new PouchDB('budget')
+// CouchDB server configuration (from docker-compose.yml)
+const COUCHDB_URL = 'http://localhost:5984'
+const COUCHDB_USER = 'admin'
+const COUCHDB_PASSWORD = 'password'
+
+// Get or set user ID for per-user database
+const getUserId = () => {
+  let userId = localStorage.getItem('budget-user-id')
+  if (!userId) {
+    userId = 'user-' + uuidv4()
+    localStorage.setItem('budget-user-id', userId)
+  }
+  return userId
+}
+
+// Create database name for the user
+const getDatabaseName = () => {
+  const userId = getUserId()
+  return `budget-${userId}`
+}
+
+// Initialize PouchDB with user-specific database
+const databaseName = getDatabaseName()
+const pouchDb = new PouchDB(databaseName)
+
+// Set up remote database and sync
+const remoteDb = new PouchDB(`${COUCHDB_URL}/${databaseName}`, {
+  auth: {
+    username: COUCHDB_USER,
+    password: COUCHDB_PASSWORD
+  }
+})
+
+// Set up bidirectional sync
+const sync = pouchDb.sync(remoteDb, {
+  live: true,
+  retry: true
+}).on('error', (err) => {
+  console.error('Sync error:', err)
+})
 
 const deleteItem = async (id) => {
   const doc = await pouchDb.get(id);
@@ -56,3 +95,6 @@ export default {
   list,
   update,
 }
+
+// Export additional utilities for user and sync management
+export { getUserId, getDatabaseName, sync }
