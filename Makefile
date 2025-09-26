@@ -10,6 +10,9 @@ clean:
 	docker compose kill
 	docker compose rm
 
+db:
+	docker compose up -d db
+
 dev:
 	docker compose up -d app
 
