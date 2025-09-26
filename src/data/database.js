@@ -3,6 +3,71 @@ import { v4 as uuidv4 } from 'uuid'
 
 const pouchDb = new PouchDB('budget')
 
+// Keep track of current sync so we can cancel/restart
+let currentSync = null
+let remoteDb = null
+
+// Helper: username -> hex (per CouchDB per-user db naming: userdb-<hex(username)>)
+const usernameToHex = (str) => {
+  const encoder = new TextEncoder()
+  const bytes = encoder.encode(str)
+  let hex = ''
+  for (let i = 0; i < bytes.length; i++) {
+    const h = bytes[i].toString(16).padStart(2, '0')
+    hex += h
+  }
+  return hex
+}
+
+const perUserDbName = (username) => `userdb-${usernameToHex(username)}`
+
+// Configure live sync to CouchDB per-user database
+const configureSync = async (server, username, password) => {
+  try {
+    // Basic defaults and cleanup
+    const trimmedServer = (server || 'http://localhost:5984').replace(/\/$/, '')
+    if (currentSync && typeof currentSync.cancel === 'function') {
+      currentSync.cancel()
+      currentSync = null
+    }
+
+    // Build remote DB URL
+    const dbName = perUserDbName(username)
+    const remoteUrl = `${trimmedServer}/${dbName}`
+
+    // Use custom fetch to set Basic Auth header without extra plugins
+    remoteDb = new PouchDB(remoteUrl, {
+      fetch: (url, opts = {}) => {
+        const options = { ...opts }
+        options.headers = new Headers(options.headers || {})
+        if (username && password) {
+          const token = btoa(`${username}:${password}`)
+          options.headers.set('Authorization', `Basic ${token}`)
+        }
+        return PouchDB.fetch(url, options)
+      },
+      skip_setup: false, // ensure the DB gets created if allowed by CouchDB
+    })
+
+    // Start bidirectional live sync with retry
+    currentSync = pouchDb.sync(remoteDb, { live: true, retry: true })
+
+    // Optional: attach basic logging for visibility
+    currentSync
+      .on('change', info => console.debug('Sync change', info))
+      .on('paused', err => err ? console.warn('Sync paused (error)', err) : console.debug('Sync paused'))
+      .on('active', () => console.debug('Sync active'))
+      .on('denied', err => console.error('Sync denied', err))
+      .on('complete', info => console.debug('Sync complete', info))
+      .on('error', err => console.error('Sync error', err))
+
+    return true
+  } catch (e) {
+    console.error('Failed to configure sync', e)
+    return false
+  }
+}
+
 const deleteItem = async (id) => {
   const doc = await pouchDb.get(id);
   doc._deleted = true;
@@ -50,6 +115,7 @@ const update = async (revisedItem) => {
 }
 
 export default {
+  configureSync,
   deleteItem,
   get,
   insert,

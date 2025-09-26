@@ -3,13 +3,20 @@ import Button from '../components/Button.svelte'
 import ButtonRow from '../components/ButtonRow.svelte'
 import Form from '../components/Form.svelte'
 import { faHome } from '@fortawesome/free-solid-svg-icons'
+import database from '../data/database'
 
-let server = ''
-let username = ''
-let password = ''
+let server = localStorage.getItem('sync.server') || 'http://localhost:5984'
+let username = localStorage.getItem('sync.username') || ''
+let password = localStorage.getItem('sync.password') || ''
 
 const onSyncFormSubmit = async () => {
-  console.log(server, username, password) // TEMP
+  // Persist settings
+  localStorage.setItem('sync.server', server)
+  localStorage.setItem('sync.username', username)
+  localStorage.setItem('sync.password', password)
+
+  // Start or restart sync
+  await database.configureSync(server, username, password)
 }
 </script>
 
