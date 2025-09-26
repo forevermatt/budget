@@ -4,6 +4,7 @@ import ButtonRow from '../components/ButtonRow.svelte'
 import Form from '../components/Form.svelte'
 import { faHome } from '@fortawesome/free-solid-svg-icons'
 import database from '../data/database'
+import { push } from 'svelte-spa-router'
 
 let server = localStorage.getItem('sync.server') || 'http://localhost:5984'
 let username = localStorage.getItem('sync.username') || ''
@@ -16,7 +17,10 @@ const onSyncFormSubmit = async () => {
   localStorage.setItem('sync.password', password)
 
   // Start or restart sync
-  await database.configureSync(server, username, password)
+  const succeeded = await database.configureSync(server, username, password)
+  if (succeeded) {
+    push(`/budget`)
+  }
 }
 </script>
 
