@@ -1,3 +1,4 @@
+import { clearError, setError } from './errors'
 import PouchDB from 'pouchdb-browser'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -55,11 +56,31 @@ const configureSync = async (server, username, password) => {
     // Optional: attach basic logging for visibility
     currentSync
       .on('change', info => console.debug('Sync change', info))
-      .on('paused', err => err ? console.warn('Sync paused (error)', err) : console.debug('Sync paused'))
+      .on('paused', err => {
+        if (err) {
+          console.warn('Sync paused (error)', err)
+          if (err.message) {
+            setError(err.message)
+          }
+        } else {
+          console.debug('Sync paused')
+          clearError()
+        }
+      })
       .on('active', () => console.debug('Sync active'))
-      .on('denied', err => console.error('Sync denied', err))
+      .on('denied', err => {
+        console.error('Sync denied', err)
+        if (err.message) {
+          setError(err.message)
+        }
+      })
       .on('complete', info => console.debug('Sync complete', info))
-      .on('error', err => console.error('Sync error', err))
+      .on('error', err => {
+        console.error('Sync error', err)
+        if (err.message) {
+          setError(err.message)
+        }
+      })
 
     return true
   } catch (e) {
