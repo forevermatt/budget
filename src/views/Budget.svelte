@@ -2,9 +2,18 @@
 import BudgetOverview from '../components/BudgetOverview.svelte'
 import Button from '../components/Button.svelte'
 import ButtonRow from '../components/ButtonRow.svelte'
-import { faListUl, faMinus } from '@fortawesome/free-solid-svg-icons'
+import { faCog, faListUl, faMinus } from '@fortawesome/free-solid-svg-icons'
 </script>
 
+<style>
+#settings-button-container {
+  float: right;
+}
+</style>
+
+<span id="settings-button-container">
+  <Button icon={faCog} small url="#/settings" />
+</span>
 <h2>Budget</h2>
 
 <BudgetOverview />
