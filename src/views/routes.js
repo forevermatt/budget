@@ -13,6 +13,7 @@ import ExpenseReview from './ExpenseReview.svelte'
 import ExpenseWho from './ExpenseWho.svelte'
 import Home from './Home.svelte'
 import NotFound from './NotFound.svelte'
+import Settings from './Settings.svelte'
 
 // Router docs at https://github.com/ItalyPaleAle/svelte-spa-router
 const routes = {
@@ -30,6 +31,7 @@ const routes = {
   '/expense/new': ExpenseNew,
   '/expense/review/': ExpenseReview,
   '/expense/who/': ExpenseWho,
+  '/settings': Settings,
   '*': NotFound,
 }
 

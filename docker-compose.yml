@@ -15,3 +15,5 @@ services:
       COUCHDB_USER: 'admin'
     ports:
       - "5984:5984"
+    volumes:
+      - ./db-config/couchdb/:/opt/couchdb/etc/local.d/
