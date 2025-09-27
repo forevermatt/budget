@@ -8,13 +8,13 @@ import { push } from 'svelte-spa-router'
 
 let server = localStorage.getItem('sync.server') || 'http://localhost:5984'
 let username = localStorage.getItem('sync.username') || ''
-let password = localStorage.getItem('sync.password') || ''
+let password = ''
 
 const onSyncFormSubmit = async () => {
   // Persist settings
   localStorage.setItem('sync.server', server)
   localStorage.setItem('sync.username', username)
-  localStorage.setItem('sync.password', password)
+  // Do NOT store password in localStorage
 
   // Start or restart sync
   const succeeded = await database.configureSync(server, username, password)
