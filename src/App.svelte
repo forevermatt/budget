@@ -11,13 +11,13 @@ onMount(async () => {
   await refillBudgetCategories()
   await checkLocalStorageForData()
 
-  // Attempt to start sync from saved settings (if present)
-  const server = localStorage.getItem('sync.server')
-  const username = localStorage.getItem('sync.username')
-  const password = localStorage.getItem('sync.password')
-  if (server && username && password) {
-    await database.configureSync(server, username, password)
-  }
+  // // Attempt to start sync from saved settings (if present)
+  // const server = localStorage.getItem('sync.server')
+  // const username = localStorage.getItem('sync.username')
+  // const password = localStorage.getItem('sync.password')
+  // if (server && username && password) {
+  //   await database.configureSync(server, username, password)
+  // }
 })
 </script>
 
