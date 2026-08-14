@@ -41,3 +41,25 @@ Then(
     await this.waitForRemainingShown(name, Number(dollars).toFixed(2));
   }
 );
+
+When('I go to the new account page', async function () {
+  await this.openApp('/account/new');
+  await this.page.waitForSelector('input[placeholder="New account name"]');
+});
+
+When('I name the account {string}', async function (name) {
+  await this.page.type('input[placeholder="New account name"]', name);
+  await this.clickNamedButton('done');
+  await this.waitForHeadingStartingWith('Accounts');
+});
+
+Then('the accounts list should show {string}', async function (name) {
+  await this.page.waitForFunction(
+    (n) =>
+      [...document.querySelectorAll('a[href^="#/account/"]')].some(
+        (a) => a.textContent.trim() === n
+      ),
+    {},
+    name
+  );
+});

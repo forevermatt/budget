@@ -15,3 +15,8 @@ Feature: Budget management
     And I name the category "Groceries"
     And I set its monthly amount to $500.00
     Then the budget overview should show "Groceries" with $500.00 remaining
+
+  Scenario: Create an account
+    When I go to the new account page
+    And I name the account "Checking"
+    Then the accounts list should show "Checking"
