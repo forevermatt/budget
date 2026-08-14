@@ -1,20 +1,16 @@
 const { Given, When, Then } = require('@cucumber/cucumber');
 const assert = require('assert');
 
-Given('the app is built and running', async function () {
-  // Launch browser for the test session
+Given('the app is running', async function () {
   await this.launch();
 });
 
 When('I go to the home page', async function () {
-  const baseUrl = 'http://localhost:5000';
-  await this.goto(baseUrl + '/#/');
+  await this.openApp('/');
 });
 
 Then('I should see a heading {string}', async function (expected) {
-  // The home route redirects to /budget where an <h2>Budget</h2> is rendered
-  // Wait for any router navigation/rendering
   await this.page.waitForSelector('h2');
-  const heading = await this.page.$eval('h2', el => el.textContent.trim());
+  const heading = await this.page.$eval('h2', (el) => el.textContent.trim());
   assert.strictEqual(heading, expected);
 });
