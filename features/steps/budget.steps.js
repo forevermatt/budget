@@ -154,3 +154,13 @@ When('I complete the review step', async function () {
   await this.clickNamedButton('done');
   await this.waitForHeadingStartingWith('Budget');
 });
+
+When('I open {string} from the budget overview', async function (name) {
+  await this.openApp('/budget');
+  await this.waitForHeadingStartingWith('Budget');
+  await this.clickByText('.category-name a', name);
+});
+
+Then('I should see the category view for {string}', async function (name) {
+  await this.waitForHeadingStartingWith(name);
+});

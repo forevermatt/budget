@@ -36,3 +36,8 @@ Feature: Budget management
     Given a budget category "Utilities" with $100.00 budgeted per month, $40.00 remaining, last refilled two months ago
     When I go to the home page
     Then the budget overview should show "Utilities" with $240.00 remaining
+
+  Scenario: View a category's details
+    Given a budget category "Groceries" with $500.00 budgeted and remaining
+    When I open "Groceries" from the budget overview
+    Then I should see the category view for "Groceries"
