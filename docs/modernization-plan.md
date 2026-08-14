@@ -48,6 +48,9 @@ Decisions made:
     covers the `:id` route pattern (exactly what a router swap could break).
 - [ ] Step-definition/World improvements those scenarios need (navigation
   helpers, the seeding helper).
+- Deferred (wanted later, not Phase 0 blockers): assert that a recorded
+  transaction appears on the applicable account detail view, and similarly
+  on the category detail view.
 - [ ] Replace the fixed 2-second server-start sleep in
   `features/support/hooks.js` with an actual readiness check (minor, but
   removes flakiness before we start leaning on the suite).
