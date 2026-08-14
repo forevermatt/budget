@@ -32,16 +32,16 @@ Decisions made:
 - [x] Verify `npm run test:ui` / `make test` passes as-is (baseline).
 - [x] Add a tiny test hook in `src/data/database.js` exposing the PouchDB
   instance (`window.__budgetDb`) so the seeding helper can insert docs.
-- [ ] Add scenarios:
+- [x] Add scenarios:
   - [x] Create a category with a budgeted amount; it appears in the budget
     overview with the right remaining balance.
   - [x] Create an account; it appears in the accounts list.
   - [x] Record an expense through the full multi-step flow
     (who → account → amount → category → review → save); the transaction is
     listed and the category's remaining balance decreases.
-  - [ ] Monthly refill: a seeded category whose `refilled` month is in the
+  - [x] Monthly refill: a seeded category whose `refilled` month is in the
     past gains `budgeted` per elapsed month on app load.
-  - [ ] Detail views: open a category and an account by id from their lists —
+  - [x] Detail views: open a category and an account by id from their lists —
     covers the `:id` route pattern (exactly what a router swap could break).
 - [x] Step-definition/World improvements those scenarios need (navigation
   helpers, the seeding helper).
@@ -82,10 +82,15 @@ Scenario: View an account's details
   Node 20.12+ on Windows requires `shell: true` to spawn `.cmd` files.
 
 Known app quirk found during Phase 0 (fix properly in Phase 1, not in
-tests): `refillBudgetCategories()` races the first render — `App.svelte`
-mounts the router immediately, so `BudgetOverview` can query categories
-before the refill finishes writing. The overview assertion helper in
-`world.js` tolerates this by retrying once after a reload.
+tests): `refillBudgetCategories()` races the first render, and loses
+deterministically — Svelte runs a child component's `onMount` before its
+parent's, so `BudgetOverview` (a child of `App`) always queries categories
+before `App`'s own `onMount` finishes `refillBudgetCategories()`. A single
+reload retry still loses the same way, since the reload just repeats the
+same mount order; the refill from the *previous* load has finished in the
+background by then, though, so a second reload's `BudgetOverview` fetch
+picks up the correct values. The overview assertion helper in `world.js`
+tolerates this by retrying with up to two reloads.
 
 Exit criteria: suite covers the flows above and passes reliably, twice in a
 row, before any migration work starts.
