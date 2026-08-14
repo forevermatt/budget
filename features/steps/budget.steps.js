@@ -1,5 +1,14 @@
 const { Given, When, Then } = require('@cucumber/cucumber');
 const assert = require('assert');
+const { randomUUID } = require('crypto');
+
+// Category refill months are "yyyy-mm" strings (see src/helpers/dates.js).
+const yearMonthMonthsAgo = (monthsAgo) => {
+  const now = new Date();
+  const then = new Date(now.getFullYear(), now.getMonth() - monthsAgo);
+  const month = String(then.getMonth() + 1).padStart(2, '0');
+  return `${then.getFullYear()}-${month}`;
+};
 
 Given('the app is running', async function () {
   await this.launch();
@@ -62,4 +71,57 @@ Then('the accounts list should show {string}', async function (name) {
     {},
     name
   );
+});
+
+Given(
+  /^a budget category "([^"]*)" with \$([0-9.]+) budgeted and remaining$/,
+  async function (name, dollars) {
+    const cents = dollarsToCents(dollars);
+    await this.seed({
+      _id: `c-${randomUUID()}`,
+      name,
+      budgeted: cents,
+      remaining: cents,
+      refilled: yearMonthMonthsAgo(0),
+    });
+  }
+);
+
+Given('an account named {string}', async function (name) {
+  await this.seed({ _id: `a-${randomUUID()}`, name });
+});
+
+When('I start a new expense', async function () {
+  await this.openApp('/expense/new');
+  await this.page.waitForSelector('#who');
+});
+
+When('I say it was paid to {string}', async function (who) {
+  await this.page.type('#who', who);
+  await this.clickNamedButton('next');
+  await this.waitForHeadingStartingWith('Paid using');
+});
+
+When('I choose the {string} account', async function (name) {
+  await this.clickByText('button.btn-outline-secondary', name);
+  await this.waitForHeadingStartingWith('Amount paid to');
+});
+
+When(/^I enter \$([0-9.]+) as the amount$/, async function (dollars) {
+  await this.typeIntoAmountInput(dollarsToCents(dollars));
+  await this.clickNamedButton('next');
+  await this.waitForHeadingStartingWith('Category');
+});
+
+When(
+  'I put the full amount in the {string} category',
+  async function (name) {
+    await this.clickByText('button.btn-outline-secondary', name);
+    await this.waitForHeadingStartingWith('Review Expense');
+  }
+);
+
+When('I complete the review step', async function () {
+  await this.clickNamedButton('done');
+  await this.waitForHeadingStartingWith('Budget');
 });

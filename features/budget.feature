@@ -20,3 +20,14 @@ Feature: Budget management
     When I go to the new account page
     And I name the account "Checking"
     Then the accounts list should show "Checking"
+
+  Scenario: Record an expense
+    Given a budget category "Groceries" with $500.00 budgeted and remaining
+    And an account named "Checking"
+    When I start a new expense
+    And I say it was paid to "Corner Store"
+    And I choose the "Checking" account
+    And I enter $12.34 as the amount
+    And I put the full amount in the "Groceries" category
+    And I complete the review step
+    Then the budget overview should show "Groceries" with $487.66 remaining
