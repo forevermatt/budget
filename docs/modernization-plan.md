@@ -32,28 +32,63 @@ Decisions made:
   who → account → amount → category → review (CLAUDE.md's description is
   stale).
 
-- [ ] Verify `npm run test:ui` / `make test` passes as-is (baseline).
-- [ ] Add a tiny test hook in `src/data/database.js` exposing the PouchDB
-  instance (e.g. `window.__budgetDb`) so the seeding helper can insert docs.
+- [x] Verify `npm run test:ui` / `make test` passes as-is (baseline).
+- [x] Add a tiny test hook in `src/data/database.js` exposing the PouchDB
+  instance (`window.__budgetDb`) so the seeding helper can insert docs.
 - [ ] Add scenarios:
-  - Create a category with a budgeted amount; it appears in the budget
+  - [x] Create a category with a budgeted amount; it appears in the budget
     overview with the right remaining balance.
-  - Create an account; it appears in the accounts list.
-  - Record an expense through the full multi-step flow
+  - [x] Create an account; it appears in the accounts list.
+  - [x] Record an expense through the full multi-step flow
     (who → account → amount → category → review → save); the transaction is
     listed and the category's remaining balance decreases.
-  - Monthly refill: a seeded category whose `refilled` month is in the past
-    gains `budgeted` per elapsed month on app load.
-  - Detail views: open a category and an account by id from their lists —
+  - [ ] Monthly refill: a seeded category whose `refilled` month is in the
+    past gains `budgeted` per elapsed month on app load.
+  - [ ] Detail views: open a category and an account by id from their lists —
     covers the `:id` route pattern (exactly what a router swap could break).
-- [ ] Step-definition/World improvements those scenarios need (navigation
+- [x] Step-definition/World improvements those scenarios need (navigation
   helpers, the seeding helper).
+
+### Approved wording for the remaining scenarios
+
+Matt has approved the following Gherkin verbatim. Append these scenarios to
+`features/budget.feature` **exactly as written** (any wording change needs
+Matt's approval first) and implement their step definitions following the
+patterns already in `features/steps/budget.steps.js` and
+`features/support/world.js`. Note: "last refilled two months ago" is
+deliberately relative — the step definition computes the actual year-month at
+runtime (see `yearMonthMonthsAgo`), so the test never goes stale. One
+scenario per commit, suite green before each commit.
+
+```gherkin
+Scenario: Monthly budget refill on app load
+  Given a budget category "Utilities" with $100.00 budgeted per month, $40.00 remaining, last refilled two months ago
+  When I go to the home page
+  Then the budget overview should show "Utilities" with $240.00 remaining
+
+Scenario: View a category's details
+  Given a budget category "Groceries" with $500.00 budgeted and remaining
+  When I open "Groceries" from the budget overview
+  Then I should see the category view for "Groceries"
+
+Scenario: View an account's details
+  Given an account named "Checking"
+  When I open "Checking" from the accounts list
+  Then I should see the account view for "Checking"
+```
 - Deferred (wanted later, not Phase 0 blockers): assert that a recorded
   transaction appears on the applicable account detail view, and similarly
   on the category detail view.
-- [ ] Replace the fixed 2-second server-start sleep in
+- [x] Replace the fixed 2-second server-start sleep in
   `features/support/hooks.js` with an actual readiness check (minor, but
-  removes flakiness before we start leaning on the suite).
+  removes flakiness before we start leaning on the suite). Also fixed:
+  Node 20.12+ on Windows requires `shell: true` to spawn `.cmd` files.
+
+Known app quirk found during Phase 0 (fix properly in Phase 1, not in
+tests): `refillBudgetCategories()` races the first render — `App.svelte`
+mounts the router immediately, so `BudgetOverview` can query categories
+before the refill finishes writing. The overview assertion helper in
+`world.js` tolerates this by retrying once after a reload.
 
 Exit criteria: suite covers the flows above and passes reliably, twice in a
 row, before any migration work starts.
