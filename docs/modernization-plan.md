@@ -28,9 +28,6 @@ Decisions made:
   requires a category with a past `refilled` month.
 - Each scenario gets a fresh Puppeteer browser (empty IndexedDB), so
   scenarios are isolated and each creates/seeds its own data.
-- Note: the actual expense flow order is
-  who → account → amount → category → review (CLAUDE.md's description is
-  stale).
 
 - [x] Verify `npm run test:ui` / `make test` passes as-is (baseline).
 - [x] Add a tiny test hook in `src/data/database.js` exposing the PouchDB
