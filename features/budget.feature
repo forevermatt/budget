@@ -9,3 +9,9 @@ Feature: Budget management
   Scenario: Visit the home page and see the Budget heading
     When I go to the home page
     Then I should see a heading "Budget"
+
+  Scenario: Create a budget category with a monthly amount
+    When I go to the new category page
+    And I name the category "Groceries"
+    And I set its monthly amount to $500.00
+    Then the budget overview should show "Groceries" with $500.00 remaining
