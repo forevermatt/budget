@@ -4,6 +4,11 @@ import { v4 as uuidv4 } from 'uuid'
 
 const pouchDb = new PouchDB('budget')
 
+// Test hook: lets the UI tests seed data directly (see features/support/).
+if (typeof window !== 'undefined') {
+  window.__budgetDb = pouchDb
+}
+
 // Keep track of current sync so we can cancel/restart
 let currentSync = null
 let remoteDb = null
