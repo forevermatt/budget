@@ -41,3 +41,8 @@ Feature: Budget management
     Given a budget category "Groceries" with $500.00 budgeted and remaining
     When I open "Groceries" from the budget overview
     Then I should see the category view for "Groceries"
+
+  Scenario: View an account's details
+    Given an account named "Checking"
+    When I open "Checking" from the accounts list
+    Then I should see the account view for "Checking"

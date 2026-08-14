@@ -164,3 +164,13 @@ When('I open {string} from the budget overview', async function (name) {
 Then('I should see the category view for {string}', async function (name) {
   await this.waitForHeadingStartingWith(name);
 });
+
+When('I open {string} from the accounts list', async function (name) {
+  await this.openApp('/accounts');
+  await this.waitForHeadingStartingWith('Accounts');
+  await this.clickByText('a[href^="#/account/"]', name);
+});
+
+Then('I should see the account view for {string}', async function (name) {
+  await this.waitForHeadingStartingWith(name);
+});
