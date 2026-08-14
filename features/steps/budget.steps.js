@@ -91,6 +91,35 @@ Given('an account named {string}', async function (name) {
   await this.seed({ _id: `a-${randomUUID()}`, name });
 });
 
+const monthsWordToNumber = {
+  one: 1,
+  two: 2,
+  three: 3,
+  four: 4,
+  five: 5,
+  six: 6,
+  seven: 7,
+  eight: 8,
+  nine: 9,
+  ten: 10,
+  eleven: 11,
+  twelve: 12,
+};
+
+Given(
+  /^a budget category "([^"]*)" with \$([0-9.]+) budgeted per month, \$([0-9.]+) remaining, last refilled (\w+) months? ago$/,
+  async function (name, budgetedDollars, remainingDollars, monthsAgoWord) {
+    const monthsAgo = monthsWordToNumber[monthsAgoWord] ?? Number(monthsAgoWord);
+    await this.seed({
+      _id: `c-${randomUUID()}`,
+      name,
+      budgeted: dollarsToCents(budgetedDollars),
+      remaining: dollarsToCents(remainingDollars),
+      refilled: yearMonthMonthsAgo(monthsAgo),
+    });
+  }
+);
+
 When('I start a new expense', async function () {
   await this.openApp('/expense/new');
   await this.page.waitForSelector('#who');

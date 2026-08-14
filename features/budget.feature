@@ -31,3 +31,8 @@ Feature: Budget management
     And I put the full amount in the "Groceries" category
     And I complete the review step
     Then the budget overview should show "Groceries" with $487.66 remaining
+
+  Scenario: Monthly budget refill on app load
+    Given a budget category "Utilities" with $100.00 budgeted per month, $40.00 remaining, last refilled two months ago
+    When I go to the home page
+    Then the budget overview should show "Utilities" with $240.00 remaining

@@ -126,10 +126,16 @@ class CustomWorld {
 
     if (await rowMatches()) return;
 
-    // The monthly refill runs concurrently with the first render, so the
-    // overview can momentarily show pre-refill values; one reload settles it.
-    await this.page.reload({ waitUntil: 'networkidle0' });
-    if (await rowMatches()) return;
+    // The monthly refill runs concurrently with the first render: Svelte
+    // mounts BudgetOverview (a child of App) before running App's onMount,
+    // so BudgetOverview's category fetch deterministically wins the race and
+    // reads pre-refill values on every load. The refill still finishes
+    // shortly after, in the background, so a second reload picks up what the
+    // first one's refill wrote. One reload is not enough; retry twice.
+    for (let i = 0; i < 2; i++) {
+      await this.page.reload({ waitUntil: 'networkidle0' });
+      if (await rowMatches()) return;
+    }
 
     const actual = await this.readRemainingShownFor(categoryName);
     throw new Error(
