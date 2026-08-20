@@ -31,6 +31,9 @@ Decisions made:
   requires a category with a past `refilled` month.
 - Each scenario gets a fresh Puppeteer browser (empty IndexedDB), so
   scenarios are isolated and each creates/seeds its own data.
+- Seeded refill months are expressed relatively ("last refilled two months
+  ago") and resolved at runtime by `yearMonthMonthsAgo` in the step
+  definitions, so the tests never go stale as real time passes.
 
 - [x] Verify `npm run test:ui` / `make test` passes as-is (baseline).
 - [x] Add a tiny test hook in `src/data/database.js` exposing the PouchDB
@@ -53,39 +56,18 @@ Decisions made:
     covers the `:id` route pattern (exactly what a router swap could break).
 - [x] Step-definition/World improvements those scenarios need (navigation
   helpers, the seeding helper).
-
-### Approved wording for the final three scenarios (implemented)
-
-Matt approved the following Gherkin verbatim, and it is now in
-`features/budget.feature` as written. Kept here as the record of that
-approval — any change to this wording still needs Matt's approval first.
-Note: "last refilled two months ago" is deliberately relative — the step
-definition computes the actual year-month at runtime (see
-`yearMonthMonthsAgo`), so the test never goes stale.
-
-```gherkin
-Scenario: Monthly budget refill on app load
-  Given a budget category "Utilities" with $100.00 budgeted per month, $40.00 remaining, last refilled two months ago
-  When I go to the home page
-  Then the budget overview should show "Utilities" with $240.00 remaining
-
-Scenario: View a category's details
-  Given a budget category "Groceries" with $500.00 budgeted and remaining
-  When I open "Groceries" from the budget overview
-  Then I should see the category view for "Groceries"
-
-Scenario: View an account's details
-  Given an account named "Checking"
-  When I open "Checking" from the accounts list
-  Then I should see the account view for "Checking"
-```
-- Deferred (wanted later, not Phase 0 blockers): assert that a recorded
-  transaction appears on the applicable account detail view, and similarly
-  on the category detail view.
 - [x] Replace the fixed 2-second server-start sleep in
   `features/support/hooks.js` with an actual readiness check (minor, but
   removes flakiness before we start leaning on the suite). Also fixed:
   Node 20.12+ on Windows requires `shell: true` to spawn `.cmd` files.
+
+The scenarios themselves live in `features/budget.feature`; that file is the
+single source of truth for their wording. Changing an existing scenario's
+wording needs Matt's approval first.
+
+Deferred (wanted later, not Phase 0 blockers): assert that a recorded
+transaction appears on the applicable account detail view, and similarly on
+the category detail view.
 
 Known app quirk found during Phase 0 (fix properly in Phase 1, not in
 tests): `refillBudgetCategories()` races the first render, and loses
