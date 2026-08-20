@@ -15,13 +15,15 @@ class CustomWorld {
   }
 
   async openApp(hashPath) {
-    const url = `${BASE_URL}/#${hashPath}`;
-    if (this.page.url() === url) {
-      // page.goto to the current URL (differing only by hash) would be a
-      // same-document navigation and would not remount the app.
+    // Changing only the hash is a same-document navigation, so page.goto on
+    // its own would leave the already-running app mounted. Every step that
+    // opens a path starts a flow there, so always load the app afresh.
+    const wasOnApp = this.page.url().startsWith(BASE_URL);
+    await this.page.goto(`${BASE_URL}/#${hashPath}`, {
+      waitUntil: 'networkidle0',
+    });
+    if (wasOnApp) {
       await this.page.reload({ waitUntil: 'networkidle0' });
-    } else {
-      await this.page.goto(url, { waitUntil: 'networkidle0' });
     }
   }
 
@@ -99,51 +101,34 @@ class CustomWorld {
 
   async waitForRemainingShown(categoryName, formattedDollars) {
     const expected = `$${formattedDollars}`;
-    const rowMatches = () =>
-      this.page
-        .waitForFunction(
-          (name, exp) => {
-            const rows = [...document.querySelectorAll('.category-list tr')];
-            return rows.some((row) => {
-              const link = row.querySelector('.category-name a');
-              return (
-                link &&
-                link.textContent.trim() === name &&
-                row
-                  .querySelector('.category-available')
-                  .textContent.replace(/\s+/g, '') === exp
-              );
-            });
-          },
-          { timeout: 5000 },
-          categoryName,
-          expected
-        )
-        .then(
-          () => true,
-          () => false
-        );
-
-    if (await rowMatches()) return;
-
-    // The monthly refill runs concurrently with the first render: Svelte
-    // mounts BudgetOverview (a child of App) before running App's onMount,
-    // so BudgetOverview's category fetch deterministically wins the race and
-    // reads pre-refill values on every load. The refill still finishes
-    // shortly after, in the background, so a second reload picks up what the
-    // first one's refill wrote. One reload is not enough; retry twice.
-    for (let i = 0; i < 2; i++) {
-      await this.page.reload({ waitUntil: 'networkidle0' });
-      if (await rowMatches()) return;
+    try {
+      await this.page.waitForFunction(
+        (name, exp) => {
+          const rows = [...document.querySelectorAll('.category-list tr')];
+          return rows.some((row) => {
+            const link = row.querySelector('.category-name a');
+            return (
+              link &&
+              link.textContent.trim() === name &&
+              row
+                .querySelector('.category-available')
+                .textContent.replace(/\s+/g, '') === exp
+            );
+          });
+        },
+        { timeout: 5000 },
+        categoryName,
+        expected
+      );
+    } catch (e) {
+      const actual = await this.readRemainingShownFor(categoryName);
+      throw new Error(
+        `Expected budget overview to show "${categoryName}" with ${expected} remaining, ` +
+          (actual === null
+            ? 'but that category is not shown'
+            : `but it shows ${actual}`)
+      );
     }
-
-    const actual = await this.readRemainingShownFor(categoryName);
-    throw new Error(
-      `Expected budget overview to show "${categoryName}" with ${expected} remaining, ` +
-        (actual === null
-          ? 'but that category is not shown'
-          : `but it shows ${actual}`)
-    );
   }
 
   async close() {
