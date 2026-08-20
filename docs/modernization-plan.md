@@ -15,9 +15,12 @@ Guiding constraints:
 
 ## Phase 0 — Build the safety net
 
-Current state: the suite is a single smoke test (the Budget heading renders).
-That is not enough coverage to migrate against, so this phase *adds* the
-scenarios that define "the app works".
+Starting state: the suite was a single smoke test (the Budget heading
+renders). That is not enough coverage to migrate against, so this phase
+*adds* the scenarios that define "the app works".
+
+**Status: complete.** All items below are done and the exit criteria are
+met; Phase 1 is clear to start.
 
 Decisions made:
 
@@ -32,6 +35,11 @@ Decisions made:
 - [x] Verify `npm run test:ui` / `make test` passes as-is (baseline).
 - [x] Add a tiny test hook in `src/data/database.js` exposing the PouchDB
   instance (`window.__budgetDb`) so the seeding helper can insert docs.
+  Gated to `localhost`/`127.0.0.1` so it is not exposed by the deployed
+  app. **Do not "improve" this into a build-time gate** (`NODE_ENV`, or
+  `import.meta.env.DEV` after the Vite move): the suite builds and serves
+  the *production* bundle, so a dev-only gate silently removes the hook
+  and every seeded scenario fails.
 - [x] Add scenarios:
   - [x] Create a category with a budgeted amount; it appears in the budget
     overview with the right remaining balance.
@@ -46,16 +54,14 @@ Decisions made:
 - [x] Step-definition/World improvements those scenarios need (navigation
   helpers, the seeding helper).
 
-### Approved wording for the remaining scenarios
+### Approved wording for the final three scenarios (implemented)
 
-Matt has approved the following Gherkin verbatim. Append these scenarios to
-`features/budget.feature` **exactly as written** (any wording change needs
-Matt's approval first) and implement their step definitions following the
-patterns already in `features/steps/budget.steps.js` and
-`features/support/world.js`. Note: "last refilled two months ago" is
-deliberately relative — the step definition computes the actual year-month at
-runtime (see `yearMonthMonthsAgo`), so the test never goes stale. One
-scenario per commit, suite green before each commit.
+Matt approved the following Gherkin verbatim, and it is now in
+`features/budget.feature` as written. Kept here as the record of that
+approval — any change to this wording still needs Matt's approval first.
+Note: "last refilled two months ago" is deliberately relative — the step
+definition computes the actual year-month at runtime (see
+`yearMonthMonthsAgo`), so the test never goes stale.
 
 ```gherkin
 Scenario: Monthly budget refill on app load
@@ -93,7 +99,8 @@ picks up the correct values. The overview assertion helper in `world.js`
 tolerates this by retrying with up to two reloads.
 
 Exit criteria: suite covers the flows above and passes reliably, twice in a
-row, before any migration work starts.
+row, before any migration work starts. **Met** — 7 scenarios / 34 steps,
+green on repeated consecutive runs.
 
 ## Phase 1 — Move to Vite + Svelte 5 in one hop
 
@@ -122,7 +129,8 @@ over largely unchanged.
 - [ ] Update Makefile / Docker bits (or see Phase 3 for shrinking them).
 
 Exit criteria: `npm run dev` and `npm run build` work; full Phase 0 suite
-passes against the Vite build; manual smoke test of sync setup screen.
+passes against the Vite build; manual smoke test of sync setup screen —
+reach it at `#/settings` directly, since its button is hidden (see Phase 5).
 
 ## Phase 2 — PWA
 
@@ -145,6 +153,15 @@ Exit criteria: installable on a phone and fully usable offline.
   gitignore build output; retire the committed `assets/` bundles and the
   pre-push rebuild hook. (Alternative: keep committing the build — point
   Vite's `outDir` at `assets/` and keep the hook.)
+
+  Motivation, found during Phase 0: the committed bundles had silently gone
+  **nine commits stale** — last rebuilt 2025-09-19 while `src/` kept changing
+  through 2025-09-27 — so the live site was serving older code than `main`,
+  and the whole sync/Settings feature had never actually been deployed. The
+  pre-push hook only catches this if it is installed, and it is opt-in. Until
+  this item is done, treat "did `assets/` get rebuilt?" as part of review.
+  Note also that any branch touching `src/` conflicts on `assets/bundle.js`;
+  resolve by rebuilding from the merged source, never by hand.
 - [ ] Shrink Docker to just the CouchDB container (only needed for local
   sync testing); dev/build/test run on local Node.
 
@@ -164,6 +181,12 @@ replication protocol is CouchDB's. Couchbase's sync layer (Sync Gateway /
 Capella App Services) dropped its CouchDB-compatible replication API in
 recent major versions, and Couchbase Lite has no browser edition. So
 "PouchDB syncs to Couchbase" must be proven, not assumed.
+
+The sync UI is written but unfinished, so its entry point is deliberately
+hidden: the gear button on the Budget view is commented out in
+`src/views/Budget.svelte`, leaving `#/settings` reachable only by typing the
+URL. Restore that button as part of finishing this phase — otherwise the
+feature ships invisible.
 
 - [ ] Spike: can a browser PWA sync with Capella App Services at all today?
   Investigate current Sync Gateway REST capabilities, any web client SDK,
