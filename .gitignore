@@ -1,5 +1,5 @@
+/dist/
 /node_modules/
-/assets/*.map
 
 .DS_Store
 nbproject/

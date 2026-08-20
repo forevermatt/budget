@@ -25,7 +25,7 @@ const waitForServer = async (url, timeoutMs) => {
 BeforeAll(async function () {
   const projectRoot = path.resolve(__dirname, '../..');
 
-  // Build the app. Node 20.12+ on Windows requires shell:true to spawn .cmd files.
+  // Build the app with Vite. Node 20.12+ on Windows requires shell:true to spawn .cmd files.
   await new Promise((resolve, reject) => {
     const proc = spawn(isWindows ? 'npm.cmd' : 'npm', ['run', 'build'], {
       cwd: projectRoot,
@@ -38,10 +38,10 @@ BeforeAll(async function () {
     });
   });
 
-  // Start static server on port 5000, invoking serve's JS entry point directly
-  // so no shell is involved and serverProc.kill() reliably stops it.
+  // Serve the built app (Vite's dist/) on port 5000, invoking serve's JS entry
+  // point directly so no shell is involved and serverProc.kill() reliably stops it.
   const serveJs = path.resolve(projectRoot, 'node_modules/serve/bin/serve.js');
-  serverProc = spawn(process.execPath, [serveJs, '-s', '-l', '5000', '.'], {
+  serverProc = spawn(process.execPath, [serveJs, '-s', '-l', '5000', 'dist'], {
     cwd: projectRoot,
     stdio: 'inherit',
   });
