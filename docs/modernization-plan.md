@@ -104,8 +104,10 @@ through 2025-09-27 — so the live site was serving older code than `main`, and
 the whole sync/Settings feature had never actually been deployed. The
 pre-push hook only caught that if it was installed, and it was opt-in.
 
-- [x] `.github/workflows/deploy.yml` builds on every push to `main` and
-  deploys `dist/` to GitHub Pages.
+- [x] `.github/workflows/ci.yml` runs the UI suite on every push and pull
+  request; on `main`, and only if that suite passed, it builds and deploys
+  `dist/` to GitHub Pages. The suite builds the app itself before serving it,
+  so a broken build fails the test job too.
 - [x] Build output gitignored; the committed `assets/` bundles and the
   opt-in pre-push rebuild hook are gone.
 - [ ] Set the repository's Pages source to "GitHub Actions" (Settings →

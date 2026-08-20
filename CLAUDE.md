@@ -49,7 +49,7 @@ There is no lint script configured. `.prettierrc` sets single quotes + bracket s
 
 **Data structure spec**: this app targets version 2.0.0 of the schema documented in a separate repo, `forevermatt/budget-data`. Keep document shapes compatible with that spec when changing what gets stored.
 
-**Build output**: Vite (`vite.config.mjs`) bundles `index.html` + `src/main.js` into `dist/`, which is gitignored — nothing built is committed. `.github/workflows/deploy.yml` builds on every push to `main` and publishes `dist/` to GitHub Pages at https://forevermatt.github.io/budget/. Two things in that config are load-bearing: `base: './'` (the app is served from a subpath on Pages but from the root by the test server, and relative asset URLs work for both), and the `events` alias, which points PouchDB's `EventEmitter` import at the npm package because Vite leaves Node builtins out of browser builds.
+**Build output**: Vite (`vite.config.mjs`) bundles `index.html` + `src/main.js` into `dist/`, which is gitignored — nothing built is committed. `.github/workflows/ci.yml` runs the UI suite on every push and pull request, and on `main` — only if that suite passed — builds and publishes `dist/` to GitHub Pages at https://forevermatt.github.io/budget/. Two things in that config are load-bearing: `base: './'` (the app is served from a subpath on Pages but from the root by the test server, and relative asset URLs work for both), and the `events` alias, which points PouchDB's `EventEmitter` import at the npm package because Vite leaves Node builtins out of browser builds.
 
 ## Dependency versions
 

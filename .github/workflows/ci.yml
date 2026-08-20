@@ -1,23 +1,32 @@
-name: Deploy to GitHub Pages
+name: CI
 
 on:
   push:
     branches:
       - main
+  pull_request:
   workflow_dispatch:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
-
-# Let a running deploy finish; queue at most one more behind it.
-concurrency:
-  group: pages
-  cancel-in-progress: false
 
 jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      # Builds the app and serves it before driving it with Puppeteer, so a
+      # broken build fails here too.
+      - run: npm run test:ui
+
   build:
+    needs: test
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -34,9 +43,16 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+    # Let a running deploy finish; queue at most one more behind it.
+    concurrency:
+      group: pages
+      cancel-in-progress: false
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
