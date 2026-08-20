@@ -4,6 +4,15 @@ import { v4 as uuidv4 } from 'uuid'
 
 const pouchDb = new PouchDB('budget')
 
+// Test hook: lets the UI tests seed data directly (see features/support/).
+// Gated to local hosts so it is never exposed by the deployed app. It cannot
+// be gated on NODE_ENV instead: the UI tests build and serve the production
+// bundle (see features/support/hooks.js), so the hook has to survive that.
+if (typeof window !== 'undefined' &&
+    ['localhost', '127.0.0.1'].includes(window.location.hostname)) {
+  window.__budgetDb = pouchDb
+}
+
 // Keep track of current sync so we can cancel/restart
 let currentSync = null
 let remoteDb = null
