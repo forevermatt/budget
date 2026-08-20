@@ -6,7 +6,7 @@ import Button from '../components/Button.svelte'
 import ButtonRow from '../components/ButtonRow.svelte'
 import TransactionList from '../components/TransactionList.svelte'
 import { faEdit, faHome } from '@fortawesome/free-solid-svg-icons'
-import Icon from 'fa-svelte'
+import Icon from '../components/Icon.svelte'
 import { push } from 'svelte-spa-router'
 
 export let params = {} // URL parameters provided by router

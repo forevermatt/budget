@@ -4,7 +4,7 @@ import { getTransactionsForAccount } from '../data/transactions'
 import Button from '../components/Button.svelte'
 import ButtonRow from '../components/ButtonRow.svelte'
 import TransactionList from '../components/TransactionList.svelte'
-import Icon from 'fa-svelte'
+import Icon from '../components/Icon.svelte'
 import { faEdit, faListUl } from '@fortawesome/free-solid-svg-icons'
 
 export let params = {} // URL parameters provided by router
