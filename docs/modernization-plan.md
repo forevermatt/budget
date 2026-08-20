@@ -110,12 +110,18 @@ pre-push hook only caught that if it was installed, and it was opt-in.
   so a broken build fails the test job too.
 - [x] Build output gitignored; the committed `assets/` bundles and the
   opt-in pre-push rebuild hook are gone.
-- [ ] Set the repository's Pages source to "GitHub Actions" (Settings →
-  Pages). Nothing deploys until this is done — it is a repo setting, not
-  something that lives in the codebase.
+- [x] Set the repository's Pages source to "GitHub Actions" (Settings →
+  Pages). This is a repo setting, not something that lives in the codebase.
 
-Exit criteria: a push to `main` publishes the current source to
-https://forevermatt.github.io/budget/ with no manual build step.
+Noted while switching that setting over: the workflow's deploy job succeeds
+either way — the setting controls what Pages *serves*, not whether a
+deployment is accepted. So a green deploy job is not by itself proof the live
+site is serving what CI built.
+
+**Status: complete**, verified live on 2026-08-20. Exit criteria met: a push
+to `main` publishes the current source to https://forevermatt.github.io/budget/
+with no manual build step, and the `window.__budgetDb` test hook is correctly
+absent from the deployed origin.
 
 ## Phase 3 — Refill before the first render
 
@@ -142,17 +148,37 @@ PouchDB already keeps all data on-device; this phase adds offline delivery
 of the app shell.
 
 - [ ] Add `vite-plugin-pwa`: service worker precaching the built assets,
-  `registerType: 'autoUpdate'`.
+  `registerType: 'autoUpdate'`. Watch the interaction with `base: './'` —
+  a service worker's scope comes from the path it is served under, and the
+  plugin's docs assume an absolute `base`. If relative turns out to fight the
+  plugin, the fix is `base: '/budget/'` plus serving the UI tests' `dist/`
+  under a matching path, not abandoning the plugin.
 - [ ] Web app manifest: name, colors, icons (192/512 px, maskable, plus
-  Apple touch icon for iOS Add-to-Home-Screen).
+  Apple touch icon for iOS Add-to-Home-Screen). **Open question for Matt:**
+  the repo has no icon artwork at all, and no visual design to derive one
+  from — decide what the icon should be before this item can be finished.
 - [ ] Verify Lighthouse "installable" checks pass.
+- [ ] Keep the UI suite honest about the service worker. The suite serves
+  `dist/` from `http://localhost:5000`, which counts as a secure context, so
+  the worker will register during test runs. Each scenario gets a fresh
+  browser, but a worker that installs and starts serving cached assets
+  mid-scenario is a new source of flakiness to watch for.
 - [ ] Real-device test: install to home screen, enable airplane mode, record
-  an expense, relaunch, go back online.
+  an expense, relaunch, go back online. Test against the deployed site, not
+  the dev server over a LAN IP: `crypto.randomUUID()` (used for every
+  document id) only exists in a secure context, so plain http from a phone
+  would fail in a way the real app never will.
 
 Exit criteria: installable on a phone and fully usable offline.
 
 ## Phase 5 — Tooling cleanup (optional, recommended)
 
+- [ ] Verify the Docker dev/build path still works — it has not been
+  exercised since the Vite move (Docker Desktop was down during Phase 1).
+  The container now keeps its own `node_modules` in a named volume, because
+  Vite installs a native binary for whichever platform ran the install, so
+  `make install` needs one re-run to populate it. If this turns out to be
+  more friction than it is worth, do the item below instead of fixing it.
 - [ ] Shrink Docker to just the CouchDB container (only needed for local
   sync testing); dev/build/test run on local Node.
 - [ ] Bump node:20 to node:22 in the Dockerfile and the deploy workflow.
