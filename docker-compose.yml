@@ -5,6 +5,10 @@ services:
       - "8080:8080"
     volumes:
       - ./:/app/
+      # Vite installs a native binary for the platform it was installed on, so
+      # the container cannot share the host's node_modules. It keeps its own,
+      # populated by `make install`.
+      - node_modules:/app/node_modules
     working_dir: /app/
     command: "npm run dev"
 
@@ -17,3 +21,6 @@ services:
       - "5984:5984"
     volumes:
       - ./db-config/couchdb/:/opt/couchdb/etc/local.d/
+
+volumes:
+  node_modules:

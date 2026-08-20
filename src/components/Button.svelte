@@ -1,5 +1,5 @@
 <script>
-import Icon from 'fa-svelte'
+import Icon from './Icon.svelte'
 
 export let icon // See README for URL to gallery of available icons.
 export let name = ''

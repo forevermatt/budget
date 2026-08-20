@@ -1,6 +1,5 @@
 import { clearError, setError } from './errors'
 import PouchDB from 'pouchdb-browser'
-import { v4 as uuidv4 } from 'uuid'
 
 const pouchDb = new PouchDB('budget')
 
@@ -116,7 +115,7 @@ const getItemsFromResponse = (response) => {
 
 const insert = async (itemTypePrefix, values) => {
   const response = await pouchDb.put({
-    _id: itemTypePrefix + '-' + uuidv4(),
+    _id: itemTypePrefix + '-' + crypto.randomUUID(),
     ...values,
   });
   

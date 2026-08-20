@@ -1,19 +1,12 @@
 {
   "@cucumber/cucumber": "9.6.0",
   "@fortawesome/free-solid-svg-icons": "5.15.4",
-  "cross-env": "5.2.1",
-  "css-loader": "2.1.1",
-  "fa-svelte": "3.1.0",
-  "mini-css-extract-plugin": "0.6.0",
+  "@sveltejs/vite-plugin-svelte": "7.3.0",
+  "events": "3.3.0",
   "pouchdb-browser": "9.0.0",
   "puppeteer": "22.15.0",
   "serve": "11.3.2",
-  "style-loader": "0.23.1",
-  "svelte-loader": "2.13.3",
-  "svelte-spa-router": "2.2.0",
-  "svelte": "3.59.2",
-  "uuid": "7.0.3",
-  "webpack-cli": "3.3.12",
-  "webpack-dev-server": "3.11.3",
-  "webpack": "4.47.0"
+  "svelte-spa-router": "5.1.1",
+  "svelte": "5.56.10",
+  "vite": "8.2.2"
 }
