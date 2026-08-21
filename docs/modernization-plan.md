@@ -147,27 +147,50 @@ test helper. **Met.**
 PouchDB already keeps all data on-device; this phase adds offline delivery
 of the app shell.
 
-- [ ] Add `vite-plugin-pwa`: service worker precaching the built assets,
-  `registerType: 'autoUpdate'`. Watch the interaction with `base: './'` —
-  a service worker's scope comes from the path it is served under, and the
-  plugin's docs assume an absolute `base`. If relative turns out to fight the
-  plugin, the fix is `base: '/budget/'` plus serving the UI tests' `dist/`
-  under a matching path, not abandoning the plugin.
-- [ ] Web app manifest: name, colors, icons (192/512 px, maskable, plus
-  Apple touch icon for iOS Add-to-Home-Screen). **Open question for Matt:**
-  the repo has no icon artwork at all, and no visual design to derive one
-  from — decide what the icon should be before this item can be finished.
-- [ ] Verify Lighthouse "installable" checks pass.
-- [ ] Keep the UI suite honest about the service worker. The suite serves
-  `dist/` from `http://localhost:5000`, which counts as a secure context, so
-  the worker will register during test runs. Each scenario gets a fresh
-  browser, but a worker that installs and starts serving cached assets
-  mid-scenario is a new source of flakiness to watch for.
+**Status: everything but the real-device test is done.** The suite is green
+and Chrome considers the app installable; what is left needs the branch
+deployed.
+
+- [x] Add `vite-plugin-pwa`: service worker precaching the built assets,
+  `registerType: 'autoUpdate'`. The relative `base` did not fight the plugin
+  after all — registration, the precache manifest and the navigation fallback
+  all come out as relative URLs, which resolve correctly both under the Pages
+  subpath and at the root of the test server. The `base: '/budget/'` fallback
+  this plan held in reserve was not needed. Worth knowing: `includeManifestIcons`
+  defaults on and, with icons already swept up by `globPatterns`, listed each
+  of them in the precache manifest twice.
+- [x] Web app manifest: name, colors, icons (192/512 px, maskable, plus Apple
+  touch icon for iOS Add-to-Home-Screen). The open question this item carried
+  is settled: Matt supplied artwork, and `img/logo.svg` is now the source of
+  record. `npm run icons` (`scripts/generate-icons.mjs`) rasterises every size
+  from it with Puppeteer, which the UI tests already depend on, so there is no
+  hand-maintained icon set and no new image tooling to install. The maskable
+  icon is made by shrinking only the artwork and leaving the SVG's gradient
+  background full-bleed, which keeps the bird inside the safe zone without
+  leaving a seam. iOS decides standalone launch from its own meta tags rather
+  than the manifest's display mode, so `index.html` carries those too.
+- [x] Verify the app is installable. Not with Lighthouse: version 12 removed
+  the PWA category outright, so the `installable-manifest` audit this plan
+  assumed no longer exists (confirmed against Lighthouse 13.4.1). Chrome's own
+  verdict is a better check anyway — it fires `beforeinstallprompt` only when
+  it judges an app installable, it does fire here, and it fires in headless,
+  so the suite can assert on it.
+- [x] Keep the UI suite honest about the service worker. It does register and
+  take control during test runs: the page is already controlled by the time
+  the first load settles. No flakiness appeared, across repeated full runs.
+  Rather than suppress the worker, two scenarios now depend on it, so it is
+  exercised rather than tolerated — and both were checked against a build with
+  the plugin removed to confirm they fail without it.
 - [ ] Real-device test: install to home screen, enable airplane mode, record
   an expense, relaunch, go back online. Test against the deployed site, not
   the dev server over a LAN IP: `crypto.randomUUID()` (used for every
   document id) only exists in a secure context, so plain http from a phone
-  would fail in a way the real app never will.
+  would fail in a way the real app never will. **Blocked until this branch
+  reaches `main`**, since Pages only publishes from there.
+
+Still to do beyond that: a scenario recording an expense with the network cut,
+which is the exit criterion in test form. It is drafted but waiting on wording
+Matt wants to change, so it is not in `features/budget.feature` yet.
 
 Exit criteria: installable on a phone and fully usable offline.
 
