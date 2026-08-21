@@ -2,6 +2,7 @@
   "name": "budget",
   "scripts": {
     "build": "vite build",
+    "icons": "node scripts/generate-icons.mjs",
     "dev": "vite",
     "preview": "vite preview",
     "test:ui": "cucumber-js --require features/steps --require features/support"
