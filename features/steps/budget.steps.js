@@ -174,3 +174,26 @@ When('I open {string} from the accounts list', async function (name) {
 Then('I should see the account view for {string}', async function (name) {
   await this.waitForHeadingStartingWith(name);
 });
+
+Given('I have already visited the app once', async function () {
+  await this.openApp('/');
+  await this.waitForServiceWorkerControl();
+});
+
+When('I lose my network connection', async function () {
+  await this.page.setOfflineMode(true);
+});
+
+Then('the browser should consider the app installable', async function () {
+  try {
+    await this.page.waitForFunction(() => window.__installPromptFired, {
+      timeout: 10000,
+    });
+  } catch (e) {
+    throw new Error(
+      'The browser never offered to install the app. It only offers once the ' +
+        'manifest, an icon of at least 192px and an active service worker are ' +
+        'all in place, so one of those is missing or broken.'
+    );
+  }
+});
