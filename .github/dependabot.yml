@@ -8,6 +8,10 @@ updates:
     directory: '/'
     schedule:
       interval: monthly
+    # Don't adopt a release until it has been out long enough for a
+    # compromised one to be noticed and pulled.
+    cooldown:
+      default-days: 3
     groups:
       actions:
         patterns:
