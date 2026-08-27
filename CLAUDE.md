@@ -56,4 +56,6 @@ There is no lint script configured. `.prettierrc` sets single quotes + bracket s
 
 ## Dependency versions
 
+`npm audit` reports two moderate findings against `uuid@8.3.2`, reached only through `pouchdb-browser`, which is already at its latest release — npm's suggested "fix" is a downgrade to pouchdb-browser 6.x. The advisory covers uuid v3/v5/v6 when a `buf` argument is passed, and PouchDB only calls `uuid.v4()`, so it is not reachable here. Left in place deliberately; don't re-investigate.
+
 `installed-versions.json` is a generated snapshot (via `make list-deps`) of exact resolved versions from `package-lock.json`, used to track what's actually installed vs. the semver ranges in `package.json`. Regenerate it with `make update` or `make list-deps` after changing dependencies — don't hand-edit it.
