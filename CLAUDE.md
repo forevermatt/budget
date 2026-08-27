@@ -8,10 +8,10 @@ A budget-tracking web app (categories, accounts, transactions) built with Svelte
 
 ## Commands
 
-All commands normally run inside Docker via `make` targets (see `Makefile`), but the underlying `npm` scripts work directly too if dependencies are installed locally. The container and the host each keep their own `node_modules` (a named volume in `docker-compose.yml`), because Vite installs a native binary for whichever platform installed it; run `make install` once to populate the container's copy, and `npm install` on the host for the copy the UI tests use.
+All commands normally run inside Docker via `make` targets (see `Makefile`), but the underlying `npm` scripts work directly too if dependencies are installed locally. The container and the host each keep their own `node_modules` (a named volume in `docker-compose.yml`), because Vite installs a native binary for whichever platform installed it; run `make install` once to populate the container's copy, and `npm install` on the host if you also want to run things there. `make install` also downloads Puppeteer's Chrome into a second named volume, since the base image has no browser and `--rm` would discard a per-run download.
 
 ```bash
-make install   # docker compose run --rm app bash -c "npm install"
+make install   # npm install + puppeteer browsers install chrome, in the container
 make dev       # starts the app container (Vite dev server) on port 8080
 make build     # production build -> writes to dist/ (gitignored)
 make test      # runs npm run test:ui (builds the app, serves it, runs Cucumber/Puppeteer UI tests)
