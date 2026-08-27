@@ -147,9 +147,7 @@ test helper. **Met.**
 PouchDB already keeps all data on-device; this phase adds offline delivery
 of the app shell.
 
-**Status: everything but the real-device test is done.** The suite is green
-and Chrome considers the app installable; what is left needs the branch
-deployed.
+**Status: complete**, verified on a real device on 2026-08-27.
 
 - [x] Add `vite-plugin-pwa`: service worker precaching the built assets,
   `registerType: 'autoUpdate'`. The relative `base` did not fight the plugin
@@ -183,25 +181,26 @@ deployed.
   plugin removed, to confirm it fails without it; and Puppeteer's offline mode
   was checked to confirm it really does cut the network, so that those
   scenarios cannot pass for want of anything to block.
-- [ ] Real-device test: install to home screen, enable airplane mode, record
-  an expense, relaunch, go back online. Test against the deployed site, not
-  the dev server over a LAN IP: `crypto.randomUUID()` (used for every
-  document id) only exists in a secure context, so plain http from a phone
-  would fail in a way the real app never will. **Blocked until this branch
-  reaches `main`**, since Pages only publishes from there.
+- [x] Real-device test: installed to the home screen, recorded an expense in
+  airplane mode, relaunched, went back online. Run against the deployed site
+  rather than the dev server over a LAN IP, because `crypto.randomUUID()`
+  (used for every document id) only exists in a secure context.
 
-Exit criteria: installable on a phone and fully usable offline.
+Exit criteria: installable on a phone and fully usable offline. **Met.**
 
 ## Phase 5 — Tooling cleanup (optional, recommended)
 
-- [ ] Verify the Docker dev/build path still works — it has not been
-  exercised since the Vite move (Docker Desktop was down during Phase 1).
-  The container now keeps its own `node_modules` in a named volume, because
-  Vite installs a native binary for whichever platform ran the install, so
-  `make install` needs one re-run to populate it. If this turns out to be
-  more friction than it is worth, do the item below instead of fixing it.
-- [ ] Shrink Docker to just the CouchDB container (only needed for local
-  sync testing); dev/build/test run on local Node.
+- [x] Verify the Docker dev/build path still works. It does, and `make test`
+  now runs the UI suite in the container again rather than on the host. Two
+  things were in the way: the `node:20` base image carries none of the shared
+  libraries Chrome needs to start, and a Chrome downloaded during a
+  `--rm` run is discarded with the container. Chrome therefore lives in a
+  named volume populated by `make install`, alongside `node_modules` and for
+  the same reason — that keeps it matched to the installed puppeteer, which
+  baking it into the image would not. Docker turned out to be less friction
+  than expected, so the item below is not needed.
+- [~] Shrink Docker to just the CouchDB container — the fallback if the above
+  had failed. It didn't, and Matt wants the isolation, so this is dropped.
 - [ ] Bump node:20 to node:22 in the Dockerfile and the deploy workflow.
   Node 20 is Vite's floor, not somewhere to settle.
 
