@@ -24,7 +24,7 @@
     "@sveltejs/vite-plugin-svelte": "^7.3.0",
     "events": "^3.3.0",
     "pouchdb-browser": "^9.0.0",
-    "puppeteer": "^22.10.0",
+    "puppeteer": "^25.9.0",
     "serve": "^14.2.6",
     "svelte": "^5.56.10",
     "svelte-spa-router": "^5.1.1",
