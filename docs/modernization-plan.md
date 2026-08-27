@@ -210,13 +210,33 @@ Exit criteria: installable on a phone and fully usable offline. **Met.**
   deprecation warning: that is about the runtime the actions themselves run
   on, and needs newer action majors, not a different `node-version`.
 
-## Phase 6 — Adopt Svelte 5 idioms (optional, no deadline)
+## Phase 6 — Harden the CI workflow
+
+The Node 24 bump in Phase 5 did not clear GitHub's Node 20 deprecation
+warning, and was never going to: `node-version` picks the Node our build and
+tests run on, while the warning is about the runtime the actions themselves
+declare in their own manifests. Only newer action majors fix that.
+
+- [ ] Bump `actions/checkout`, `actions/setup-node`,
+  `actions/upload-pages-artifact` and `actions/deploy-pages` to majors that
+  run on Node 24.
+- [ ] Pin each action to a commit SHA rather than a tag, with the version in
+  a trailing comment. A tag can be moved to point at different code; a SHA
+  cannot.
+- [ ] Add `.github/dependabot.yml` for the `github-actions` ecosystem. A SHA
+  pin does not move for security fixes either, so pinning without something
+  to refresh the pins trades one risk for another.
+
+Exit criteria: CI passes with every action pinned, and the Node 20
+deprecation warning is gone.
+
+## Phase 7 — Adopt Svelte 5 idioms (optional, no deadline)
 
 - [ ] `npx sv migrate svelte-5` (or convert by hand as files are touched):
   runes (`$state`, `$props`, `$derived`), event attribute syntax, etc.
   Pure modernization; can trail indefinitely.
 
-## Phase 7 — Cross-device sync via Couchbase (later, separate project)
+## Phase 8 — Cross-device sync via Couchbase (later, separate project)
 
 Decision: target **Couchbase** (Capella free tier) rather than
 self-administering CouchDB.
@@ -245,5 +265,10 @@ feature ships invisible.
 
 ## Sequencing
 
-Phases 0 → 1 → 2 → 4 are the critical path to "installable, offline-usable on
-a phone." Phases 5–7 are independent follow-ons.
+Phases 0 → 1 → 2 → 4 were the critical path to "installable, offline-usable
+on a phone," and are done. Phases 5–8 are independent follow-ons.
+
+Not yet scheduled, and to discuss before they become phases: a visual
+redesign, and whether to extract a clean storage interface before trying
+Couchbase — so that anyone building on this repo is not locked into whatever
+Phase 8 concludes.
