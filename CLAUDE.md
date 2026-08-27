@@ -8,7 +8,7 @@ A budget-tracking web app (categories, accounts, transactions) built with Svelte
 
 ## Commands
 
-All commands normally run inside Docker via `make` targets (see `Makefile`), but the underlying `npm` scripts work directly too if dependencies are installed locally. The container and the host each keep their own `node_modules` (a named volume in `docker-compose.yml`), because Vite installs a native binary for whichever platform installed it; run `make install` once to populate the container's copy, and `npm install` on the host if you also want to run things there. `make install` also downloads Puppeteer's Chrome into a second named volume, since the base image has no browser and `--rm` would discard a per-run download.
+All commands normally run inside Docker via `make` targets (see `Makefile`), but the underlying `npm` scripts work directly too if dependencies are installed locally and the host is on Node 22, 24 or 26 — Cucumber 13 refuses to start on anything else, so a host still on Node 20 can only run the suite via `make test`. The container and the host each keep their own `node_modules` (a named volume in `docker-compose.yml`), because Vite installs a native binary for whichever platform installed it; run `make install` once to populate the container's copy, and `npm install` on the host if you also want to run things there. `make install` also downloads Puppeteer's Chrome into a second named volume, since the base image has no browser and `--rm` would discard a per-run download.
 
 ```bash
 make install   # npm install + puppeteer browsers install chrome, in the container
