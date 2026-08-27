@@ -217,12 +217,18 @@ warning, and was never going to: `node-version` picks the Node our build and
 tests run on, while the warning is about the runtime the actions themselves
 declare in their own manifests. Only newer action majors fix that.
 
-- [ ] Bump `actions/checkout`, `actions/setup-node`,
-  `actions/upload-pages-artifact` and `actions/deploy-pages` to majors that
-  run on Node 24.
-- [ ] Pin each action to a commit SHA rather than a tag, with the version in
-  a trailing comment. A tag can be moved to point at different code; a SHA
-  cannot.
+- [x] Bump `actions/checkout` (v7.0.1), `actions/setup-node` (v7.0.0),
+  `actions/upload-pages-artifact` (v5.0.0) and `actions/deploy-pages` (v5.0.0)
+  to majors that run on Node 24. Verified at the pinned SHAs rather than
+  assumed: each declares `using: node24`, and `upload-pages-artifact` is a
+  composite whose only inner action, `actions/upload-artifact` v7.0.0, does
+  too.
+- [x] Pin each action to a commit SHA rather than a tag. A tag can be moved to
+  point at different code; a SHA cannot. The trailing comment names both the
+  SHA and its version (`# 3d3c42e = v7.0.1`) so it stays true, if outdated,
+  should the pin ever be updated without it. Tags resolve to full SHAs with
+  `git ls-remote https://github.com/actions/checkout refs/tags/v7.0.1`, which
+  needs no API access and no authentication.
 - [x] Add `.github/dependabot.yml` for the `github-actions` ecosystem,
   monthly and grouped. Note the trap: Dependabot raises **no** security alerts
   for SHA-pinned actions, only for ones using semantic versioning, so pinning
