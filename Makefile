@@ -17,7 +17,7 @@ dev:
 	docker compose up -d app
 
 install:
-	docker compose run --rm app bash -c "npm install"
+	docker compose run --rm app bash -c "npm install && npx puppeteer browsers install chrome"
 
 list-deps:
 	docker compose run --rm app bash -c "npm ls --package-lock-only --json | jq \".dependencies | map_values(.version)\" > installed-versions.json"
@@ -26,8 +26,7 @@ logs:
 	docker compose logs -f
 
 test:
-	#docker compose run --rm app bash -c "npm run test:ui"
-	npm run test:ui
+	docker compose run --rm app bash -c "npm run test:ui"
 
 update:
 	docker compose run --rm app bash -c "npm update"
