@@ -178,19 +178,17 @@ deployed.
 - [x] Keep the UI suite honest about the service worker. It does register and
   take control during test runs: the page is already controlled by the time
   the first load settles. No flakiness appeared, across repeated full runs.
-  Rather than suppress the worker, two scenarios now depend on it, so it is
-  exercised rather than tolerated — and both were checked against a build with
-  the plugin removed to confirm they fail without it.
+  Rather than suppress the worker, three scenarios now depend on it, so it is
+  exercised rather than tolerated. Each was checked against a build with the
+  plugin removed, to confirm it fails without it; and Puppeteer's offline mode
+  was checked to confirm it really does cut the network, so that those
+  scenarios cannot pass for want of anything to block.
 - [ ] Real-device test: install to home screen, enable airplane mode, record
   an expense, relaunch, go back online. Test against the deployed site, not
   the dev server over a LAN IP: `crypto.randomUUID()` (used for every
   document id) only exists in a secure context, so plain http from a phone
   would fail in a way the real app never will. **Blocked until this branch
   reaches `main`**, since Pages only publishes from there.
-
-Still to do beyond that: a scenario recording an expense with the network cut,
-which is the exit criterion in test form. It is drafted but waiting on wording
-Matt wants to change, so it is not in `features/budget.feature` yet.
 
 Exit criteria: installable on a phone and fully usable offline.
 
