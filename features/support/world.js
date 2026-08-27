@@ -7,7 +7,7 @@ class CustomWorld {
   async launch() {
     if (!this.browser) {
       this.browser = await puppeteer.launch({
-        headless: 'new',
+        headless: true,
         args: ['--no-sandbox', '--disable-setuid-sandbox'],
       });
       this.page = await this.browser.newPage();
@@ -30,16 +30,30 @@ class CustomWorld {
   // precaching, so by this point the app shell is on disk and the network can
   // be taken away.
   async waitForServiceWorkerControl() {
-    try {
-      await this.page.waitForFunction(
+    // Poll on a timer rather than waitForFunction's default animation frames,
+    // which Chrome throttles heavily on a page that is never visible.
+    const controlled = () =>
+      this.page.waitForFunction(
         () => navigator.serviceWorker.controller !== null,
-        { timeout: 15000 }
+        { timeout: 15000, polling: 100 }
       );
+
+    try {
+      await controlled();
     } catch (e) {
-      throw new Error(
-        'No service worker took control of the page within 15s, so there is ' +
-          'nothing to serve the app once the network goes away.'
-      );
+      // Activated is not the same as in charge: a worker takes over a page
+      // that was already open only once it claims clients, and whether that
+      // has happened yet is a race. A reload settles it, since an activated
+      // worker controls the page it serves.
+      await this.page.reload({ waitUntil: 'networkidle0' });
+      try {
+        await controlled();
+      } catch (e2) {
+        throw new Error(
+          'No service worker took control of the page, even after a reload, ' +
+            'so there is nothing to serve the app once the network goes away.'
+        );
+      }
     }
   }
 

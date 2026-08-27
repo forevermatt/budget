@@ -40,7 +40,10 @@ BeforeAll(async function () {
 
   // Serve the built app (Vite's dist/) on port 5000, invoking serve's JS entry
   // point directly so no shell is involved and serverProc.kill() reliably stops it.
-  const serveJs = path.resolve(projectRoot, 'node_modules/serve/bin/serve.js');
+  // Read the entry point from serve's own manifest rather than hard-coding it,
+  // since it moved in serve 14.
+  const servePkg = require('serve/package.json');
+  const serveJs = path.resolve(projectRoot, 'node_modules/serve', servePkg.bin.serve);
   serverProc = spawn(process.execPath, [serveJs, '-s', '-l', '5000', 'dist'], {
     cwd: projectRoot,
     stdio: 'inherit',

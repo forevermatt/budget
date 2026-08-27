@@ -8,7 +8,7 @@ A budget-tracking web app (categories, accounts, transactions) built with Svelte
 
 ## Commands
 
-All commands normally run inside Docker via `make` targets (see `Makefile`), but the underlying `npm` scripts work directly too if dependencies are installed locally. The container and the host each keep their own `node_modules` (a named volume in `docker-compose.yml`), because Vite installs a native binary for whichever platform installed it; run `make install` once to populate the container's copy, and `npm install` on the host if you also want to run things there. `make install` also downloads Puppeteer's Chrome into a second named volume, since the base image has no browser and `--rm` would discard a per-run download.
+All commands run inside Docker via `make` targets (see `Makefile`) — that is the default path, and the host is a fallback rather than an equal option. The underlying `npm` scripts do work directly if dependencies are installed locally and the host is on Node 22, 24 or 26, since Cucumber 13 refuses to start on anything else. The container and the host each keep their own `node_modules` (a named volume in `docker-compose.yml`), because Vite installs a native binary for whichever platform installed it; run `make install` once to populate the container's copy, and `npm install` on the host if you also want to run things there. `make install` also downloads Puppeteer's Chrome into a second named volume, since the base image has no browser and `--rm` would discard a per-run download.
 
 ```bash
 make install   # npm install + puppeteer browsers install chrome, in the container
@@ -55,5 +55,7 @@ There is no lint script configured. `.prettierrc` sets single quotes + bracket s
 **Build output**: Vite (`vite.config.mjs`) bundles `index.html` + `src/main.js` into `dist/`, which is gitignored — nothing built is committed. `.github/workflows/ci.yml` runs the UI suite on every push and pull request, and on `main` — only if that suite passed — builds and publishes `dist/` to GitHub Pages at https://forevermatt.github.io/budget/. Two things in that config are load-bearing: `base: './'` (the app is served from a subpath on Pages but from the root by the test server, and relative asset URLs work for both), and the `events` alias, which points PouchDB's `EventEmitter` import at the npm package because Vite leaves Node builtins out of browser builds.
 
 ## Dependency versions
+
+`npm audit` reports two moderate findings against `uuid@8.3.2`, reached only through `pouchdb-browser`, which is already at its latest release — npm's suggested "fix" is a downgrade to pouchdb-browser 6.x. The advisory covers uuid v3/v5/v6 when a `buf` argument is passed, and PouchDB only calls `uuid.v4()`, so it is not reachable here. Left in place deliberately; don't re-investigate.
 
 `installed-versions.json` is a generated snapshot (via `make list-deps`) of exact resolved versions from `package-lock.json`, used to track what's actually installed vs. the semver ranges in `package.json`. Regenerate it with `make update` or `make list-deps` after changing dependencies — don't hand-edit it.
