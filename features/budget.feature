@@ -46,3 +46,22 @@ Feature: Budget management
     Given an account named "Checking"
     When I open "Checking" from the accounts list
     Then I should see the account view for "Checking"
+
+  Scenario: Open the app with no network connection
+    Given a budget category "Groceries" with $500.00 budgeted and remaining
+    And I have already visited the app once
+    When I lose my network connection
+    And I go to the home page
+    Then the budget overview should show "Groceries" with $500.00 remaining
+
+  Scenario: Record an expense with no network connection
+    Given a budget category "Groceries" with $500.00 budgeted and remaining
+    And an account named "Checking"
+    And I have already visited the app once
+    When I lose my network connection
+    And I record a $12.34 "Groceries" expense at "Corner Store" from "Checking"
+    Then the budget overview should show "Groceries" with $487.66 remaining
+
+  Scenario: Offer the app for installation
+    When I go to the home page
+    Then the browser should consider the app installable

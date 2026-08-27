@@ -27,6 +27,7 @@ npm run build    # vite build
 npm run dev      # vite
 npm run preview  # vite preview (serves the built dist/)
 npm run test:ui  # cucumber-js --require features/steps --require features/support
+npm run icons    # regenerates public/'s PWA icons from img/logo.svg
 ```
 
 There is only one Cucumber feature file (`features/budget.feature`); there's no way to target a single scenario by name via an npm script — pass Cucumber's own `--name` flag to `cucumber-js` directly if needed. The test run rebuilds the app and serves it statically on port 5000 before Puppeteer drives it (see `features/support/hooks.js`).
@@ -48,6 +49,8 @@ There is no lint script configured. `.prettierrc` sets single quotes + bracket s
 **Routing (`src/views/routes.js`)** maps hash paths to top-level Svelte view components in `src/views/`; `App.svelte` mounts `<Router>` from `svelte-spa-router` plus the global `ErrorMessage`. Reusable presentational pieces live in `src/components/`, including `Icon.svelte`, which draws the SVG path data exported by `@fortawesome/free-solid-svg-icons` itself — there is deliberately no FontAwesome wrapper package.
 
 **Data structure spec**: this app targets version 2.0.0 of the schema documented in a separate repo, `forevermatt/budget-data`. Keep document shapes compatible with that spec when changing what gets stored.
+
+**PWA**: `vite-plugin-pwa` generates a service worker (`dist/sw.js`) that precaches the built assets, plus `dist/manifest.webmanifest`, so the app installs to a phone's home screen and runs offline — the data was always local to PouchDB, and this covers delivery of the app itself. Icons live in `public/` and are generated, not hand-made: `npm run icons` rasterises every size from `img/logo.svg` using Puppeteer, so edit the SVG and re-run rather than editing the PNGs. Note that the service worker registers during UI test runs too (`http://localhost:5000` is a secure context), and two scenarios depend on that — see the offline and installability scenarios in `features/budget.feature`.
 
 **Build output**: Vite (`vite.config.mjs`) bundles `index.html` + `src/main.js` into `dist/`, which is gitignored — nothing built is committed. `.github/workflows/ci.yml` runs the UI suite on every push and pull request, and on `main` — only if that suite passed — builds and publishes `dist/` to GitHub Pages at https://forevermatt.github.io/budget/. Two things in that config are load-bearing: `base: './'` (the app is served from a subpath on Pages but from the root by the test server, and relative asset URLs work for both), and the `events` alias, which points PouchDB's `EventEmitter` import at the npm package because Vite leaves Node builtins out of browser builds.
 

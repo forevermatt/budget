@@ -110,12 +110,18 @@ pre-push hook only caught that if it was installed, and it was opt-in.
   so a broken build fails the test job too.
 - [x] Build output gitignored; the committed `assets/` bundles and the
   opt-in pre-push rebuild hook are gone.
-- [ ] Set the repository's Pages source to "GitHub Actions" (Settings →
-  Pages). Nothing deploys until this is done — it is a repo setting, not
-  something that lives in the codebase.
+- [x] Set the repository's Pages source to "GitHub Actions" (Settings →
+  Pages). This is a repo setting, not something that lives in the codebase.
 
-Exit criteria: a push to `main` publishes the current source to
-https://forevermatt.github.io/budget/ with no manual build step.
+Noted while switching that setting over: the workflow's deploy job succeeds
+either way — the setting controls what Pages *serves*, not whether a
+deployment is accepted. So a green deploy job is not by itself proof the live
+site is serving what CI built.
+
+**Status: complete**, verified live on 2026-08-20. Exit criteria met: a push
+to `main` publishes the current source to https://forevermatt.github.io/budget/
+with no manual build step, and the `window.__budgetDb` test hook is correctly
+absent from the deployed origin.
 
 ## Phase 3 — Refill before the first render
 
@@ -141,18 +147,59 @@ test helper. **Met.**
 PouchDB already keeps all data on-device; this phase adds offline delivery
 of the app shell.
 
-- [ ] Add `vite-plugin-pwa`: service worker precaching the built assets,
-  `registerType: 'autoUpdate'`.
-- [ ] Web app manifest: name, colors, icons (192/512 px, maskable, plus
-  Apple touch icon for iOS Add-to-Home-Screen).
-- [ ] Verify Lighthouse "installable" checks pass.
+**Status: everything but the real-device test is done.** The suite is green
+and Chrome considers the app installable; what is left needs the branch
+deployed.
+
+- [x] Add `vite-plugin-pwa`: service worker precaching the built assets,
+  `registerType: 'autoUpdate'`. The relative `base` did not fight the plugin
+  after all — registration, the precache manifest and the navigation fallback
+  all come out as relative URLs, which resolve correctly both under the Pages
+  subpath and at the root of the test server. The `base: '/budget/'` fallback
+  this plan held in reserve was not needed. Worth knowing: `includeManifestIcons`
+  defaults on and, with icons already swept up by `globPatterns`, listed each
+  of them in the precache manifest twice.
+- [x] Web app manifest: name, colors, icons (192/512 px, maskable, plus Apple
+  touch icon for iOS Add-to-Home-Screen). The open question this item carried
+  is settled: Matt supplied artwork, and `img/logo.svg` is now the source of
+  record. `npm run icons` (`scripts/generate-icons.mjs`) rasterises every size
+  from it with Puppeteer, which the UI tests already depend on, so there is no
+  hand-maintained icon set and no new image tooling to install. The maskable
+  icon is made by shrinking only the artwork and leaving the SVG's gradient
+  background full-bleed, which keeps the bird inside the safe zone without
+  leaving a seam. iOS decides standalone launch from its own meta tags rather
+  than the manifest's display mode, so `index.html` carries those too.
+- [x] Verify the app is installable. Not with Lighthouse: version 12 removed
+  the PWA category outright, so the `installable-manifest` audit this plan
+  assumed no longer exists (confirmed against Lighthouse 13.4.1). Chrome's own
+  verdict is a better check anyway — it fires `beforeinstallprompt` only when
+  it judges an app installable, it does fire here, and it fires in headless,
+  so the suite can assert on it.
+- [x] Keep the UI suite honest about the service worker. It does register and
+  take control during test runs: the page is already controlled by the time
+  the first load settles. No flakiness appeared, across repeated full runs.
+  Rather than suppress the worker, three scenarios now depend on it, so it is
+  exercised rather than tolerated. Each was checked against a build with the
+  plugin removed, to confirm it fails without it; and Puppeteer's offline mode
+  was checked to confirm it really does cut the network, so that those
+  scenarios cannot pass for want of anything to block.
 - [ ] Real-device test: install to home screen, enable airplane mode, record
-  an expense, relaunch, go back online.
+  an expense, relaunch, go back online. Test against the deployed site, not
+  the dev server over a LAN IP: `crypto.randomUUID()` (used for every
+  document id) only exists in a secure context, so plain http from a phone
+  would fail in a way the real app never will. **Blocked until this branch
+  reaches `main`**, since Pages only publishes from there.
 
 Exit criteria: installable on a phone and fully usable offline.
 
 ## Phase 5 — Tooling cleanup (optional, recommended)
 
+- [ ] Verify the Docker dev/build path still works — it has not been
+  exercised since the Vite move (Docker Desktop was down during Phase 1).
+  The container now keeps its own `node_modules` in a named volume, because
+  Vite installs a native binary for whichever platform ran the install, so
+  `make install` needs one re-run to populate it. If this turns out to be
+  more friction than it is worth, do the item below instead of fixing it.
 - [ ] Shrink Docker to just the CouchDB container (only needed for local
   sync testing); dev/build/test run on local Node.
 - [ ] Bump node:20 to node:22 in the Dockerfile and the deploy workflow.

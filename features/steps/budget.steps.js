@@ -120,40 +120,79 @@ Given(
   }
 );
 
+// One function per screen of the expense flow, so the scenario that walks it
+// a step at a time and the one that records an expense in a single step drive
+// the app through exactly the same sequence.
+const startExpense = async (world) => {
+  await world.openApp('/expense/new');
+  await world.page.waitForSelector('#who');
+};
+
+const sayItWasPaidTo = async (world, who) => {
+  await world.page.type('#who', who);
+  await world.clickNamedButton('next');
+  await world.waitForHeadingStartingWith('Paid using');
+};
+
+const chooseAccount = async (world, name) => {
+  await world.clickByText('button.btn-outline-secondary', name);
+  await world.waitForHeadingStartingWith('Amount paid to');
+};
+
+const enterAmount = async (world, cents) => {
+  await world.typeIntoAmountInput(cents);
+  await world.clickNamedButton('next');
+  await world.waitForHeadingStartingWith('Category');
+};
+
+const putFullAmountInCategory = async (world, name) => {
+  await world.clickByText('button.btn-outline-secondary', name);
+  await world.waitForHeadingStartingWith('Review Expense');
+};
+
+const completeReview = async (world) => {
+  await world.clickNamedButton('done');
+  await world.waitForHeadingStartingWith('Budget');
+};
+
 When('I start a new expense', async function () {
-  await this.openApp('/expense/new');
-  await this.page.waitForSelector('#who');
+  await startExpense(this);
 });
 
 When('I say it was paid to {string}', async function (who) {
-  await this.page.type('#who', who);
-  await this.clickNamedButton('next');
-  await this.waitForHeadingStartingWith('Paid using');
+  await sayItWasPaidTo(this, who);
 });
 
 When('I choose the {string} account', async function (name) {
-  await this.clickByText('button.btn-outline-secondary', name);
-  await this.waitForHeadingStartingWith('Amount paid to');
+  await chooseAccount(this, name);
 });
 
 When(/^I enter \$([0-9.]+) as the amount$/, async function (dollars) {
-  await this.typeIntoAmountInput(dollarsToCents(dollars));
-  await this.clickNamedButton('next');
-  await this.waitForHeadingStartingWith('Category');
+  await enterAmount(this, dollarsToCents(dollars));
 });
 
 When(
   'I put the full amount in the {string} category',
   async function (name) {
-    await this.clickByText('button.btn-outline-secondary', name);
-    await this.waitForHeadingStartingWith('Review Expense');
+    await putFullAmountInCategory(this, name);
   }
 );
 
 When('I complete the review step', async function () {
-  await this.clickNamedButton('done');
-  await this.waitForHeadingStartingWith('Budget');
+  await completeReview(this);
 });
+
+When(
+  /^I record a \$([0-9.]+) "([^"]*)" expense at "([^"]*)" from "([^"]*)"$/,
+  async function (dollars, category, who, account) {
+    await startExpense(this);
+    await sayItWasPaidTo(this, who);
+    await chooseAccount(this, account);
+    await enterAmount(this, dollarsToCents(dollars));
+    await putFullAmountInCategory(this, category);
+    await completeReview(this);
+  }
+);
 
 When('I open {string} from the budget overview', async function (name) {
   await this.openApp('/budget');
@@ -173,4 +212,27 @@ When('I open {string} from the accounts list', async function (name) {
 
 Then('I should see the account view for {string}', async function (name) {
   await this.waitForHeadingStartingWith(name);
+});
+
+Given('I have already visited the app once', async function () {
+  await this.openApp('/');
+  await this.waitForServiceWorkerControl();
+});
+
+When('I lose my network connection', async function () {
+  await this.page.setOfflineMode(true);
+});
+
+Then('the browser should consider the app installable', async function () {
+  try {
+    await this.page.waitForFunction(() => window.__installPromptFired, {
+      timeout: 10000,
+    });
+  } catch (e) {
+    throw new Error(
+      'The browser never offered to install the app. It only offers once the ' +
+        'manifest, an icon of at least 192px and an active service worker are ' +
+        'all in place, so one of those is missing or broken.'
+    );
+  }
 });

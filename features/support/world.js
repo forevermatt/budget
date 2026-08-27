@@ -11,6 +11,35 @@ class CustomWorld {
         args: ['--no-sandbox', '--disable-setuid-sandbox'],
       });
       this.page = await this.browser.newPage();
+
+      // Chrome fires this once, early, on any page it judges installable, so
+      // the listener has to be in place before the first navigation rather
+      // than added by the step that asserts on it.
+      await this.page.evaluateOnNewDocument(() => {
+        window.__installPromptFired = false;
+        window.addEventListener('beforeinstallprompt', () => {
+          window.__installPromptFired = true;
+        });
+      });
+    }
+  }
+
+  // Resolves once the service worker is not just registered but activated and
+  // in charge of the page. A worker only becomes a client's controller after
+  // it activates, which happens after its install step has finished
+  // precaching, so by this point the app shell is on disk and the network can
+  // be taken away.
+  async waitForServiceWorkerControl() {
+    try {
+      await this.page.waitForFunction(
+        () => navigator.serviceWorker.controller !== null,
+        { timeout: 15000 }
+      );
+    } catch (e) {
+      throw new Error(
+        'No service worker took control of the page within 15s, so there is ' +
+          'nothing to serve the app once the network goes away.'
+      );
     }
   }
 
