@@ -1,5 +1,5 @@
 # Vite needs Node ^20.19 || >=22.12.
-FROM node:20
+FROM node:24
 
 # jq builds installed-versions.json. The rest are the shared libraries
 # Puppeteer's Chrome needs to start, which the base image does not carry.

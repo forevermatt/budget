@@ -190,6 +190,8 @@ Exit criteria: installable on a phone and fully usable offline. **Met.**
 
 ## Phase 5 — Tooling cleanup (optional, recommended)
 
+**Status: complete.**
+
 - [x] Verify the Docker dev/build path still works. It does, and `make test`
   now runs the UI suite in the container again rather than on the host. Two
   things were in the way: the `node:20` base image carries none of the shared
@@ -201,8 +203,12 @@ Exit criteria: installable on a phone and fully usable offline. **Met.**
   than expected, so the item below is not needed.
 - [~] Shrink Docker to just the CouchDB container — the fallback if the above
   had failed. It didn't, and Matt wants the isolation, so this is dropped.
-- [ ] Bump node:20 to node:22 in the Dockerfile and the deploy workflow.
-  Node 20 is Vite's floor, not somewhere to settle.
+- [x] Bump node:20 to node:24 in the Dockerfile and the deploy workflow —
+  24 rather than the 22 this item named, since 22 bought nothing once 24
+  proved green. node:24 is still Debian bookworm, so the Chrome library names
+  above did not change. Note this does **not** silence GitHub's Node 20
+  deprecation warning: that is about the runtime the actions themselves run
+  on, and needs newer action majors, not a different `node-version`.
 
 ## Phase 6 — Adopt Svelte 5 idioms (optional, no deadline)
 
