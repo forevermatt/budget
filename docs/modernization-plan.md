@@ -223,9 +223,13 @@ declare in their own manifests. Only newer action majors fix that.
 - [ ] Pin each action to a commit SHA rather than a tag, with the version in
   a trailing comment. A tag can be moved to point at different code; a SHA
   cannot.
-- [ ] Add `.github/dependabot.yml` for the `github-actions` ecosystem. A SHA
-  pin does not move for security fixes either, so pinning without something
-  to refresh the pins trades one risk for another.
+- [x] Add `.github/dependabot.yml` for the `github-actions` ecosystem,
+  monthly and grouped. Note the trap: Dependabot raises **no** security alerts
+  for SHA-pinned actions, only for ones using semantic versioning, so pinning
+  buys immutability at the cost of advisory alerting. Scheduled version
+  updates are therefore the only thing that refreshes a pin. Grouping keeps a
+  refresh to one PR, and monthly is plenty for four actions that publish a few
+  times a year.
 
 Exit criteria: CI passes with every action pinned, and the Node 20
 deprecation warning is gone.
