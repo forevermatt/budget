@@ -1,0 +1,18 @@
+# The workflow pins actions to commit SHAs, and Dependabot raises no security
+# alerts for SHA-pinned actions — only for ones using semantic versioning. So
+# scheduled version updates are the only thing that keeps those pins fresh.
+# Grouped, so a refresh is one pull request rather than one per action.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: '/'
+    schedule:
+      interval: monthly
+    # Don't adopt a release until it has been out long enough for a
+    # compromised one to be noticed and pulled.
+    cooldown:
+      default-days: 3
+    groups:
+      actions:
+        patterns:
+          - '*'
