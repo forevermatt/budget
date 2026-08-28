@@ -1,5 +1,4 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './styles/global.css';
 import { mount } from 'svelte';
 import App from './App.svelte';
 
