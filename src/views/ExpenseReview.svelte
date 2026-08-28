@@ -50,7 +50,7 @@ const setTimestamp = event => {
     <h2>Review Expense</h2>
     <p>
       <a class="btn btn-outline-secondary" href="#/expense/who/">{transaction.who}</a>
-      <a class="btn btn-outline-secondary float-right" href="#/expense/amount/">
+      <a class="btn btn-outline-secondary float-end" href="#/expense/amount/">
         ${formatAmount(amountTotal)}
       </a>
     </p>
@@ -59,17 +59,17 @@ const setTimestamp = event => {
     </p>
     <p>
       <b>Account:</b>
-      <a class="btn btn-outline-secondary float-right" href="#/expense/account/">
+      <a class="btn btn-outline-secondary float-end" href="#/expense/account/">
         {accountName}
       </a>
     </p>
     <p>
       <b>Date:</b>
-      <input type="date" class="float-right" on:change={setTimestamp} value={formatDateISO8601(transaction.timestamp)} />
+      <input type="date" class="float-end" on:change={setTimestamp} value={formatDateISO8601(transaction.timestamp)} />
     </p>
     <p>
       <b>Note:</b>
-      <input class="float-right" on:change={setNote} value={transactionNote} />
+      <input class="float-end" on:change={setNote} value={transactionNote} />
     </p>
   </div>
 </div>

@@ -17,4 +17,4 @@ const loadCategory = async (categoryId) => {
 }
 </script>
 
-<span class="badge badge-info">{name}: $ {formatAmount(amount)}</span>
+<span class="badge text-bg-info">{name}: $ {formatAmount(amount)}</span>

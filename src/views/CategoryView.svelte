@@ -52,7 +52,7 @@ const onDeleteCategory = async () => {
   <button class="btn btn-link btn-lg" tabindex="0" on:click={renameCategory}>
     <Icon icon={faEdit} />
   </button>
-  <a class="btn btn-default float-right" href="#/category/{ id }/amount">
+  <a class="btn float-end" href="#/category/{ id }/amount">
     <sup>$</sup> { formatAmount(category.budgeted) }
   </a>
 </h2>

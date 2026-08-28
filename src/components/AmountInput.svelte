@@ -87,14 +87,12 @@ function onSubmit(formEvent) {
 
 <form novalidate on:submit|preventDefault={onSubmit}>
   <div class="input-group input-group-lg">
-    <div class="input-group-prepend">
-      <span class="input-group-text" id="amount-input-currency-symbol">$</span>
-    </div>
+    <span class="input-group-text" id="amount-input-currency-symbol">$</span>
     <input type="tel"
            aria-describedby="amount-input-currency-symbol"
            aria-label="Amount"
            bind:this={inputField}
-           class="text-right form-control"
+           class="text-end form-control"
            on:keydown={onKeyDown} />
   </div>
 </form>
