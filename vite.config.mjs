@@ -43,6 +43,17 @@ export default defineConfig({
       },
     }),
   ],
+  css: {
+    preprocessorOptions: {
+      scss: {
+        // Bootstrap 5.3's own Sass still uses @import and the legacy colour
+        // functions, so building it from source is noisy. Those warnings are
+        // its code, not ours, and no 5.x release avoids them.
+        quietDeps: true,
+        silenceDeprecations: ['import', 'global-builtin', 'color-functions'],
+      },
+    },
+  },
   resolve: {
     alias: {
       // PouchDB expects Node's EventEmitter; Vite leaves node builtins out of
