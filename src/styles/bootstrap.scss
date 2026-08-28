@@ -2,6 +2,13 @@
 // set Bootstrap's own variables here instead of overriding finished rules.
 // Override them above the imports, e.g. $primary: #0d6efd;
 
+// Plus Jakarta Sans is bundled rather than fetched from Google Fonts, so the
+// app still renders in it offline. See src/main.js for the import.
+$font-family-sans-serif: 'Plus Jakarta Sans Variable', 'Plus Jakarta Sans',
+  system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+$body-color: #191c1e;
+$link-color: #00668a;
+
 // Required by everything below.
 @import 'bootstrap/scss/functions';
 @import 'bootstrap/scss/variables';
