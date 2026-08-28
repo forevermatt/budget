@@ -5,7 +5,7 @@ import Button from '../components/Button.svelte'
 import ButtonRow from '../components/ButtonRow.svelte'
 import TransactionList from '../components/TransactionList.svelte'
 import Icon from '../components/Icon.svelte'
-import { faEdit, faMinus } from '@fortawesome/free-solid-svg-icons'
+import { faDollarSign, faEdit } from '@fortawesome/free-solid-svg-icons'
 
 export let params = {} // URL parameters provided by router
 
@@ -59,5 +59,5 @@ button:hover {
 <TransactionList {transactions} />
 
 <ButtonRow>
-  <Button icon={faMinus} name="expense" url="#/expense/new" />
+  <Button icon={faDollarSign} name="expense" url="#/expense/new" />
 </ButtonRow>

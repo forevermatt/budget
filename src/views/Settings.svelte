@@ -2,7 +2,7 @@
 import Button from '../components/Button.svelte'
 import ButtonRow from '../components/ButtonRow.svelte'
 import Form from '../components/Form.svelte'
-import { faMinus } from '@fortawesome/free-solid-svg-icons'
+import { faDollarSign } from '@fortawesome/free-solid-svg-icons'
 import database from '../data/database'
 import { push } from 'svelte-spa-router'
 
@@ -44,5 +44,5 @@ const onSyncFormSubmit = async () => {
 </Form>
 
 <ButtonRow>
-  <Button icon={faMinus} name="expense" url="#/expense/new" />
+  <Button icon={faDollarSign} name="expense" url="#/expense/new" />
 </ButtonRow>

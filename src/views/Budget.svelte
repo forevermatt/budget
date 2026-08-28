@@ -2,7 +2,7 @@
 import BudgetOverview from '../components/BudgetOverview.svelte'
 import Button from '../components/Button.svelte'
 import ButtonRow from '../components/ButtonRow.svelte'
-import { faMinus } from '@fortawesome/free-solid-svg-icons'
+import { faDollarSign } from '@fortawesome/free-solid-svg-icons'
 </script>
 
 <style>
@@ -22,5 +22,5 @@ import { faMinus } from '@fortawesome/free-solid-svg-icons'
 <p class="add-category"><a href="#/category/new">Add new category</a></p>
 
 <ButtonRow>
-  <Button icon={faMinus} name="expense" url="#/expense/new" />
+  <Button icon={faDollarSign} name="expense" url="#/expense/new" />
 </ButtonRow>

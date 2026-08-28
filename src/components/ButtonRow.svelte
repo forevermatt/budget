@@ -1,4 +1,6 @@
 <script>
+import Icon from './Icon.svelte'
+import { faEnvelope, faListUl } from '@fortawesome/free-solid-svg-icons'
 import { router } from 'svelte-spa-router'
 
 // Each tab stands for a whole area of the app, so it lights up for the screens
@@ -42,6 +44,13 @@ $: onAccounts = isUnder(router.location, ['/accounts', '/account'])
   text-decoration: none;
 }
 
+/* Icon.svelte draws at 1em, so the icon is sized by its own font-size rather
+   than by the label's. */
+.tab-icon {
+  font-size: 22px;
+  line-height: 1;
+}
+
 .tab.active {
   color: #004d69;
   font-weight: 700;
@@ -52,19 +61,12 @@ $: onAccounts = isUnder(router.location, ['/accounts', '/account'])
 <nav id="button-row">
   <a class="tab" class:active={onBudget} href="#/budget"
      aria-current={onBudget ? 'page' : undefined}>
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-         stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <rect x="2.5" y="5.5" width="19" height="14" rx="3" />
-      <path d="M2.5 9.5h19M17 15h1.5" />
-    </svg>
+    <span class="tab-icon"><Icon icon={faEnvelope} /></span>
     <span>Budget</span>
   </a>
   <a class="tab" class:active={onAccounts} href="#/accounts"
      aria-current={onAccounts ? 'page' : undefined}>
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-         stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <path d="M3.5 10 12 4.5l8.5 5.5M5.5 10.5v8M18.5 10.5v8M3.5 18.5h17" />
-    </svg>
+    <span class="tab-icon"><Icon icon={faListUl} /></span>
     <span>Accounts</span>
   </a>
   <slot />
