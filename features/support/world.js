@@ -109,6 +109,13 @@ class CustomWorld {
     );
   }
 
+  // The budget overview is headed by the current month rather than by a
+  // fixed word, so "we are back on it" is a question about the envelope
+  // list rather than about the heading.
+  async waitForBudgetOverview() {
+    await this.page.waitForSelector('.category-list');
+  }
+
   async waitForHeadingStartingWith(prefix) {
     await this.page.waitForFunction(
       (p) =>
@@ -129,9 +136,9 @@ class CustomWorld {
 
   async readRemainingShownFor(categoryName) {
     return this.page.evaluate((name) => {
-      const rows = [...document.querySelectorAll('.category-list tr')];
+      const rows = [...document.querySelectorAll('.category-list .category-row')];
       for (const row of rows) {
-        const link = row.querySelector('.category-name a');
+        const link = row.querySelector('.category-name');
         if (link && link.textContent.trim() === name) {
           return row
             .querySelector('.category-available')
@@ -147,9 +154,9 @@ class CustomWorld {
     try {
       await this.page.waitForFunction(
         (name, exp) => {
-          const rows = [...document.querySelectorAll('.category-list tr')];
+          const rows = [...document.querySelectorAll('.category-list .category-row')];
           return rows.some((row) => {
-            const link = row.querySelector('.category-name a');
+            const link = row.querySelector('.category-name');
             return (
               link &&
               link.textContent.trim() === name &&

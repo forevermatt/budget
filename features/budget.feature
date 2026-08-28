@@ -6,9 +6,9 @@ Feature: Budget management
   Background:
     Given the app is running
 
-  Scenario: Visit the home page and see the Budget heading
+  Scenario: Visit the home page and see which month is being budgeted
     When I go to the home page
-    Then I should see a heading "Budget"
+    Then I should see the current month as the heading
 
   Scenario: Create a budget category with a monthly amount
     When I go to the new category page

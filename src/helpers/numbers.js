@@ -1,6 +1,4 @@
 
-export const dangerIfNegative = remaining => isNegative(remaining) ? 'danger' : ''
-
 export const formatAmount = amount => formatAmountWithPrecision(amount, 2)
 
 export const formatAmountAsWholeNumber = amount => formatAmountWithPrecision(amount, 0)
@@ -12,4 +10,27 @@ const formatAmountWithPrecision = (amount, precision) => {
   return (Number(amount) / 100).toFixed(precision)
 }
 
-const isNegative = number => (number && (number < 0))
+/**
+ * Format an amount of cents as dollars, with a currency symbol and thousands
+ * separators: 187660 becomes "$1,876.60" and -1840 becomes "-$18.40".
+ *
+ * @param amount
+ * @returns {string}
+ */
+export const formatMoney = amount => formatMoneyWithPrecision(amount, 2)
+
+/**
+ * As formatMoney, but rounded to whole dollars: 60000 becomes "$600".
+ *
+ * @param amount
+ * @returns {string}
+ */
+export const formatMoneyAsWholeNumber = amount => formatMoneyWithPrecision(amount, 0)
+
+const formatMoneyWithPrecision = (amount, precision) => {
+  const dollars = Number(amount || 0) / 100
+  const digits = Math.abs(dollars)
+    .toFixed(precision)
+    .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+  return (dollars < 0 ? '-$' : '$') + digits
+}

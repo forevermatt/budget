@@ -18,9 +18,13 @@ When('I go to the home page', async function () {
   await this.openApp('/');
 });
 
-Then('I should see a heading {string}', async function (expected) {
+Then('I should see the current month as the heading', async function () {
   await this.page.waitForSelector('h2');
   const heading = await this.page.$eval('h2', (el) => el.textContent.trim());
+  const expected = new Date().toLocaleDateString(undefined, {
+    month: 'long',
+    year: 'numeric',
+  });
   assert.strictEqual(heading, expected);
 });
 
@@ -40,13 +44,13 @@ When('I name the category {string}', async function (name) {
 When(/^I set its monthly amount to \$([0-9.]+)$/, async function (dollars) {
   await this.typeIntoAmountInput(dollarsToCents(dollars));
   await this.clickNamedButton('save');
-  await this.waitForHeadingStartingWith('Budget');
+  await this.waitForBudgetOverview();
 });
 
 Then(
   /^the budget overview should show "([^"]*)" with \$([0-9.]+) remaining$/,
   async function (name, dollars) {
-    await this.waitForHeadingStartingWith('Budget');
+    await this.waitForBudgetOverview();
     await this.waitForRemainingShown(name, Number(dollars).toFixed(2));
   }
 );
@@ -152,7 +156,7 @@ const putFullAmountInCategory = async (world, name) => {
 
 const completeReview = async (world) => {
   await world.clickNamedButton('done');
-  await world.waitForHeadingStartingWith('Budget');
+  await world.waitForBudgetOverview();
 };
 
 When('I start a new expense', async function () {
@@ -196,8 +200,8 @@ When(
 
 When('I open {string} from the budget overview', async function (name) {
   await this.openApp('/budget');
-  await this.waitForHeadingStartingWith('Budget');
-  await this.clickByText('.category-name a', name);
+  await this.waitForBudgetOverview();
+  await this.clickByText('.category-list .category-name', name);
 });
 
 Then('I should see the category view for {string}', async function (name) {
