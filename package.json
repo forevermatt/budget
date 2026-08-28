@@ -22,7 +22,7 @@
     "@cucumber/cucumber": "^13.2.1",
     "@fortawesome/free-solid-svg-icons": "^5.15.4",
     "@sveltejs/vite-plugin-svelte": "^7.3.0",
-    "bootstrap": "^4.4.1",
+    "bootstrap": "^5.3.8",
     "events": "^3.3.0",
     "pouchdb-browser": "^9.0.0",
     "puppeteer": "^25.9.0",

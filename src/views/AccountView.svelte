@@ -51,7 +51,7 @@ button:hover {
 
 <h2>
   <span>{ account.name }</span>
-  <button class="btn btn-link btn-lg float-right" tabindex="0" on:click={renameAccount}>
+  <button class="btn btn-link btn-lg float-end" tabindex="0" on:click={renameAccount}>
     <Icon icon={faEdit} />
   </button>
 </h2>

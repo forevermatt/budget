@@ -11,7 +11,7 @@ export let transactions = []
       <tr>
         <td class="text-center">{ formatDate(timestamp) }</td>
         <td>{ who }</td>
-        <td class="text-right">
+        <td class="text-end">
           <sup>$</sup>{ formatAmount(amountTotal) }
         </td>
       </tr>

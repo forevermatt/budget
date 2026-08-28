@@ -48,7 +48,7 @@ a:hover .button-circle {
 }
 </style>
 
-<a id="button-{ name }" class="btn" class:float-left={left} class:small={small}
+<a id="button-{ name }" class="btn" class:float-start={left} class:small={small}
    href="{ url || 'javascript:void(0)' }" role="button" on:click>
   <span class="button-circle">
     {#if icon }
