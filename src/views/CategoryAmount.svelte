@@ -4,7 +4,7 @@ import Button from '../components/Button.svelte'
 import ButtonRow from '../components/ButtonRow.svelte'
 import { refillBudgetCategories } from '../data/budget'
 import { getCategory, updateCategory } from '../data/categories'
-import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons'
+import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import { push } from 'svelte-spa-router'
 
 export let params = {} // URL parameters provided by router
@@ -40,5 +40,4 @@ const onAmount = async () => {
 
 <ButtonRow>
   <Button icon={faCheck} name="save" on:click={onAmount} />
-  <Button icon={faTimes} name="cancel" url="#/budget" left />
 </ButtonRow>

@@ -2,7 +2,7 @@
 import { listAccounts } from '../data/accounts'
 import Button from '../components/Button.svelte'
 import ButtonRow from '../components/ButtonRow.svelte'
-import { faHome } from '@fortawesome/free-solid-svg-icons'
+import { faMinus } from '@fortawesome/free-solid-svg-icons'
 import { onMount } from 'svelte'
 
 let accounts = []
@@ -23,5 +23,5 @@ onMount(async () => {
 <p><a href="#/account/new">Add new account</a></p>
 
 <ButtonRow>
-  <Button icon={faHome} name="budget" url="#/budget" left />
+  <Button icon={faMinus} name="expense" url="#/expense/new" />
 </ButtonRow>

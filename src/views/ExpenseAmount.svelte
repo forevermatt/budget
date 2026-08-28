@@ -3,7 +3,7 @@ import AmountInput from '../components/AmountInput.svelte'
 import Button from '../components/Button.svelte'
 import ButtonRow from '../components/ButtonRow.svelte'
 import { transactionInProgress, updatePendingTransaction } from '../data/transactions'
-import { faArrowRight, faHome } from '@fortawesome/free-solid-svg-icons'
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
 import { push } from 'svelte-spa-router'
 
 $: transaction = $transactionInProgress
@@ -22,5 +22,4 @@ const onAmount = () => {
 
 <ButtonRow>
   <Button icon={faArrowRight} name="next" on:click={onAmount} />
-  <Button icon={faHome} name="budget" url="#/budget" left />
 </ButtonRow>
