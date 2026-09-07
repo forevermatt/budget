@@ -16,8 +16,8 @@ $: onAccounts = isUnder(router.location, ['/accounts', '/account'])
 <style>
 #button-row {
   align-items: center;
-  background: #fff;
-  border-top: 1px solid #eceef0;
+  background: var(--on-primary);
+  border-top: 1px solid var(--surface-container);
   bottom: 0;
   display: flex;
   gap: 4px;
@@ -33,7 +33,7 @@ $: onAccounts = isUnder(router.location, ['/accounts', '/account'])
 
 .tab {
   align-items: center;
-  color: #6e7980;
+  color: var(--outline);
   display: flex;
   flex: 1;
   flex-direction: column;
@@ -52,7 +52,7 @@ $: onAccounts = isUnder(router.location, ['/accounts', '/account'])
 }
 
 .tab.active {
-  color: #004d69;
+  color: var(--primary);
   font-weight: 700;
 }
 </style>

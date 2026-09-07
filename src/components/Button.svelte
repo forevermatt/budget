@@ -9,10 +9,10 @@ export let url = ''
 <style>
 a {
   align-items: center;
-  background-color: #00668a;
+  background-color: var(--primary-container);
   border-radius: 18px;
-  box-shadow: 0 8px 22px rgba(0, 77, 105, 0.3);
-  color: #fff;
+  box-shadow: 0 8px 22px rgba(0, 77, 105, 0.3); /* primary at 30% */
+  color: var(--on-primary);
   display: flex;
   flex: 0 0 56px;
   font-size: 26px;
@@ -23,8 +23,8 @@ a {
 
 a:focus,
 a:hover {
-  background-color: #004d69;
-  color: #fff;
+  background-color: var(--primary);
+  color: var(--on-primary);
 }
 </style>
 
