@@ -52,8 +52,8 @@ $: totalRemaining = categories.reduce((total, { remaining }) => total + (Number(
 /* The header runs edge to edge, so it has to escape the padding and top
    margin of the app-wide container it is rendered inside. */
 .month-header {
-  background: #004d69;
-  color: #fff;
+  background: var(--primary);
+  color: var(--on-primary);
   margin: -1rem calc(var(--bs-gutter-x) * -0.5) 0;
   padding: 18px 20px 16px;
 }
@@ -72,13 +72,13 @@ $: totalRemaining = categories.reduce((total, { remaining }) => total + (Number(
 }
 
 .days-left {
-  color: #c3e8ff;
+  color: var(--primary-fixed);
   font-size: 12px;
   font-weight: 600;
 }
 
 .month-total {
-  color: #c3e8ff;
+  color: var(--primary-fixed);
   font-size: 13px;
   font-variant-numeric: tabular-nums;
   font-weight: 500;
@@ -98,7 +98,7 @@ $: totalRemaining = categories.reduce((total, { remaining }) => total + (Number(
    between them: the point a category's fill has to still reach to be on pace.
    It slides left as the month runs out. */
 .pace-line {
-  background-color: #191c1e7f;
+  background-color: #191c1e7f; /* on-surface at 50% */
   bottom: 16px;
   pointer-events: none;
   position: absolute;
@@ -108,7 +108,7 @@ $: totalRemaining = categories.reduce((total, { remaining }) => total + (Number(
 }
 
 .category-row {
-  background: #f2f4f6;
+  background: var(--surface-container-low);
   border-radius: 12px;
   color: inherit;
   flex: 0 0 auto;
@@ -131,15 +131,18 @@ $: totalRemaining = categories.reduce((total, { remaining }) => total + (Number(
 }
 
 .category-overspend {
+  /* Overspend red; no design-system token yet. */
   background: #ffb4ab;
   right: 0;
 }
 
 .ok .category-fill {
+  /* On-pace mint; no design-system token yet. */
   background: rgb(204, 226, 223);
 }
 
 .low .category-fill {
+  /* Behind-pace amber; no design-system token yet. */
   background: #fbe4c6;
 }
 
@@ -154,7 +157,7 @@ $: totalRemaining = categories.reduce((total, { remaining }) => total + (Number(
 }
 
 .category-name {
-  color: #191c1e;
+  color: var(--on-surface);
   font-size: 14px;
   font-weight: 600;
   overflow: hidden;
@@ -170,7 +173,7 @@ $: totalRemaining = categories.reduce((total, { remaining }) => total + (Number(
 }
 
 .category-available {
-  color: #191c1e;
+  color: var(--on-surface);
   font-size: 15px;
   font-variant-numeric: tabular-nums;
   font-weight: 700;
@@ -178,22 +181,22 @@ $: totalRemaining = categories.reduce((total, { remaining }) => total + (Number(
 }
 
 .over .category-available {
-  color: #93000a;
+  color: var(--on-error-container);
 }
 
 .category-budgeted {
-  color: #6e7980;
+  color: var(--outline);
   font-size: 11px;
   font-variant-numeric: tabular-nums;
   font-weight: 500;
 }
 
 .ok .category-budgeted {
-  color: #40484e;
+  color: var(--on-surface-variant);
 }
 
 .over .category-budgeted {
-  color: #93000a;
+  color: var(--on-error-container);
 }
 </style>
 

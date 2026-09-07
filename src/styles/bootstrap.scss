@@ -6,8 +6,8 @@
 // app still renders in it offline. See src/main.js for the import.
 $font-family-sans-serif: 'Plus Jakarta Sans Variable', 'Plus Jakarta Sans',
   system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-$body-color: #191c1e;
-$link-color: #00668a;
+$body-color: #191c1e; // on-surface
+$link-color: #00668a; // primary-container
 
 // Required by everything below.
 @import 'bootstrap/scss/functions';
@@ -35,3 +35,27 @@ $link-color: #00668a;
 // float-*, text-*, and spacing classes. Both must come last.
 @import 'bootstrap/scss/helpers';
 @import 'bootstrap/scss/utilities/api';
+
+// The Soft Sky palette, named as docs/DESIGN.md names it. Custom properties
+// rather than Sass variables so a component's scoped <style> can reach them
+// without the build having to preprocess every one of those blocks.
+//
+// Only the tokens the app actually uses are here; add from DESIGN.md as
+// screens need them. Four colors the budget overview uses have no token yet
+// — the two envelope fills, the overspend red and the pace line — and stay
+// marked literals in BudgetOverview.svelte until the design system names them.
+:root {
+  --primary: #004d69;
+  --on-primary: #ffffff;
+  --primary-container: #00668a;
+  --primary-fixed: #c3e8ff;
+
+  --surface-container-low: #f2f4f6;
+  --surface-container: #eceef0;
+
+  --on-surface: #191c1e;
+  --on-surface-variant: #40484e;
+  --outline: #6e7980;
+
+  --on-error-container: #93000a;
+}
