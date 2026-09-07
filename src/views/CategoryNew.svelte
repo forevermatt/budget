@@ -2,7 +2,7 @@
 import Button from '../components/Button.svelte'
 import ButtonRow from '../components/ButtonRow.svelte'
 import { addCategory } from '../data/categories'
-import { faTimes, faArrowRight } from '@fortawesome/free-solid-svg-icons'
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
 import { onMount } from 'svelte'
 import { push } from 'svelte-spa-router'
 
@@ -28,5 +28,4 @@ const onSubmit = async () => {
 
 <ButtonRow>
   <Button icon={faArrowRight} name="next" on:click={onSubmit} />
-  <Button icon={faTimes} name="cancel" url="#/budget" left />
 </ButtonRow>

@@ -4,7 +4,7 @@ import ButtonRow from '../components/ButtonRow.svelte'
 import CategoryTags from '../components/CategoryTags.svelte'
 import { getAccount } from '../data/accounts'
 import { savePendingTransaction, transactionInProgress, updatePendingTransaction } from '../data/transactions'
-import { faHome } from '@fortawesome/free-solid-svg-icons'
+import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import { formatDateISO8601 } from "../helpers/dates";
 import { formatAmount } from "../helpers/numbers";
 import { push } from 'svelte-spa-router'
@@ -75,5 +75,5 @@ const setTimestamp = event => {
 </div>
 
 <ButtonRow>
-  <Button icon={faHome} name="done" on:click={onDone} />
+  <Button icon={faCheck} name="done" on:click={onDone} />
 </ButtonRow>

@@ -3,57 +3,34 @@ import Icon from './Icon.svelte'
 
 export let icon // See README for URL to gallery of available icons.
 export let name = ''
-export let left = false
-export let small = false
 export let url = ''
 </script>
 
 <style>
 a {
-  color: #337ab7;
-  font-weight: bold;
+  align-items: center;
+  background-color: #00668a;
+  border-radius: 18px;
+  box-shadow: 0 8px 22px rgba(0, 77, 105, 0.3);
+  color: #fff;
+  display: flex;
+  flex: 0 0 56px;
+  font-size: 26px;
+  height: 56px;
+  justify-content: center;
+  margin-left: 4px;
 }
 
 a:focus,
 a:hover {
-  color: #111;
-}
-
-a:focus .button-circle,
-a:hover .button-circle {
-  background-color: #111;
-}
-
-.button-circle {
-  border-radius: 3rem;
-  background-color: #337ab7;
+  background-color: #004d69;
   color: #fff;
-  display: inline-block;
-  font-size: 2rem;
-  height: 4rem;
-  line-height: 1rem;
-  padding: 1rem;
-  overflow: hidden;
-  text-align: center;
-  width: 4rem;
-}
-
-.small .button-circle {
-  border-radius: 1.25rem;
-  font-size: 1rem;
-  height: 2rem;
-  line-height: 0.5rem;
-  padding: 0.5rem;
-  width: 2rem;
 }
 </style>
 
-<a id="button-{ name }" class="btn" class:float-start={left} class:small={small}
-   href="{ url || 'javascript:void(0)' }" role="button" on:click>
-  <span class="button-circle">
-    {#if icon }
-      <Icon {icon} />
-    {/if}<br />
-  </span><br />
-  { name }
+<a id="button-{ name }" href="{ url || 'javascript:void(0)' }" role="button"
+   aria-label={name} on:click>
+  {#if icon }
+    <Icon {icon} />
+  {/if}
 </a>

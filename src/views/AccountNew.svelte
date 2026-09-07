@@ -3,7 +3,7 @@ import Button from '../components/Button.svelte'
 import ButtonRow from '../components/ButtonRow.svelte'
 import Form from '../components/Form.svelte'
 import { addAccount } from '../data/accounts'
-import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons'
+import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import { push } from 'svelte-spa-router'
 
 let name = ''
@@ -24,5 +24,4 @@ const onSubmit = async () => {
 
 <ButtonRow>
   <Button icon={faCheck} name="done" on:click={onSubmit} />
-  <Button icon={faTimes} name="cancel" url="#/accounts" left />
 </ButtonRow>

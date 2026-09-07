@@ -1,3 +1,4 @@
+import '@fontsource-variable/plus-jakarta-sans';
 import './styles/bootstrap.scss';
 import { mount } from 'svelte';
 import App from './App.svelte';
