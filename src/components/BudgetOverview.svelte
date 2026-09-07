@@ -98,7 +98,7 @@ $: totalRemaining = categories.reduce((total, { remaining }) => total + (Number(
    between them: the point a category's fill has to still reach to be on pace.
    It slides left as the month runs out. */
 .pace-line {
-  background-color: #191c1e7f; /* on-surface at 50% */
+  background-color: var(--pace-line);
   bottom: 16px;
   pointer-events: none;
   position: absolute;
@@ -131,19 +131,16 @@ $: totalRemaining = categories.reduce((total, { remaining }) => total + (Number(
 }
 
 .category-overspend {
-  /* Overspend red; no design-system token yet. */
-  background: #ffb4ab;
+  background: var(--overspend-fill);
   right: 0;
 }
 
 .ok .category-fill {
-  /* On-pace mint; no design-system token yet. */
-  background: rgb(204, 226, 223);
+  background: var(--on-pace-fill);
 }
 
 .low .category-fill {
-  /* Behind-pace amber; no design-system token yet. */
-  background: #fbe4c6;
+  background: var(--behind-pace-fill);
 }
 
 .category-row-content {
