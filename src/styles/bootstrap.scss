@@ -41,9 +41,7 @@ $link-color: #00668a; // primary-container
 // without the build having to preprocess every one of those blocks.
 //
 // Only the tokens the app actually uses are here; add from DESIGN.md as
-// screens need them. Four colors the budget overview uses have no token yet
-// — the two envelope fills, the overspend red and the pace line — and stay
-// marked literals in BudgetOverview.svelte until the design system names them.
+// screens need them.
 :root {
   --primary: #004d69;
   --on-primary: #ffffff;
@@ -58,4 +56,13 @@ $link-color: #00668a; // primary-container
   --outline: #6e7980;
 
   --on-error-container: #93000a;
+
+  // The envelope row is its own progress bar; these three fills carry that
+  // meaning and are used nowhere else.
+  --on-pace-fill: #cce2df;
+  --behind-pace-fill: #fbe4c6;
+  --overspend-fill: #ffb4ab;
+
+  --pace-line: rgba(25, 28, 30, 0.5);
+  --action-shadow: rgba(0, 77, 105, 0.3);
 }

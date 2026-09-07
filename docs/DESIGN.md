@@ -49,6 +49,11 @@ colors:
   on-background: '#191c1e'
   surface-variant: '#e0e3e5'
   sky-accent: '#38bdf8'
+  on-pace-fill: '#cce2df'
+  behind-pace-fill: '#fbe4c6'
+  overspend-fill: '#ffb4ab'
+  pace-line: 'rgba(25, 28, 30, 0.5)'
+  action-shadow: 'rgba(0, 77, 105, 0.3)'
 typography:
   headline-lg:
     fontFamily: Plus Jakarta Sans
@@ -124,6 +129,18 @@ The palette is dominated by the **Soft Sky** spectrum.
 - **Deep Tones:** Reserved for primary text and high-contrast UI elements to ensure WCAG AA/AAA compliance against light backgrounds.
 - **Functional Colors:** Success (derived from emerald), Warning, and Danger are used for progress bars and balance alerts. They are slightly desaturated to maintain the "Soft" aesthetic.
 - **Surface Tiers:** Backgrounds use a very cool neutral to keep the interface feeling fresh. Use the `surface-container` variants to create subtle depth without relying solely on shadows.
+
+### Envelope state fills
+An envelope row is its own progress bar: the row track is `surface-container-low`, and a fill grows from the left showing what is left to spend. These three fills carry that meaning and are used nowhere else.
+
+- `on-pace-fill` (**#cce2df**) — a 78% white wash of the emerald success tone `#177d6e`. The envelope is either untouched or spending slower than the month is passing.
+- `behind-pace-fill` (**#fbe4c6**) — spent share is ahead of the month's elapsed share. The amount stays `on-surface`; the fill alone carries the warning.
+- `overspend-fill` (**#ffb4ab**) — grows inward from the *right* edge, proportional to the overspend, paired with an `on-error-container` negative amount.
+- An exactly-spent envelope shows the bare track with no fill, so grey means empty rather than broken.
+
+### Functional accents
+- `pace-line` (**#191c1e at 50%**) — the 2px vertical line drawn once behind the envelope list at the month's elapsed position. Fill short of the line is behind pace. It sits under the rows and insets 8px from the first and last, so it scales with any number of envelopes.
+- `action-shadow` (**#004d69 at 30%**) — the soft drop shadow under the docked primary action button, lifting it off the navigation bar.
 
 ## Typography
 The design system uses **Plus Jakarta Sans** for its modern, friendly, and highly legible characteristics. 

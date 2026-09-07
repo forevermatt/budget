@@ -11,7 +11,7 @@ a {
   align-items: center;
   background-color: var(--primary-container);
   border-radius: 18px;
-  box-shadow: 0 8px 22px rgba(0, 77, 105, 0.3); /* primary at 30% */
+  box-shadow: 0 8px 22px var(--action-shadow);
   color: var(--on-primary);
   display: flex;
   flex: 0 0 56px;
