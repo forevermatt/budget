@@ -8,7 +8,10 @@ export const deleteAccount = async (id) => database.deleteItem(id)
 
 export const getAccount = async (id) => database.get(id)
 
-export const listAccounts = async () => database.list(ITEM_TYPE_PREFIX)
+export const listAccounts = async () => {
+  const accounts = await database.list(ITEM_TYPE_PREFIX)
+  return accounts.sort((a, b) => a.name.localeCompare(b.name))
+}
 
 export const updateAccount = async (id, changes) => {
   const existing = await getAccount(id)
