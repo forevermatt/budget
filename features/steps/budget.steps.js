@@ -61,11 +61,11 @@ Then(
 
 When('I go to the new account page', async function () {
   await this.openApp('/account/new');
-  await this.page.waitForSelector('input[placeholder="New account name"]');
+  await this.page.waitForSelector('#new-account-name');
 });
 
 When('I name the account {string}', async function (name) {
-  await this.page.type('input[placeholder="New account name"]', name);
+  await this.page.type('#new-account-name', name);
   await this.clickNamedButton('done');
   await this.waitForHeadingStartingWith('Accounts');
 });
