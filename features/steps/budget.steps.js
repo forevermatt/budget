@@ -223,6 +223,23 @@ Then('I should see the account view for {string}', async function (name) {
   await this.waitForHeadingStartingWith(name);
 });
 
+// Both detail views rename the same way: open the one menu, choose the rename
+// item, answer the prompt it opens.
+const renameFromDetailMenu = async (world, item, newName) => {
+  await world.openDetailMenu();
+  world.answerNextPrompt(newName);
+  await world.clickElementWithText('[role="menuitem"]', item);
+  await world.waitForHeadingStartingWith(newName);
+};
+
+When('I rename it to {string} from the account menu', async function (name) {
+  await renameFromDetailMenu(this, 'Rename account', name);
+});
+
+When('I rename it to {string} from the category menu', async function (name) {
+  await renameFromDetailMenu(this, 'Rename category', name);
+});
+
 Given('I have already visited the app once', async function () {
   await this.openApp('/');
   await this.waitForServiceWorkerControl();
