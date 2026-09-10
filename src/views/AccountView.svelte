@@ -3,9 +3,10 @@ import { getAccount, updateAccount } from '../data/accounts'
 import { getTransactionsForAccount } from '../data/transactions'
 import Button from '../components/Button.svelte'
 import ButtonRow from '../components/ButtonRow.svelte'
+import DetailHeader from '../components/DetailHeader.svelte'
+import MenuItem from '../components/MenuItem.svelte'
 import TransactionList from '../components/TransactionList.svelte'
-import Icon from '../components/Icon.svelte'
-import { faDollarSign, faEdit } from '@fortawesome/free-solid-svg-icons'
+import { faDollarSign } from '@fortawesome/free-solid-svg-icons'
 
 export let params = {} // URL parameters provided by router
 
@@ -37,25 +38,12 @@ const renameAccount = async () => {
 }
 </script>
 
-<style>
-button {
-  color: #337ab7;
-  font-weight: bold;
-}
+<DetailHeader title={account.name || ''} backUrl="#/accounts" menuLabel="Account actions">
+  <svelte:fragment slot="menu">
+    <MenuItem on:click={renameAccount}>Rename account</MenuItem>
+  </svelte:fragment>
+</DetailHeader>
 
-button:focus,
-button:hover {
-  color: #111;
-}
-</style>
-
-<h2>
-  <span>{ account.name }</span>
-  <button class="btn btn-link btn-lg float-end" tabindex="0" on:click={renameAccount}>
-    <Icon icon={faEdit} />
-  </button>
-</h2>
-<hr class="small" />
 <TransactionList {transactions} />
 
 <ButtonRow>
