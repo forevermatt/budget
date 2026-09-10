@@ -156,7 +156,7 @@ const enterAmount = async (world, cents) => {
 
 const putFullAmountInCategory = async (world, name) => {
   await world.clickByText('.picker-row', name);
-  await world.waitForHeadingStartingWith('Review Expense');
+  await world.waitForHeadingStartingWith('Review');
 };
 
 const completeReview = async (world) => {

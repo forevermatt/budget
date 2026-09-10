@@ -61,7 +61,8 @@ $link-color: #00668a; // primary-container
   --on-error-container: #93000a;
 
   // The envelope row is its own progress bar; these three fills carry that
-  // meaning and are used nowhere else.
+  // meaning. The expense review's category tag reuses on-pace-fill, since it
+  // names the envelope the expense comes out of; nothing else uses them.
   --on-pace-fill: #cce2df;
   --behind-pace-fill: #fbe4c6;
   --overspend-fill: #ffb4ab;
