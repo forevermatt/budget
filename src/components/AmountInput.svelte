@@ -85,14 +85,52 @@ function onSubmit(formEvent) {
 }
 </script>
 
+<style>
+.amount-box {
+  align-items: center;
+  border: 2px solid var(--primary);
+  border-radius: 16px;
+  display: flex;
+  gap: 8px;
+  height: 76px;
+  padding: 0 18px;
+}
+
+.currency {
+  color: var(--outline);
+  font-size: 30px;
+  font-weight: 600;
+}
+
+/* The box carries the border, so the field inside it is bare. */
+.amount-value {
+  background: none;
+  border: 0;
+  color: var(--on-surface);
+  flex: 1;
+  font-family: inherit;
+  font-size: 38px;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  min-width: 0;
+  padding: 0;
+  text-align: right;
+}
+
+.amount-value:focus {
+  outline: none;
+}
+</style>
+
 <form novalidate on:submit|preventDefault={onSubmit}>
-  <div class="input-group input-group-lg">
-    <span class="input-group-text" id="amount-input-currency-symbol">$</span>
+  <div class="amount-box">
+    <span class="currency" id="amount-input-currency-symbol">$</span>
     <input type="tel"
            aria-describedby="amount-input-currency-symbol"
            aria-label="Amount"
            bind:this={inputField}
-           class="text-end form-control"
+           class="amount-value"
            on:keydown={onKeyDown} />
   </div>
 </form>

@@ -1,6 +1,6 @@
 <script>
 import { getCategory } from '../data/categories'
-import { formatAmount } from '../helpers/numbers'
+import { formatMoney } from '../helpers/numbers'
 
 export let amount = 0
 export let categoryId = ''
@@ -17,4 +17,18 @@ const loadCategory = async (categoryId) => {
 }
 </script>
 
-<span class="badge text-bg-info">{name}: $ {formatAmount(amount)}</span>
+<style>
+/* Reuses the envelope's on-pace fill: the tag says which envelope this expense
+   comes out of, so it is the one place outside the budget overview that colour
+   belongs. */
+.category-tag {
+  background: var(--on-pace-fill);
+  border-radius: 999px;
+  color: var(--primary);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 7px 14px;
+}
+</style>
+
+<span class="category-tag">{ name } &middot; { formatMoney(amount) }</span>

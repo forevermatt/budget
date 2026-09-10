@@ -144,8 +144,8 @@ const sayItWasPaidTo = async (world, who) => {
 };
 
 const chooseAccount = async (world, name) => {
-  await world.clickByText('button.btn-outline-secondary', name);
-  await world.waitForHeadingStartingWith('Amount paid to');
+  await world.clickByText('.picker-row', name);
+  await world.waitForHeadingStartingWith('Amount');
 };
 
 const enterAmount = async (world, cents) => {
@@ -155,8 +155,8 @@ const enterAmount = async (world, cents) => {
 };
 
 const putFullAmountInCategory = async (world, name) => {
-  await world.clickByText('button.btn-outline-secondary', name);
-  await world.waitForHeadingStartingWith('Review Expense');
+  await world.clickByText('.picker-row', name);
+  await world.waitForHeadingStartingWith('Review');
 };
 
 const completeReview = async (world) => {

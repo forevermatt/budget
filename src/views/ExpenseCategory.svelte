@@ -1,6 +1,7 @@
 <script>
 import ButtonRow from '../components/ButtonRow.svelte'
-import CategorySelector from '../components/CategorySelector.svelte'
+import DetailHeader from '../components/DetailHeader.svelte'
+import PickerList from '../components/PickerList.svelte'
 import { listCategories } from '../data/categories'
 import { transactionInProgress, updatePendingTransaction } from '../data/transactions'
 import { onMount } from 'svelte'
@@ -8,10 +9,9 @@ import { push } from 'svelte-spa-router'
 
 let categories = []
 
-function setCategory(event) {
-  let categoryId = event.detail
-  let categoryAmounts = {}
-  categoryAmounts[categoryId] = $transactionInProgress.amountTotal
+const setCategory = (event) => {
+  const categoryAmounts = {}
+  categoryAmounts[event.detail] = $transactionInProgress.amountTotal
   updatePendingTransaction({ categoryAmounts })
   push(`/expense/review/`)
 }
@@ -21,8 +21,8 @@ onMount(async () => {
 })
 </script>
 
-<h2>Category</h2>
+<DetailHeader title="Category" backUrl="#/expense/amount/" />
 
-<CategorySelector {categories} on:select={setCategory} />
+<PickerList items={categories} on:select={setCategory} />
 
 <ButtonRow />

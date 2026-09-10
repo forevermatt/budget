@@ -2,11 +2,12 @@
 import Button from '../components/Button.svelte'
 import ButtonRow from '../components/ButtonRow.svelte'
 import CategoryTags from '../components/CategoryTags.svelte'
+import DetailHeader from '../components/DetailHeader.svelte'
 import { getAccount } from '../data/accounts'
 import { savePendingTransaction, transactionInProgress, updatePendingTransaction } from '../data/transactions'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
-import { formatDateISO8601 } from "../helpers/dates";
-import { formatAmount } from "../helpers/numbers";
+import { formatDateISO8601 } from '../helpers/dates'
+import { formatMoney } from '../helpers/numbers'
 import { push } from 'svelte-spa-router'
 
 let account = {}
@@ -28,11 +29,6 @@ const onDone = async () => {
   push(`/budget`)
 }
 
-function setComment(event) {
-  let comment = event.detail
-  updatePendingTransaction({ comment })
-}
-
 const setNote = event => {
   let note = event.target.value
   updatePendingTransaction({ note })
@@ -45,32 +41,134 @@ const setTimestamp = event => {
 }
 </script>
 
-<div class="row">
-  <div class="col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3">
-    <h2>Review Expense</h2>
-    <p>
-      <a class="btn btn-outline-secondary" href="#/expense/who/">{transaction.who}</a>
-      <a class="btn btn-outline-secondary float-end" href="#/expense/amount/">
-        ${formatAmount(amountTotal)}
-      </a>
-    </p>
-    <p>
-      <CategoryTags {transaction} />
-    </p>
-    <p>
-      <b>Account:</b>
-      <a class="btn btn-outline-secondary float-end" href="#/expense/account/">
-        {accountName}
-      </a>
-    </p>
-    <p>
-      <b>Date:</b>
-      <input type="date" class="float-end" on:change={setTimestamp} value={formatDateISO8601(transaction.timestamp)} />
-    </p>
-    <p>
-      <b>Note:</b>
-      <input class="float-end" on:change={setNote} value={transactionNote} />
-    </p>
+<style>
+.review {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px 8px 0;
+}
+
+.headline {
+  align-items: baseline;
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+}
+
+/* Everything the flow collected is shown in the primary colour and leads back
+   to the step that set it. */
+.payee,
+.total,
+.detail-value {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+.payee {
+  font-size: 20px;
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.total {
+  flex: 0 0 auto;
+  font-size: 26px;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+}
+
+/* Wraps, so splitting an expense across envelopes later just adds tags. */
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+}
+
+.detail-row {
+  align-items: center;
+  border-bottom: 1px solid var(--surface-container-low);
+  display: flex;
+  gap: 12px;
+  height: 52px;
+  justify-content: space-between;
+}
+
+.detail-label {
+  color: var(--on-surface-variant);
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.detail-value {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* Date and note have no step of their own, so they are edited here — inputs
+   dressed as the row values beside them. */
+.detail-input {
+  background: none;
+  border: 0;
+  font-family: inherit;
+  min-width: 0;
+  padding: 0;
+  text-align: right;
+}
+
+.detail-input:focus {
+  outline: none;
+}
+
+.detail-date {
+  font-variant-numeric: tabular-nums;
+}
+
+.detail-note {
+  color: var(--on-surface);
+  font-weight: 500;
+}
+
+.detail-note::placeholder {
+  color: var(--outline);
+  font-weight: 500;
+}
+</style>
+
+<DetailHeader title="Review" backUrl="#/expense/category/" />
+
+<div class="review">
+  <div class="headline">
+    <a class="payee" href="#/expense/who/">{ transaction.who }</a>
+    <a class="total" href="#/expense/amount/">{ formatMoney(amountTotal) }</a>
+  </div>
+
+  <div class="tags">
+    <CategoryTags {transaction} />
+  </div>
+
+  <div class="details">
+    <div class="detail-row">
+      <span class="detail-label">Account</span>
+      <a class="detail-value" href="#/expense/account/">{ accountName }</a>
+    </div>
+    <div class="detail-row">
+      <span class="detail-label">Date</span>
+      <input class="detail-value detail-input detail-date" type="date" aria-label="Date"
+             on:change={setTimestamp} value={formatDateISO8601(transaction.timestamp)} />
+    </div>
+    <div class="detail-row">
+      <span class="detail-label">Note</span>
+      <input class="detail-value detail-input detail-note" type="text" aria-label="Note"
+             placeholder="Add a note" on:change={setNote} value={transactionNote} />
+    </div>
   </div>
 </div>
 

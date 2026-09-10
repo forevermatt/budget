@@ -55,6 +55,14 @@ $: onAccounts = isUnder(router.location, ['/accounts', '/account'])
   color: var(--primary);
   font-weight: 700;
 }
+
+/* The expense flow's pickers advance on tap and so have no action button. The
+   space stays reserved, so the tabs do not shift from step to step. */
+.action-placeholder {
+  flex: 0 0 56px;
+  height: 56px;
+  margin-left: 4px;
+}
 </style>
 
 <div id="button-row-spacer"></div>
@@ -69,5 +77,9 @@ $: onAccounts = isUnder(router.location, ['/accounts', '/account'])
     <span class="tab-icon"><Icon icon={faListUl} /></span>
     <span>Accounts</span>
   </a>
-  <slot />
+  {#if $$slots.default}
+    <slot />
+  {:else}
+    <div class="action-placeholder"></div>
+  {/if}
 </nav>
