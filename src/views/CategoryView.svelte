@@ -1,12 +1,13 @@
 <script>
 import { deleteCategory, getCategory, updateCategory } from '../data/categories'
 import { getTransactionsForCategory } from '../data/transactions'
-import { formatAmount } from '../helpers/numbers'
+import { formatMoneyAsWholeNumber } from '../helpers/numbers'
 import Button from '../components/Button.svelte'
 import ButtonRow from '../components/ButtonRow.svelte'
+import DetailHeader from '../components/DetailHeader.svelte'
+import MenuItem from '../components/MenuItem.svelte'
 import TransactionList from '../components/TransactionList.svelte'
-import { faDollarSign, faEdit } from '@fortawesome/free-solid-svg-icons'
-import Icon from '../components/Icon.svelte'
+import { faDollarSign } from '@fortawesome/free-solid-svg-icons'
 import { push } from 'svelte-spa-router'
 
 export let params = {} // URL parameters provided by router
@@ -47,21 +48,30 @@ const onDeleteCategory = async () => {
 }
 </script>
 
-<h2>
-  <span> { category.name }</span>
-  <button class="btn btn-link btn-lg" tabindex="0" on:click={renameCategory}>
-    <Icon icon={faEdit} />
-  </button>
-  <a class="btn float-end" href="#/category/{ id }/amount">
-    <sup>$</sup> { formatAmount(category.budgeted) }
-  </a>
-</h2>
-<hr class="small" />
-<TransactionList {transactions} />
+<style>
+/* What the category is worth a month, as quiet secondary text. Setting it is
+   an action in the menu, so this is a label rather than a link. */
+.category-budget {
+  color: var(--primary-fixed);
+  font-size: 15px;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  padding-right: 2px;
+}
+</style>
 
-<div class="text-center">
-  <button class="btn btn-outline-danger" on:click={onDeleteCategory}>Delete category</button>
-</div>
+<DetailHeader title={category.name || ''} backUrl="#/budget" menuLabel="Category actions">
+  <span class="category-budget" slot="meta">
+    { formatMoneyAsWholeNumber(category.budgeted) } / mo
+  </span>
+  <svelte:fragment slot="menu">
+    <MenuItem on:click={renameCategory}>Rename category</MenuItem>
+    <MenuItem url="#/category/{ id }/amount">Set monthly budget</MenuItem>
+    <MenuItem danger separated on:click={onDeleteCategory}>Delete category</MenuItem>
+  </svelte:fragment>
+</DetailHeader>
+
+<TransactionList {transactions} />
 
 <ButtonRow>
   <Button icon={faDollarSign} name="expense" url="#/expense/new" />

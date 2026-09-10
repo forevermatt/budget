@@ -48,6 +48,7 @@ $link-color: #00668a; // primary-container
   --primary-container: #00668a;
   --primary-fixed: #c3e8ff;
 
+  --surface-container-lowest: #ffffff;
   --surface-container-low: #f2f4f6;
   --surface-container: #eceef0;
 
@@ -56,6 +57,7 @@ $link-color: #00668a; // primary-container
   --outline: #6e7980;
   --outline-variant: #bfc8ce;
 
+  --error: #ba1a1a;
   --on-error-container: #93000a;
 
   // The envelope row is its own progress bar; these three fills carry that
@@ -66,4 +68,8 @@ $link-color: #00668a; // primary-container
 
   --pace-line: rgba(25, 28, 30, 0.5);
   --action-shadow: rgba(0, 77, 105, 0.3);
+
+  // Not named in DESIGN.md, which lists no shadow but the one under the docked
+  // action button; taken from the artboard and named to match it.
+  --menu-shadow: rgba(25, 28, 30, 0.24);
 }
