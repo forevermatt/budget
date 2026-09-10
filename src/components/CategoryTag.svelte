@@ -19,7 +19,7 @@ const loadCategory = async (categoryId) => {
 
 <style>
 /* Reuses the envelope's on-pace fill: the tag says which envelope this expense
-   comes out of, so it is the one place outside the budget overview that colour
+   comes out of, so it is the one place outside the budget overview that color
    belongs. */
 .category-tag {
   background: var(--on-pace-fill);

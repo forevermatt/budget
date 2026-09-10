@@ -49,7 +49,7 @@ When(/^I set its monthly amount to \$([0-9.]+)$/, async function (dollars) {
 
 // These two go to the screen they name rather than assuming the previous step
 // left us on it, so they mean the same thing after a step that navigates away
-// — renaming, say, which ends on a detail view.
+// renaming, say, which ends on a detail view.
 Then(
   /^the budget overview should show "([^"]*)" with \$([0-9.]+) remaining$/,
   async function (name, dollars) {
