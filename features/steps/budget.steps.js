@@ -145,7 +145,7 @@ const sayItWasPaidTo = async (world, who) => {
 
 const chooseAccount = async (world, name) => {
   await world.clickByText('.picker-row', name);
-  await world.waitForHeadingStartingWith('Amount paid to');
+  await world.waitForHeadingStartingWith('Amount');
 };
 
 const enterAmount = async (world, cents) => {
