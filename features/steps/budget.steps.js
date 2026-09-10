@@ -47,9 +47,13 @@ When(/^I set its monthly amount to \$([0-9.]+)$/, async function (dollars) {
   await this.waitForBudgetOverview();
 });
 
+// These two go to the screen they name rather than assuming the previous step
+// left us on it, so they mean the same thing after a step that navigates away
+// — renaming, say, which ends on a detail view.
 Then(
   /^the budget overview should show "([^"]*)" with \$([0-9.]+) remaining$/,
   async function (name, dollars) {
+    await this.openApp('/budget');
     await this.waitForBudgetOverview();
     await this.waitForRemainingShown(name, Number(dollars).toFixed(2));
   }
@@ -67,6 +71,7 @@ When('I name the account {string}', async function (name) {
 });
 
 Then('the accounts list should show {string}', async function (name) {
+  await this.openApp('/accounts');
   await this.page.waitForFunction(
     (n) =>
       [...document.querySelectorAll('a[href^="#/account/"]')].some(
