@@ -109,6 +109,42 @@ class CustomWorld {
     );
   }
 
+  // As clickByText, but with a real mouse click. A handler that opens a
+  // prompt() blocks the page's JavaScript until the dialog is answered, which
+  // would deadlock the evaluate call that clickByText clicks from.
+  async clickElementWithText(selector, text) {
+    await this.page.waitForFunction(
+      (sel, t) =>
+        [...document.querySelectorAll(sel)].some(
+          (el) => el.textContent.trim() === t
+        ),
+      {},
+      selector,
+      text
+    );
+    const handle = await this.page.evaluateHandle(
+      (sel, t) =>
+        [...document.querySelectorAll(sel)].find(
+          (el) => el.textContent.trim() === t
+        ),
+      selector,
+      text
+    );
+    await handle.asElement().click();
+  }
+
+  // Renaming is still a browser prompt(), so answer the next one. Register
+  // this before the click that opens it.
+  answerNextPrompt(text) {
+    this.page.once('dialog', (dialog) => dialog.accept(text));
+  }
+
+  // The account and category detail views hang their actions off one menu.
+  async openDetailMenu() {
+    await this.page.click('header button[aria-haspopup="true"]');
+    await this.page.waitForSelector('[role="menu"]');
+  }
+
   // The budget overview is headed by the current month rather than by a
   // fixed word, so "we are back on it" is a question about the envelope
   // list rather than about the heading.

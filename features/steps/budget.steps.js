@@ -47,9 +47,13 @@ When(/^I set its monthly amount to \$([0-9.]+)$/, async function (dollars) {
   await this.waitForBudgetOverview();
 });
 
+// These two go to the screen they name rather than assuming the previous step
+// left us on it, so they mean the same thing after a step that navigates away
+// — renaming, say, which ends on a detail view.
 Then(
   /^the budget overview should show "([^"]*)" with \$([0-9.]+) remaining$/,
   async function (name, dollars) {
+    await this.openApp('/budget');
     await this.waitForBudgetOverview();
     await this.waitForRemainingShown(name, Number(dollars).toFixed(2));
   }
@@ -67,6 +71,7 @@ When('I name the account {string}', async function (name) {
 });
 
 Then('the accounts list should show {string}', async function (name) {
+  await this.openApp('/accounts');
   await this.page.waitForFunction(
     (n) =>
       [...document.querySelectorAll('a[href^="#/account/"]')].some(
@@ -216,6 +221,23 @@ When('I open {string} from the accounts list', async function (name) {
 
 Then('I should see the account view for {string}', async function (name) {
   await this.waitForHeadingStartingWith(name);
+});
+
+// Both detail views rename the same way: open the one menu, choose the rename
+// item, answer the prompt it opens.
+const renameFromDetailMenu = async (world, item, newName) => {
+  await world.openDetailMenu();
+  world.answerNextPrompt(newName);
+  await world.clickElementWithText('[role="menuitem"]', item);
+  await world.waitForHeadingStartingWith(newName);
+};
+
+When('I rename it to {string} from the account menu', async function (name) {
+  await renameFromDetailMenu(this, 'Rename account', name);
+});
+
+When('I rename it to {string} from the category menu', async function (name) {
+  await renameFromDetailMenu(this, 'Rename category', name);
 });
 
 Given('I have already visited the app once', async function () {
