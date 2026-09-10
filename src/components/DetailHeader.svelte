@@ -6,6 +6,8 @@ export let title = ''
 export let backUrl = ''
 export let menuLabel = '' // Names the menu for a screen reader, e.g. "Account actions".
 
+// The expense flow reuses this header for its steps, which carry no menu.
+
 let menuOpen = false
 
 const toggleMenu = () => menuOpen = !menuOpen
@@ -95,17 +97,19 @@ const onKeydown = ({ key }) => {
   </a>
   <h2>{ title }</h2>
   <slot name="meta" />
-  <!-- Stops the opening click reaching the window handler that closes it.
-       Clicks on the items themselves are left to bubble, so choosing one
-       closes the menu. -->
-  <button class="menu-button" class:open={menuOpen} type="button"
-          aria-label={menuLabel} aria-haspopup="true" aria-expanded={menuOpen}
-          on:click|stopPropagation={toggleMenu}>
-    <Icon icon={faEllipsisH} />
-  </button>
-  {#if menuOpen}
-    <div class="detail-menu" role="menu">
-      <slot name="menu" />
-    </div>
+  {#if $$slots.menu}
+    <!-- Stops the opening click reaching the window handler that closes it.
+         Clicks on the items themselves are left to bubble, so choosing one
+         closes the menu. -->
+    <button class="menu-button" class:open={menuOpen} type="button"
+            aria-label={menuLabel} aria-haspopup="true" aria-expanded={menuOpen}
+            on:click|stopPropagation={toggleMenu}>
+      <Icon icon={faEllipsisH} />
+    </button>
+    {#if menuOpen}
+      <div class="detail-menu" role="menu">
+        <slot name="menu" />
+      </div>
+    {/if}
   {/if}
 </header>
