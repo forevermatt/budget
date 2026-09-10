@@ -56,7 +56,7 @@ const setTimestamp = event => {
   justify-content: space-between;
 }
 
-/* Everything the flow collected is shown in the primary colour and leads back
+/* Everything the flow collected is shown in the primary color and leads back
    to the step that set it. */
 .payee,
 .total,
@@ -112,7 +112,7 @@ const setTimestamp = event => {
   font-weight: 600;
 }
 
-/* Date and note have no step of their own, so they are edited here — inputs
+/* Date and note have no step of their own, so they are edited here: inputs
    dressed as the row values beside them. */
 .detail-input {
   background: none;

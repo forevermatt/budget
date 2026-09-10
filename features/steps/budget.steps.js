@@ -47,9 +47,6 @@ When(/^I set its monthly amount to \$([0-9.]+)$/, async function (dollars) {
   await this.waitForBudgetOverview();
 });
 
-// These two go to the screen they name rather than assuming the previous step
-// left us on it, so they mean the same thing after a step that navigates away
-// — renaming, say, which ends on a detail view.
 Then(
   /^the budget overview should show "([^"]*)" with \$([0-9.]+) remaining$/,
   async function (name, dollars) {
@@ -61,11 +58,11 @@ Then(
 
 When('I go to the new account page', async function () {
   await this.openApp('/account/new');
-  await this.page.waitForSelector('input[placeholder="New account name"]');
+  await this.page.waitForSelector('#new-account-name');
 });
 
 When('I name the account {string}', async function (name) {
-  await this.page.type('input[placeholder="New account name"]', name);
+  await this.page.type('#new-account-name', name);
   await this.clickNamedButton('done');
   await this.waitForHeadingStartingWith('Accounts');
 });
