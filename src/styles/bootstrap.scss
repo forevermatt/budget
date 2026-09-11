@@ -28,8 +28,6 @@ $link-color: #00668a; // primary-container
 @import 'bootstrap/scss/forms';
 @import 'bootstrap/scss/buttons';
 @import 'bootstrap/scss/badge';
-@import 'bootstrap/scss/alert';
-@import 'bootstrap/scss/close';
 
 // helpers supplies .text-bg-* and .clearfix; the utilities API generates the
 // float-*, text-*, and spacing classes. Both must come last.
@@ -58,6 +56,7 @@ $link-color: #00668a; // primary-container
   --outline-variant: #bfc8ce;
 
   --error: #ba1a1a;
+  --error-container: #ffdad6;
   --on-error-container: #93000a;
 
   // The envelope row is its own progress bar; these three fills carry that

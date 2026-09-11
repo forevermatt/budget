@@ -1,6 +1,7 @@
 <script>
 import { listAccounts } from '../data/accounts'
 import Button from '../components/Button.svelte'
+import ErrorMessage from '../components/ErrorMessage.svelte'
 import ButtonRow from '../components/ButtonRow.svelte'
 import Icon from '../components/Icon.svelte'
 import { faChevronRight, faDollarSign, faPlus } from '@fortawesome/free-solid-svg-icons'
@@ -93,6 +94,8 @@ onMount(async () => {
 <header class="accounts-header">
   <h2>Accounts</h2>
 </header>
+
+<ErrorMessage />
 
 <div class="account-list">
   {#each accounts as { name, _id } (_id)}
