@@ -5,6 +5,7 @@ import { formatMoneyAsWholeNumber } from '../helpers/numbers'
 import Button from '../components/Button.svelte'
 import ButtonRow from '../components/ButtonRow.svelte'
 import DetailHeader from '../components/DetailHeader.svelte'
+import MissingScreen from '../components/MissingScreen.svelte'
 import MenuItem from '../components/MenuItem.svelte'
 import TransactionList from '../components/TransactionList.svelte'
 import { faDollarSign } from '@fortawesome/free-solid-svg-icons'
@@ -14,14 +15,27 @@ export let params = {} // URL parameters provided by router
 
 let category = {}
 let transactions = []
+let missingDetail = ''
 
 $: id = params.id || ''
 $: loadCategory(id)
 $: loadTransactions(id)
 
 const loadCategory = async (categoryId) => {
-  if (categoryId) {
+  if (!categoryId) {
+    return
+  }
+  try {
     category = await getCategory(categoryId) || {}
+    missingDetail = ''
+  } catch (error) {
+    // Only an absent document means this screen cannot exist. Anything else
+    // is a real failure, and belongs in the error banner.
+    if (error.status !== 404) {
+      throw error
+    }
+    category = {}
+    missingDetail = error.message
   }
 }
 
@@ -60,18 +74,26 @@ const onDeleteCategory = async () => {
 }
 </style>
 
-<DetailHeader title={category.name || ''} backUrl="#/budget" menuLabel="Category actions">
-  <span class="category-budget" slot="meta">
-    { formatMoneyAsWholeNumber(category.budgeted) } / mo
-  </span>
-  <svelte:fragment slot="menu">
-    <MenuItem on:click={renameCategory}>Rename category</MenuItem>
-    <MenuItem url="#/category/{ id }/amount">Set monthly budget</MenuItem>
-    <MenuItem danger separated on:click={onDeleteCategory}>Delete category</MenuItem>
-  </svelte:fragment>
-</DetailHeader>
+{#if missingDetail}
+  <DetailHeader title="Category" backUrl="#/budget" />
+  <MissingScreen heading="This category isn't here"
+                 body="It may have been deleted, or the link that brought you here is out of date."
+                 actionLabel="Back to budget" actionUrl="#/budget"
+                 detail={missingDetail} />
+{:else}
+  <DetailHeader title={category.name || ''} backUrl="#/budget" menuLabel="Category actions">
+    <span class="category-budget" slot="meta">
+      { formatMoneyAsWholeNumber(category.budgeted) } / mo
+    </span>
+    <svelte:fragment slot="menu">
+      <MenuItem on:click={renameCategory}>Rename category</MenuItem>
+      <MenuItem url="#/category/{ id }/amount">Set monthly budget</MenuItem>
+      <MenuItem danger separated on:click={onDeleteCategory}>Delete category</MenuItem>
+    </svelte:fragment>
+  </DetailHeader>
 
-<TransactionList {transactions} />
+  <TransactionList {transactions} />
+{/if}
 
 <ButtonRow>
   <Button icon={faDollarSign} name="expense" url="#/expense/new" />
