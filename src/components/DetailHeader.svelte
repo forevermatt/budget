@@ -1,4 +1,5 @@
 <script>
+import ErrorMessage from './ErrorMessage.svelte'
 import Icon from './Icon.svelte'
 import { faChevronLeft, faEllipsisH } from '@fortawesome/free-solid-svg-icons'
 
@@ -113,3 +114,5 @@ const onKeydown = ({ key }) => {
     {/if}
   {/if}
 </header>
+
+<ErrorMessage />

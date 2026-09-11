@@ -1,6 +1,7 @@
 <script>
 import { formatMonthAndYear, getMonthProgress } from '../helpers/dates'
 import { formatMoney, formatMoneyAsWholeNumber } from '../helpers/numbers'
+import ErrorMessage from './ErrorMessage.svelte'
 import { listCategories } from '../data/categories'
 import { onMount } from 'svelte'
 
@@ -207,6 +208,8 @@ $: totalRemaining = categories.reduce((total, { remaining }) => total + (Number(
     { categories.length === 1 ? 'envelope' : 'envelopes' }
   </p>
 </header>
+
+<ErrorMessage />
 
 <div class="category-list">
   <div class="pace-line" style="left: { 100 - elapsedPercent }%"></div>
