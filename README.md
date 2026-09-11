@@ -5,7 +5,7 @@ A simple way to budget your money and reconcile your statements, built using Sve
 ## Try it out
 
 You can try it out (alpha) here:
-https://forevermatt.github.io/budget/
+https://jiminy-software.github.io/budget/
 
 ## Goals
 

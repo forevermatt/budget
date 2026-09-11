@@ -10,14 +10,14 @@
   "description": "A simple way to budget your money and reconcile your statements, built using Svelte.",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/forevermatt/budget.git"
+    "url": "git+https://github.com/jiminy-software/budget.git"
   },
-  "author": "forevermatt",
+  "author": "Jiminy Software LLC",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/forevermatt/budget/issues"
+    "url": "https://github.com/jiminy-software/budget/issues"
   },
-  "homepage": "https://github.com/forevermatt/budget#readme",
+  "homepage": "https://github.com/jiminy-software/budget#readme",
   "devDependencies": {
     "@cucumber/cucumber": "^13.2.1",
     "@fortawesome/free-solid-svg-icons": "^5.15.4",

@@ -119,7 +119,7 @@ deployment is accepted. So a green deploy job is not by itself proof the live
 site is serving what CI built.
 
 **Status: complete**, verified live on 2026-08-20. Exit criteria met: a push
-to `main` publishes the current source to https://forevermatt.github.io/budget/
+to `main` publishes the current source to https://jiminy-software.github.io/budget/
 with no manual build step, and the `window.__budgetDb` test hook is correctly
 absent from the deployed origin.
 
