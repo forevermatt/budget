@@ -14,10 +14,9 @@ const source = resolve(projectRoot, 'img/logo.svg');
 const outputDir = resolve(projectRoot, 'public');
 
 // Android crops icons to a device-chosen shape, so a maskable icon's artwork
-// has to stay inside a "safe zone": the circle covering the middle 80%. The
-// furthest point of the bird sits at 0.424 of the icon's width from the
-// centre, so shrinking it to this fraction puts it at 0.373, inside with room
-// to spare while still filling the icon.
+// has to stay inside a "safe zone": the circle covering the middle 80%. If
+// necessary, scale the artwork down to fit within that. This number will
+// probably need tuned if/when the logo changes.
 const MASKABLE_ARTWORK_SCALE = 0.88;
 
 // Shrinks the artwork towards the centre of the canvas while leaving the
