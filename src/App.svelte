@@ -12,7 +12,7 @@ const startUp = async () => {
     await refillBudgetCategories()
     await checkLocalStorageForData()
   } catch (error) {
-    setError(error.message)
+    setError('The app could not start cleanly', error.message)
   }
 
   // // Attempt to start sync from saved settings (if present)
