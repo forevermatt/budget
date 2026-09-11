@@ -1,9 +1,10 @@
 <script>
-import WhoSelector from '../components/WhoSelector.svelte'
 import Button from '../components/Button.svelte'
 import ButtonRow from '../components/ButtonRow.svelte'
+import DetailHeader from '../components/DetailHeader.svelte'
+import TextField from '../components/TextField.svelte'
 import { updatePendingTransaction } from '../data/transactions'
-import { faArrowRight, faHome } from '@fortawesome/free-solid-svg-icons'
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
 import { push } from 'svelte-spa-router'
 
 let who = ''
@@ -14,9 +15,10 @@ const onWho = () => {
 }
 </script>
 
-<WhoSelector on:select={onWho} title="Paid to:" bind:who={who} />
+<DetailHeader title="Paid to" backUrl="#/budget" />
+
+<TextField id="who" label="Paid to" bind:value={who} on:submit={onWho} />
 
 <ButtonRow>
   <Button icon={faArrowRight} name="next" on:click={onWho} />
-  <Button icon={faHome} name="budget" url="#/budget" left />
 </ButtonRow>

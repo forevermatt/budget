@@ -1,5 +1,4 @@
 <script>
-import ErrorMessage from './components/ErrorMessage.svelte'
 import { refillBudgetCategories } from './data/budget'
 import { checkLocalStorageForData } from './data/migration'
 import { setError } from './data/errors'
@@ -12,7 +11,7 @@ const startUp = async () => {
     await refillBudgetCategories()
     await checkLocalStorageForData()
   } catch (error) {
-    setError(error.message)
+    setError('The app could not start cleanly', error.message)
   }
 
   // // Attempt to start sync from saved settings (if present)
@@ -31,7 +30,6 @@ const startedUp = startUp()
 </script>
 
 <div class="container-xl my-3">
-  <ErrorMessage />
   {#await startedUp then}
     <Router {routes}/>
   {/await}

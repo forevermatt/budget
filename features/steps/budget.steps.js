@@ -18,9 +18,13 @@ When('I go to the home page', async function () {
   await this.openApp('/');
 });
 
-Then('I should see a heading {string}', async function (expected) {
+Then('I should see the current month as the heading', async function () {
   await this.page.waitForSelector('h2');
   const heading = await this.page.$eval('h2', (el) => el.textContent.trim());
+  const expected = new Date().toLocaleDateString(undefined, {
+    month: 'long',
+    year: 'numeric',
+  });
   assert.strictEqual(heading, expected);
 });
 
@@ -40,29 +44,31 @@ When('I name the category {string}', async function (name) {
 When(/^I set its monthly amount to \$([0-9.]+)$/, async function (dollars) {
   await this.typeIntoAmountInput(dollarsToCents(dollars));
   await this.clickNamedButton('save');
-  await this.waitForHeadingStartingWith('Budget');
+  await this.waitForBudgetOverview();
 });
 
 Then(
   /^the budget overview should show "([^"]*)" with \$([0-9.]+) remaining$/,
   async function (name, dollars) {
-    await this.waitForHeadingStartingWith('Budget');
+    await this.openApp('/budget');
+    await this.waitForBudgetOverview();
     await this.waitForRemainingShown(name, Number(dollars).toFixed(2));
   }
 );
 
 When('I go to the new account page', async function () {
   await this.openApp('/account/new');
-  await this.page.waitForSelector('input[placeholder="New account name"]');
+  await this.page.waitForSelector('#new-account-name');
 });
 
 When('I name the account {string}', async function (name) {
-  await this.page.type('input[placeholder="New account name"]', name);
+  await this.page.type('#new-account-name', name);
   await this.clickNamedButton('done');
   await this.waitForHeadingStartingWith('Accounts');
 });
 
 Then('the accounts list should show {string}', async function (name) {
+  await this.openApp('/accounts');
   await this.page.waitForFunction(
     (n) =>
       [...document.querySelectorAll('a[href^="#/account/"]')].some(
@@ -135,8 +141,8 @@ const sayItWasPaidTo = async (world, who) => {
 };
 
 const chooseAccount = async (world, name) => {
-  await world.clickByText('button.btn-outline-secondary', name);
-  await world.waitForHeadingStartingWith('Amount paid to');
+  await world.clickByText('.picker-row', name);
+  await world.waitForHeadingStartingWith('Amount');
 };
 
 const enterAmount = async (world, cents) => {
@@ -146,13 +152,13 @@ const enterAmount = async (world, cents) => {
 };
 
 const putFullAmountInCategory = async (world, name) => {
-  await world.clickByText('button.btn-outline-secondary', name);
-  await world.waitForHeadingStartingWith('Review Expense');
+  await world.clickByText('.picker-row', name);
+  await world.waitForHeadingStartingWith('Review');
 };
 
 const completeReview = async (world) => {
   await world.clickNamedButton('done');
-  await world.waitForHeadingStartingWith('Budget');
+  await world.waitForBudgetOverview();
 };
 
 When('I start a new expense', async function () {
@@ -196,8 +202,8 @@ When(
 
 When('I open {string} from the budget overview', async function (name) {
   await this.openApp('/budget');
-  await this.waitForHeadingStartingWith('Budget');
-  await this.clickByText('.category-name a', name);
+  await this.waitForBudgetOverview();
+  await this.clickByText('.category-list .category-name', name);
 });
 
 Then('I should see the category view for {string}', async function (name) {
@@ -212,6 +218,23 @@ When('I open {string} from the accounts list', async function (name) {
 
 Then('I should see the account view for {string}', async function (name) {
   await this.waitForHeadingStartingWith(name);
+});
+
+// Both detail views rename the same way: open the one menu, choose the rename
+// item, answer the prompt it opens.
+const renameFromDetailMenu = async (world, item, newName) => {
+  await world.openDetailMenu();
+  world.answerNextPrompt(newName);
+  await world.clickElementWithText('[role="menuitem"]', item);
+  await world.waitForHeadingStartingWith(newName);
+};
+
+When('I rename it to {string} from the account menu', async function (name) {
+  await renameFromDetailMenu(this, 'Rename account', name);
+});
+
+When('I rename it to {string} from the category menu', async function (name) {
+  await renameFromDetailMenu(this, 'Rename category', name);
 });
 
 Given('I have already visited the app once', async function () {

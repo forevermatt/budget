@@ -68,7 +68,7 @@ const configureSync = async (server, username, password) => {
         if (err) {
           console.warn('Sync paused (error)', err)
           if (err.message) {
-            setError(err.message)
+            setError('Sync stopped', err.message)
           }
         } else {
           console.debug('Sync paused')
@@ -79,14 +79,14 @@ const configureSync = async (server, username, password) => {
       .on('denied', err => {
         console.error('Sync denied', err)
         if (err.message) {
-          setError(err.message)
+          setError('Sync was refused', err.message)
         }
       })
       .on('complete', info => console.debug('Sync complete', info))
       .on('error', err => {
         console.error('Sync error', err)
         if (err.message) {
-          setError(err.message)
+          setError('Sync failed', err.message)
         }
       })
 

@@ -1,5 +1,17 @@
 
-export const formatDate = timestamp => (new Date(timestamp)).toLocaleDateString()
+/**
+ * Format the given timestamp as a compact date, e.g. "9/18/26". The detail
+ * views give the date a fixed 62px column, which a four-digit year overflows.
+ *
+ * @param timestamp
+ * @returns {string}
+ */
+export const formatDateCompact = timestamp =>
+  (new Date(timestamp)).toLocaleDateString(undefined, {
+    year: '2-digit',
+    month: 'numeric',
+    day: 'numeric',
+  })
 
 /**
  * Format the given timestamp as a yyyy-mm-dd date, per ISO-8601. If no
@@ -52,3 +64,31 @@ const getYearMonthStringForMonthsBefore = (numMonthsAgo, when) => {
 }
 
 export const isInPast = yearMonthString => yearMonthString < getCurrentYearMonthString()
+
+const getDaysInMonth = when => new Date(when.getFullYear(), when.getMonth() + 1, 0).getDate()
+
+/**
+ * Format the given date as its month and year, e.g. "August 2026".
+ *
+ * @param when
+ * @returns {string}
+ */
+export const formatMonthAndYear = (when = new Date()) =>
+  when.toLocaleDateString(undefined, { month: 'long', year: 'numeric' })
+
+/**
+ * How far through its month the given date is: the percentage of the month
+ * already gone, and the number of days still to come. The budget overview
+ * compares that percentage against how much of a category is left, so a
+ * category is on pace whenever more of it remains than of the month.
+ *
+ * @param when
+ * @returns {{elapsedPercent: number, daysLeft: number}}
+ */
+export const getMonthProgress = (when = new Date()) => {
+  const daysInMonth = getDaysInMonth(when)
+  return {
+    elapsedPercent: (when.getDate() / daysInMonth) * 100,
+    daysLeft: daysInMonth - when.getDate(),
+  }
+}

@@ -2,6 +2,13 @@
 // set Bootstrap's own variables here instead of overriding finished rules.
 // Override them above the imports, e.g. $primary: #0d6efd;
 
+// Plus Jakarta Sans is bundled rather than fetched from Google Fonts, so the
+// app still renders in it offline. See src/main.js for the import.
+$font-family-sans-serif: 'Plus Jakarta Sans Variable', 'Plus Jakarta Sans',
+  system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+$body-color: #191c1e; // on-surface
+$link-color: #00668a; // primary-container
+
 // Required by everything below.
 @import 'bootstrap/scss/functions';
 @import 'bootstrap/scss/variables';
@@ -16,15 +23,49 @@
 @import 'bootstrap/scss/reboot';
 @import 'bootstrap/scss/type';
 @import 'bootstrap/scss/containers';
-@import 'bootstrap/scss/grid';
-@import 'bootstrap/scss/tables';
 @import 'bootstrap/scss/forms';
-@import 'bootstrap/scss/buttons';
-@import 'bootstrap/scss/badge';
-@import 'bootstrap/scss/alert';
-@import 'bootstrap/scss/close';
 
-// helpers supplies .text-bg-* and .clearfix; the utilities API generates the
-// float-*, text-*, and spacing classes. Both must come last.
-@import 'bootstrap/scss/helpers';
+// The utilities API generates the spacing classes, and must come last.
 @import 'bootstrap/scss/utilities/api';
+
+// The Soft Sky palette, named as docs/DESIGN.md names it. Custom properties
+// rather than Sass variables so a component's scoped <style> can reach them
+// without the build having to preprocess every one of those blocks.
+//
+// Only the tokens the app actually uses are here; add from DESIGN.md as
+// screens need them.
+:root {
+  --primary: #004d69;
+  --on-primary: #ffffff;
+  --primary-container: #00668a;
+  --primary-fixed: #c3e8ff;
+
+  --surface-container-lowest: #ffffff;
+  --surface-container-low: #f2f4f6;
+  --surface-container: #eceef0;
+
+  --inverse-on-surface: #eff1f3;
+
+  --on-surface: #191c1e;
+  --on-surface-variant: #40484e;
+  --outline: #6e7980;
+  --outline-variant: #bfc8ce;
+
+  --error: #ba1a1a;
+  --error-container: #ffdad6;
+  --on-error-container: #93000a;
+
+  // The envelope row is its own progress bar; these three fills carry that
+  // meaning. The expense review's category tag reuses on-pace-fill, since it
+  // names the envelope the expense comes out of; nothing else uses them.
+  --on-pace-fill: #cce2df;
+  --behind-pace-fill: #fbe4c6;
+  --overspend-fill: #ffb4ab;
+
+  --pace-line: rgba(25, 28, 30, 0.5);
+  --action-shadow: rgba(0, 77, 105, 0.3);
+
+  // Not named in DESIGN.md, which lists no shadow but the one under the docked
+  // action button; taken from the artboard and named to match it.
+  --menu-shadow: rgba(25, 28, 30, 0.24);
+}

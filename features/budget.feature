@@ -6,9 +6,9 @@ Feature: Budget management
   Background:
     Given the app is running
 
-  Scenario: Visit the home page and see the Budget heading
+  Scenario: Visit the home page and see which month is being budgeted
     When I go to the home page
-    Then I should see a heading "Budget"
+    Then I should see the current month as the heading
 
   Scenario: Create a budget category with a monthly amount
     When I go to the new category page
@@ -46,6 +46,19 @@ Feature: Budget management
     Given an account named "Checking"
     When I open "Checking" from the accounts list
     Then I should see the account view for "Checking"
+
+  Scenario: Rename an account from its detail view
+    Given an account named "Checking"
+    When I open "Checking" from the accounts list
+    And I rename it to "Everyday Checking" from the account menu
+    Then I should see the account view for "Everyday Checking"
+    And the accounts list should show "Everyday Checking"
+
+  Scenario: Rename a category from its detail view
+    Given a budget category "Groceries" with $500.00 budgeted and remaining
+    When I open "Groceries" from the budget overview
+    And I rename it to "Food" from the category menu
+    Then the budget overview should show "Food" with $500.00 remaining
 
   Scenario: Open the app with no network connection
     Given a budget category "Groceries" with $500.00 budgeted and remaining

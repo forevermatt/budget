@@ -51,7 +51,10 @@ export const deleteTransaction = async (id) => database.deleteItem(id)
 
 export const getTransaction = async (id) => database.get(id)
 
-export const listTransactions = async () => database.list(ITEM_TYPE_PREFIX)
+export const listTransactions = async () => {
+  const transactions = await database.list(ITEM_TYPE_PREFIX)
+  return transactions.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0))
+}
 
 export const updateTransaction = async (id, changes) => {
   const existing = await getTransaction(id)

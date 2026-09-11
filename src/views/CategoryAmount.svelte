@@ -2,9 +2,10 @@
 import AmountInput from '../components/AmountInput.svelte'
 import Button from '../components/Button.svelte'
 import ButtonRow from '../components/ButtonRow.svelte'
+import DetailHeader from '../components/DetailHeader.svelte'
 import { refillBudgetCategories } from '../data/budget'
 import { getCategory, updateCategory } from '../data/categories'
-import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons'
+import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import { push } from 'svelte-spa-router'
 
 export let params = {} // URL parameters provided by router
@@ -26,7 +27,7 @@ const onAmount = async () => {
   await updateCategory(id, {
     budgeted: resultingAmount,
   })
-  
+
   // In case this is a new category, ensure it has been filled.
   await refillBudgetCategories()
 
@@ -34,11 +35,18 @@ const onAmount = async () => {
 }
 </script>
 
-<h2>Monthly amount for {category.name || '...'}</h2>
+<style>
+.amount-screen {
+  padding: 24px 8px 0;
+}
+</style>
 
-<AmountInput amount={initialAmount} on:next={onAmount} bind:resultingAmount={resultingAmount} />
+<DetailHeader title="Monthly amount for {category.name || '...'}" backUrl="#/category/{ id }" />
+
+<div class="amount-screen">
+  <AmountInput amount={initialAmount} on:next={onAmount} bind:resultingAmount={resultingAmount} />
+</div>
 
 <ButtonRow>
   <Button icon={faCheck} name="save" on:click={onAmount} />
-  <Button icon={faTimes} name="cancel" url="#/budget" left />
 </ButtonRow>
