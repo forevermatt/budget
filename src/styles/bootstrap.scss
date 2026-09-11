@@ -23,15 +23,9 @@ $link-color: #00668a; // primary-container
 @import 'bootstrap/scss/reboot';
 @import 'bootstrap/scss/type';
 @import 'bootstrap/scss/containers';
-@import 'bootstrap/scss/grid';
-@import 'bootstrap/scss/tables';
 @import 'bootstrap/scss/forms';
-@import 'bootstrap/scss/buttons';
-@import 'bootstrap/scss/badge';
 
-// helpers supplies .text-bg-* and .clearfix; the utilities API generates the
-// float-*, text-*, and spacing classes. Both must come last.
-@import 'bootstrap/scss/helpers';
+// The utilities API generates the spacing classes, and must come last.
 @import 'bootstrap/scss/utilities/api';
 
 // The Soft Sky palette, named as docs/DESIGN.md names it. Custom properties
